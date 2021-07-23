@@ -1,5 +1,5 @@
 # badaso/commerce-module
-Zero development for commerce system on badaso, out of the box.
+e-commerce system for badaso.
 
 ## Installation
 - Install badaso first. After that, you can install the module with the following command.

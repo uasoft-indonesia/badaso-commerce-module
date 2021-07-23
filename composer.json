@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "name": "uasoft-indonesia/badaso-commerce-module",
+  "version": "0.1.0",
+  "name": "badaso/commerce-module",
   "description": "e-commerce system for badaso",
   "keywords": [
     "laravel",
@@ -10,7 +10,6 @@
     "pwa",
     "vue",
     "generator",
-    "blog",
     "badaso",
     "commerce"
   ],

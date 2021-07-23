@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "name": "uasoft-indonesia/badaso-commerce-module",
-  "description": "Zero development for commerce system on badaso",
+  "description": "e-commerce system for badaso",
   "keywords": [
     "laravel",
     "admin",

@@ -26,7 +26,7 @@ MIX_BADASO_MODULES=commerce-module
 - Add the plugins menu to your `MIX_BADASO_MENU` to `.env`. If you have another menu, include them using delimiter comma (,).
 
 ```
-MIX_BADASO_MENU=admin,post-module
+MIX_BADASO_MENU=admin,commerce-module
 ```
 
 - Fill the other variables in .env file.

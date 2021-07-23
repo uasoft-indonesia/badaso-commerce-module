@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "name": "uasoft-indonesia/badaso-commerce-module",
+  "description": "Zero development for commerce system on badaso",
+  "keywords": [
+    "laravel",
+    "admin",
+    "panel",
+    "dashboard",
+    "pwa",
+    "vue",
+    "generator",
+    "blog",
+    "badaso",
+    "commerce"
+  ],
+  "license": "proprietry",
+  "homepage": "https://badaso.uatech.co.id/",
+  "support": {
+    "issues": "https://github.com/uasoft-indonesia/badaso-commerce-module/issues",
+    "discussion": "https://github.com/uasoft-indonesia/badaso-commerce-module/discussions",
+    "source": "https://github.com/uasoft-indonesia/badaso-commerce-module"
+  },
+  "type": "library",
+  "require": {},
+  "authors": [
+    {
+      "name": "UASOFT",
+      "email": "hello@uatech.co.id"
+    }
+  ],
+  "minimum-stability": "alpha",
+  "autoload": {
+    "psr-4": {
+      "Uasoft\\Badaso\\Module\\Commerce\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Uasoft\\Badaso\\Module\\Commerce\\Providers\\BadasoCommerceModuleServiceProvider"
+      ]
+    }
+  }
+}

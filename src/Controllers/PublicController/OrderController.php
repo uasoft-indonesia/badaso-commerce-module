@@ -142,7 +142,6 @@ class OrderController extends Controller
                         if ($discount->discount_type === 'fixed') {
                             $discounted = $discount->discount_fixed;
                         }
-
                         if ($discount->discount_type === 'percent') {
                             $discounted = $product_detail->price * $discount->discount_percent / 100;
                         }

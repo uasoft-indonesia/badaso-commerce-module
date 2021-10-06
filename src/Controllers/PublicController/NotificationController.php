@@ -29,4 +29,45 @@ class NotificationController extends Controller
             return ApiResponse::failed($e);
         }
     }
+
+    public function read(Request $request)
+    {
+        try {
+            $request->validate([
+                'id' => 'required|exists:Uasoft\Badaso\Models\Notification,id',
+            ]);
+
+            $notification = Notification::where('receiver_user_id', auth()->user()->id)
+                ->where('id', $request->id)
+                ->where('is_read', 0)
+                ->firstOrFail();
+
+            $notification->update([
+                'is_read' => 1
+            ]);
+                
+            return ApiResponse::success();
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function readAll(Request $request)
+    {
+        try {
+            $notifications = Notification::where('receiver_user_id', auth()->user()->id)
+                ->where('is_read', 0)
+                ->get();
+
+            foreach ($notifications as $key => $notification) {
+                $notification->update([
+                    'is_read' => 1
+                ]);
+            }
+                
+            return ApiResponse::success();
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
 }

@@ -120,6 +120,8 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
 
         Route::group(['prefix' => 'notification/public', 'middleware' => [BadasoAuthenticate::class]], function () {
             Route::get('/', 'PublicController\NotificationController@browse');
+            Route::post('/read', 'PublicController\NotificationController@read');
+            Route::post('/read-all', 'PublicController\NotificationController@readAll');
         });
 
         Route::group(['prefix' => 'configurations', 'middleware' => [BadasoAuthenticate::class]], function () {

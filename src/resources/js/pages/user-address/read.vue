@@ -38,12 +38,12 @@
               <td>{{ userAddress.country }}</td>
             </tr>
             <tr>
-              <th>{{ $t("userAddress.detail.header.telephone") }}</th>
-              <td>{{ userAddress.telephone }}</td>
+              <th>{{ $t("userAddress.detail.header.phone_number") }}</th>
+              <td>{{ userAddress.phone_number }}</td>
             </tr>
             <tr>
-              <th>{{ $t("userAddress.detail.header.mobile") }}</th>
-              <td>{{ userAddress.mobile }}</td>
+              <th>{{ $t("userAddress.detail.header.is_main") }}</th>
+              <td>{{ userAddress.is_main == 1 ? 'Main' : 'Not Main' }}</td>
             </tr>
             <tr>
               <th>{{ $t("userAddress.detail.header.createdAt") }}</th>
@@ -76,8 +76,8 @@ export default {
       city: "",
       postalCode: "",
       country: "",
-      telephone: "",
-      mobile: "",
+      phone_number: "",
+      is_main: 0,
       createdAt: "",
       updatedAt: ""
     }

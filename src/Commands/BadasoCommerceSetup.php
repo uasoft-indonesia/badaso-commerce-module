@@ -136,4 +136,17 @@ class BadasoCommerceSetup extends Command
             $this->error('Failed adding badaso hidden tables config ', $e->getMessage());
         }
     }
+
+    protected function updatePackageJson()
+    {
+        $package_json = file_get_contents(base_path('package.json'));
+        $decoded_json = json_decode($package_json, true);
+
+        $decoded_json['dependencies']['currency.js'] = '^2.0.4';
+
+        $encoded_json = json_encode($decoded_json, JSON_PRETTY_PRINT);
+        file_put_contents(base_path('package.json'), $encoded_json);
+
+        $this->info('package.json updated');
+    }
 }

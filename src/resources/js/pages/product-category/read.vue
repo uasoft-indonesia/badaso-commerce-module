@@ -35,6 +35,12 @@
               <td>{{ productCategory.SKU }}</td>
             </tr>
             <tr>
+              <th>{{ $t("productCategories.detail.header.image") }}</th>
+              <td>
+                <img :src="productCategory.image" alt="">
+              </td>
+            </tr>
+            <tr>
               <th>{{ $t("productCategories.detail.header.createdAt") }}</th>
               <td>{{ getDate(productCategory.createdAt) }}</td>
             </tr>
@@ -64,6 +70,7 @@ export default {
       slug: "",
       desc: "",
       SKU: "",
+      image: '',
       createdAt: "",
       updatedAt: "",
       deletedAt: ""

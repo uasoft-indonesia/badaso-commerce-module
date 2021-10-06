@@ -21,9 +21,9 @@ class CreateUserAddressesTable extends Migration
             $table->string('address_line2', 255)->nullable();
             $table->string('city', 255);
             $table->string('postal_code', 10);
-            $table->string('country', 255);
-            $table->string('telephone', 15)->nullable();
-            $table->string('mobile', 15)->nullable();
+            $table->string('country', 2);
+            $table->string('phone_number', 15);
+            $table->boolean('is_main')->default(0);
             $table->timestamps();
         });
     }

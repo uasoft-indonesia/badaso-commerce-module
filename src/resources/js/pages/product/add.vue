@@ -90,7 +90,7 @@
             <template slot-scope="{ data }">
               <vs-tr :data="product" :key="index" v-for="(product, index) in data">
                 <vs-td :data="product.productImage">
-                  <img width="150" :src="$store.state.badaso.meta.mediaBaseUrl + product.productImage" loading="lazy">
+                  <img width="150" :src="product.productImage" loading="lazy">
                 </vs-td>
                 <vs-td :data="product.name">
                   {{ product.name }}
@@ -99,7 +99,7 @@
                   {{ product.quantity }}
                 </vs-td>
                 <vs-td :data="product.price">
-                  {{ product.price | toCurrency }}
+                  {{ toCurrency(product.price) }}
                 </vs-td>
                 <vs-td :data="product.discountId">
                   {{ getDiscountName(product.discountId) }}
@@ -325,6 +325,7 @@
 
 <script>
 import { required, minValue, maxValue, integer } from "vuelidate/lib/validators";
+import currency from "currency.js"
 export default {
   name: "ProductAdd",
   components: {},
@@ -433,17 +434,15 @@ export default {
     this.getProductCategoryList()
     this.getProductDiscounts()
   },
-  filters: {
-    toCurrency: function (value) {
-      var formatter = new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0
-      });
-      return formatter.format(value);
-    },
-  },
   methods: {
+    toCurrency(value) {
+      return currency(value, {
+        precision: this.$store.state.badaso.config.currencyPrecision,
+        decimal: this.$store.state.badaso.config.currencyDecimal,
+        separator: this.$store.state.badaso.config.currencySeparator,
+        symbol: this.$store.state.badaso.config.currencySymbol,
+      }).format()
+    },
     getProductCategoryList() {
       this.$openLoader();
       this.$api.badasoProductCategory
@@ -474,7 +473,7 @@ export default {
         this.$closeLoader();
         this.discounts = response.data.discounts.map((discount, index) => {
           return {
-            label: `${discount.name} - ${discount.discountType === 'fixed' ? this.$options.filters.toCurrency(discount.discountFixed) : discount.discountPercent + '%' }`,
+            label: `${discount.name} - ${discount.discountType === 'fixed' ? this.toCurrency(discount.discountFixed) : discount.discountPercent + '%' }`,
             value: discount.id
           }
         });

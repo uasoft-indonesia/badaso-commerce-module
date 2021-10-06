@@ -64,6 +64,7 @@ class ProductCategoryController extends Controller
                 'slug' => 'required|string|max:255|unique:Uasoft\Badaso\Module\Commerce\Models\ProductCategory',
                 'desc' => 'nullable|string',
                 'SKU' => 'nullable|string|max:255|unique:Uasoft\Badaso\Module\Commerce\Models\ProductCategory',
+                'image' => 'nullable|string'
             ]);
 
             $product = ProductCategory::create($request->all());
@@ -150,6 +151,7 @@ class ProductCategoryController extends Controller
                 'name' => 'required|string|max:255',
                 'desc' => 'nullable|string',
                 'SKU' => 'nullable|string|max:255',
+                'image' => 'nullable|string'
             ]);
 
             $product_category = ProductCategory::find($request->id);
@@ -158,6 +160,7 @@ class ProductCategoryController extends Controller
             $product_category->name = $request->name;
             $product_category->desc = $request->desc;
             $product_category->SKU = $request->SKU;
+            $product_category->image = $request->image;
             $product_category->update();
 
             DB::commit();

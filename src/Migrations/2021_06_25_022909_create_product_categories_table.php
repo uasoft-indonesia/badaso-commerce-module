@@ -20,6 +20,7 @@ class CreateProductCategoriesTable extends Migration
             $table->string('slug', 255)->unique();
             $table->text('desc')->nullable();
             $table->string('SKU', 255)->nullable();
+            $table->text('image')->nullable();
             $table->timestamps();
             $table->softDeletes('deleted_at');
         });

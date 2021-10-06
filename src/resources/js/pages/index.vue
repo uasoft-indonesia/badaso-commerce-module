@@ -26,13 +26,8 @@ import DiscountRead from "./discount/read";
 import DiscountEdit from "./discount/edit";
 
 import OrderBrowse from "./order/browse";
-import OrderRead from "./order/read";
 import OrderConfirm from "./order/confirm";
 
-import PaymentProviderBrowse from "./payment-provider/browse";
-import PaymentProviderAdd from "./payment-provider/add";
-import PaymentProviderRead from "./payment-provider/read";
-import PaymentProviderEdit from "./payment-provider/edit";
 
 import CartBrowse from "./cart/browse";
 import CartRead from "./cart/read";
@@ -41,36 +36,27 @@ import UserAddressBrowse from "./user-address/browse";
 import UserAddressRead from "./user-address/read";
 
 import CommerceConfiguration from "./site-management/browse";
+import CommerceConfigurationAdd from "./site-management/add";
 
 export default {
   components: {
     ProductBrowse,
     ProductBrowseBin,
     ProductRead,
-    ProductAdd,
-    ProductEdit,
-    ProductCategoryBrowse,
-    ProductCategoryBrowseBin,
     ProductCategoryAdd,
-    ProductCategoryRead,
-    ProductCategoryEdit,
     DiscountBrowse,
     DiscountBrowseBin,
     DiscountAdd,
     DiscountRead,
     DiscountEdit,
     OrderBrowse,
-    OrderRead,
     OrderConfirm,
-    PaymentProviderBrowse,
-    PaymentProviderAdd,
-    PaymentProviderRead,
-    PaymentProviderEdit,
     CartBrowse,
     CartRead,
     UserAddressBrowse,
     UserAddressRead,
-    CommerceConfiguration
+    CommerceConfiguration,
+    CommerceConfigurationAdd,
   },
   name: "BlogEntryIndex",
   data: () => ({

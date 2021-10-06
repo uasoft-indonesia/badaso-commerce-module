@@ -48,9 +48,8 @@ class UserAddressController extends Controller
                 'address_line2' => 'nullable|string|max:255',
                 'city' => 'required|string|max:255',
                 'postal_code' => 'required|string|max:10',
-                'country' => 'required|string|max:255',
-                'telephone' => 'nullable|string|max:15',
-                'mobile' => 'nullable|string|max:15',
+                'country' => 'required|string|size:2',
+                'phone_number' => 'nullable|string|max:15',
             ]);
 
             DB::beginTransaction();
@@ -67,12 +66,13 @@ class UserAddressController extends Controller
                     'city' => $request->city,
                     'postal_code' => $request->postal_code,
                     'country' => $request->country,
-                    'telephone' => $request->telephone ?? null,
-                    'mobile' => $request->mobile ?? null,
+                    'phone_number' => $request->phone_number ?? null,
+                    'is_main' => 0
                 ]);
             } else {
                 DB::rollback();
-                return ApiResponse::failed(__('badaso_commerce::validation.limit_user_addresses'));
+                throw new Exception(__('badaso_commerce::validation.limit_user_addresses'));
+                
             }
 
             DB::commit();
@@ -93,9 +93,8 @@ class UserAddressController extends Controller
                 'address_line2' => 'nullable|string|max:255',
                 'city' => 'required|string|max:255',
                 'postal_code' => 'required|string|max:10',
-                'country' => 'required|string|max:255',
-                'telephone' => 'nullable|string|max:15',
-                'mobile' => 'nullable|string|max:15',
+                'country' => 'required|string|size:2',
+                'phone_number' => 'nullable|string|max:15',
             ]);
 
             DB::beginTransaction();
@@ -108,8 +107,7 @@ class UserAddressController extends Controller
             $user_address->city = $request->city;
             $user_address->postal_code = $request->postal_code;
             $user_address->country = $request->country;
-            $user_address->telephone = $request->telephone ?? null;
-            $user_address->mobile = $request->mobile ?? null;
+            $user_address->phone_number = $request->phone_number ?? null;
             $user_address->save();
 
             DB::commit();
@@ -129,8 +127,42 @@ class UserAddressController extends Controller
 
             DB::beginTransaction();
 
-            $user_address = UserAddress::where('user_id', auth()->user()->id)->where('id', $request->id)->first();
+            $user_address = UserAddress::where('user_id', auth()->user()->id)->where('id', $request->id)->firstOrFail();
             $user_address->delete();
+
+            DB::commit();
+
+            return ApiResponse::success();
+        } catch (Exception $e) {
+            DB::rollback();
+
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function setMain(Request $request)
+    {
+        try {
+            $request->validate([
+                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\UserAddress,id',
+            ]);
+
+            DB::beginTransaction();
+
+            $user_address = UserAddress::where('user_id', auth()->user()->id)
+                ->where('is_main', 1)
+                ->first();
+
+            if (isset($user_address)) {
+                $user_address->is_main = 0;
+                $user_address->save();
+            }
+
+            $user_address = UserAddress::where('user_id', auth()->user()->id)
+                ->where('id', $request->id)
+                ->firstOrFail();
+            $user_address->is_main = 1;
+            $user_address->save();
 
             DB::commit();
 

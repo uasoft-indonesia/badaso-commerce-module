@@ -73,7 +73,7 @@
                     {{ discount.discountPercent ? discount.discountPercent + '%' : 'None' }}
                   </vs-td>
                   <vs-td :data="discount.discountFixed">
-                    {{ discount.discountFixed | toCurrency }}
+                    {{ toCurrency(discount.discountFixed) }}
                   </vs-td>
                   <vs-td :data="discount.active">
                     {{ discount.active === 1 ? 'Yes' : 'No' }}
@@ -128,6 +128,7 @@
 
 <script>
 import moment from 'moment'
+import currency from 'currency.js'
 export default {
   name: "DiscountBrowse",
   components: {},
@@ -145,20 +146,18 @@ export default {
       willDeleteId: null
     }
   },
-  filters: {
-    toCurrency: function (value) {
-      var formatter = new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0
-      });
-      return formatter.format(value);
-    }
-  },
   mounted() {
     this.getDiscountList()
   },
   methods: {
+    toCurrency(value) {
+      return currency(value, {
+        precision: this.$store.state.badaso.config.currencyPrecision,
+        decimal: this.$store.state.badaso.config.currencyDecimal,
+        separator: this.$store.state.badaso.config.currencySeparator,
+        symbol: this.$store.state.badaso.config.currencySymbol,
+      }).format()
+    },
     getDate(date) {
       return moment(date).format('DD MMMM YYYY')
     },

@@ -69,27 +69,16 @@ class CommerceFixedMenuItemSeeder extends Seeder
                 ],
                 4 => [
                     'menu_id' => $menu_id,
-                    'title' => 'Payment Provider',
-                    'url' => '/payment-provider',
-                    'target' => '_self',
-                    'icon_class' => 'credit_card',
-                    'color' => '',
-                    'parent_id' => null,
-                    'order' => 5,
-                    'permissions' => 'browse_payment_providers',
-                ],
-                5 => [
-                    'menu_id' => $menu_id,
                     'title' => 'User Cart',
                     'url' => '/cart',
                     'target' => '_self',
                     'icon_class' => 'shopping_cart',
                     'color' => '',
                     'parent_id' => null,
-                    'order' => 6,
+                    'order' => 5,
                     'permissions' => 'browse_carts',
                 ],
-                6 => [
+                5 => [
                     'menu_id' => $menu_id,
                     'title' => 'User Addresses',
                     'url' => '/user-address',
@@ -97,10 +86,10 @@ class CommerceFixedMenuItemSeeder extends Seeder
                     'icon_class' => 'contact_mail',
                     'color' => '',
                     'parent_id' => null,
-                    'order' => 7,
+                    'order' => 6,
                     'permissions' => 'browse_user_addresses',
                 ],
-                7 => [
+                6 => [
                     'menu_id' => $menu_id,
                     'title' => 'Commerce Configuration',
                     'url' => '/commerce-config',
@@ -108,7 +97,7 @@ class CommerceFixedMenuItemSeeder extends Seeder
                     'icon_class' => 'desktop_mac',
                     'color' => '',
                     'parent_id' => null,
-                    'order' => 8,
+                    'order' => 7,
                     'permissions' => 'browse_commerce_configurations',
                 ]
             ];

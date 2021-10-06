@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Uasoft\Badaso\Middleware\ApiRequest;
 use Uasoft\Badaso\Middleware\BadasoAuthenticate;
 use Uasoft\Badaso\Middleware\BadasoCheckPermissions;
@@ -64,17 +65,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
             Route::post('/confirm', 'OrderController@confirm')->middleware(BadasoCheckPermissions::class.':confirm_orders');
             Route::post('/reject', 'OrderController@reject')->middleware(BadasoCheckPermissions::class.':confirm_orders');
             Route::post('/ship', 'OrderController@ship')->middleware(BadasoCheckPermissions::class.':confirm_orders');
-            Route::post('/tracking-number', 'OrderController@trackingNumber')->middleware(BadasoCheckPermissions::class.':confirm_orders');
             Route::post('/done', 'OrderController@done')->middleware(BadasoCheckPermissions::class.':confirm_orders');
-        });
-
-        Route::group(['prefix' => 'provider'], function () {
-            Route::get('/', 'PaymentProviderController@browse')->middleware(BadasoCheckPermissions::class.':browse_payment_providers');
-            Route::get('/read', 'PaymentProviderController@read')->middleware(BadasoCheckPermissions::class.':read_payment_providers');
-            Route::post('/add', 'PaymentProviderController@add')->middleware(BadasoCheckPermissions::class.':add_payment_providers');
-            Route::put('/edit', 'PaymentProviderController@edit')->middleware(BadasoCheckPermissions::class.':edit_payment_providers');
-            Route::delete('/delete', 'PaymentProviderController@delete')->middleware(BadasoCheckPermissions::class.':delete_payment_providers');
-            Route::delete('/delete-multiple', 'PaymentProviderController@deleteMultiple')->middleware(BadasoCheckPermissions::class.':delete_payment_providers');
         });
 
         Route::group(['prefix' => 'cart'], function () {
@@ -89,6 +80,8 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
 
         Route::group(['prefix' => 'product/public'], function () {
             Route::get('/', 'PublicController\ProductController@browse');
+            Route::get('/browse-category-slug', 'PublicController\ProductController@browseByCategorySlug');
+            Route::get('/browse-similar', 'PublicController\ProductController@browseSimilar');
             Route::get('/read', 'PublicController\ProductController@read');
         });
 
@@ -106,13 +99,9 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
 
         Route::group(['prefix' => 'order/public', 'middleware' => [BadasoAuthenticate::class]], function () {
             Route::get('/', 'PublicController\OrderController@browse');
+            Route::get('/read', 'PublicController\OrderController@read');
             Route::post('/pay', 'PublicController\OrderController@pay');
             Route::post('/finish', 'PublicController\OrderController@finish');
-            Route::put('/edit-address', 'PublicController\OrderController@editOrderAddress');
-        });
-
-        Route::group(['prefix' => 'provider/public', 'middleware' => [BadasoAuthenticate::class]], function () {
-            Route::get('/', 'PublicController\PaymentProviderController@browse');
         });
 
         Route::group(['prefix' => 'user-address/public', 'middleware' => [BadasoAuthenticate::class]], function () {
@@ -121,15 +110,30 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
             Route::post('/add', 'PublicController\UserAddressController@add');
             Route::put('/edit', 'PublicController\UserAddressController@edit');
             Route::delete('/delete', 'PublicController\UserAddressController@delete');
+            Route::post('/main', 'PublicController\UserAddressController@setMain');
+        });
+
+        Route::group(['prefix' => 'user/public', 'middleware' => [BadasoAuthenticate::class]], function () {
+            Route::put('/edit', 'PublicController\UserController@edit');
+            Route::post('/change', 'PublicController\UserController@changePassword');
+        });
+
+        Route::group(['prefix' => 'notification/public', 'middleware' => [BadasoAuthenticate::class]], function () {
+            Route::get('/', 'PublicController\NotificationController@browse');
+            Route::post('/read', 'PublicController\NotificationController@read');
+            Route::post('/read-all', 'PublicController\NotificationController@readAll');
         });
 
         Route::group(['prefix' => 'configurations', 'middleware' => [BadasoAuthenticate::class]], function () {
-            Route::get('/', 'ConfigurationController@browse')->middleware(BadasoCheckPermissions::class.':browse_configurations');
-            Route::get('/read', 'ConfigurationController@read')->middleware(BadasoCheckPermissions::class.':read_configurations');
             Route::put('/edit', 'ConfigurationController@edit')->middleware(BadasoCheckPermissions::class.':edit_configurations');
             Route::put('/edit-multiple', 'ConfigurationController@editMultiple')->middleware(BadasoCheckPermissions::class.':edit_configurations');
             Route::post('/add', 'ConfigurationController@add')->middleware(BadasoCheckPermissions::class.':add_configurations');
             Route::delete('/delete', 'ConfigurationController@delete')->middleware(BadasoCheckPermissions::class.':delete_configurations');
+        });
+
+        Route::group(['prefix' => 'configurations'], function () {
+            Route::get('/', 'ConfigurationController@browse');
+            Route::get('/read', 'ConfigurationController@read');
         });
     });
 });

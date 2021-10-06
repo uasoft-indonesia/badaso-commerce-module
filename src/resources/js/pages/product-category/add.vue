@@ -39,11 +39,18 @@
             ></badaso-select>
             <badaso-textarea
               v-model="productCategory.desc"
-              size="12"
+              size="6"
               :label="$t('productCategories.add.field.desc.title')"
               :placeholder="$t('productCategories.add.field.desc.placeholder')"
               :alert="errors.desc"
             ></badaso-textarea>
+            <badaso-upload-image
+              v-model="productCategory.image"
+              size="6"
+              :label="$t('productCategories.add.field.image.title')"
+              :placeholder="$t('productCategories.add.field.image.placeholder')"
+              :alert="errors.image"
+            ></badaso-upload-image>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -74,6 +81,7 @@ export default {
       desc: null,
       parentId: '',
       SKU: null,
+      image: null,
     },
     categories: []
   }),

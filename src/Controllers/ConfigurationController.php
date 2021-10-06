@@ -67,7 +67,7 @@ class ConfigurationController extends Controller
                 $configuration->details = $request->details;
                 $configuration->type = $request->type;
                 $configuration->order = $request->order;
-                $configuration->group = $request->group;
+                $configuration->group = "commercePanel";
                 $configuration->save();
             }
 
@@ -101,7 +101,7 @@ class ConfigurationController extends Controller
                     $updated_configuration->details = json_encode($configuration['details']);
                     $updated_configuration->type = $configuration['type'];
                     $updated_configuration->order = $configuration['order'];
-                    $updated_configuration->group = $configuration['group'];
+                    $updated_configuration->group = "commercePanel";
                     $updated_configuration->save();
                 }
             }
@@ -145,6 +145,7 @@ class ConfigurationController extends Controller
                     },
                 ],
             ]);
+            $configurationOrder = Configuration::select('order')->where('group', 'commercePanel')->latest()->first();
             $configuration = new Configuration();
             $data = $request->all();
             $data['can_delete'] = $request->get('can_delete', true);
@@ -155,7 +156,7 @@ class ConfigurationController extends Controller
                     $configuration->{$property} = $value;
                 }
             }
-
+            $configuration->order = $configurationOrder->order + 1;
             $configuration->save();
 
             DB::commit();
@@ -177,7 +178,7 @@ class ConfigurationController extends Controller
                 'id' => 'required',
             ]);
 
-            $config = Configuration::where('group', 'commercePanel')->where($request->id)->first();
+            $config = Configuration::where('group', 'commercePanel')->where('id', $request->id)->first();
             if ($config->can_delete) {
                 $config->delete();
             } else {

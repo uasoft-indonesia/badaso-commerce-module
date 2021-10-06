@@ -32,10 +32,6 @@ export default {
     return resource.post(apiPrefix + "/v1/order/ship", data);
   },
 
-  setTrackingNumber(data) {
-    return resource.post(apiPrefix + "/v1/order/tracking-number", data);
-  },
-
   done(data) {
     return resource.post(apiPrefix + "/v1/order/done", data);
   },

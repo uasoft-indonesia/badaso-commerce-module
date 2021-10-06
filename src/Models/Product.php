@@ -2,13 +2,15 @@
 
 namespace Uasoft\Badaso\Module\Commerce\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Uasoft\Badaso\Module\Commerce\Factories\ProductFactory;
 
 class Product extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $table = null;
 
@@ -52,5 +54,10 @@ class Product extends Model
     public function productDetails()
     {
         return $this->hasMany(ProductDetail::class);
+    }
+
+    protected static function newFactory()
+    {
+        return ProductFactory::new();
     }
 }

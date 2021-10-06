@@ -29,8 +29,8 @@ class UserAddress extends Model
         'city',
         'postal_code',
         'country',
-        'telephone',
-        'mobile',
+        'phone_number',
+        'is_main',
         'created_at', 
         'updated_at', 
     ];

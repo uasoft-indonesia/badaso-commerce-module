@@ -1,6 +1,7 @@
 <template>
   <div>
-    <badaso-breadcrumb-row />
+    <badaso-breadcrumb-row>
+    </badaso-breadcrumb-row>
     <vs-row v-if="$helper.isAllowed('confirm_orders')">
       <vs-col vs-lg="6">
         <vs-card>
@@ -33,12 +34,8 @@
               <td>{{ order.country }}</td>
             </tr>
             <tr>
-              <th>{{ $t("orders.confirm.header.telephone") }}</th>
-              <td>{{ order.telephone }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("orders.confirm.header.mobile") }}</th>
-              <td>{{ order.mobile }}</td>
+              <th>{{ $t("orders.confirm.header.phoneNumber") }}</th>
+              <td>{{ order.phoneNumber }}</td>
             </tr>
           </table>
         </vs-card>
@@ -46,14 +43,14 @@
           <vs-col vs-w="6" v-for="(orderDetail, index) in order.orderDetails" :key="index">
             <vs-card>
               <div slot="media">
-                <img :src="`${$store.state.badaso.meta.mediaBaseUrl}${orderDetail.productDetail.productImage}`">
+                <img :src="orderDetail.productDetail.productImage">
               </div>
               <div>
-                <h2>{{ orderDetail.productDetail.name }} - {{ orderDetail.productDetail.product.name }}</h2>
-                <h1>{{ orderDetail.productDetail.price | toCurrency }}</h1>
-                <h4>SKU: {{ orderDetail.productDetail.SKU }}</h4>
-                <h4>Discount: {{ orderDetail.discounted | toCurrency }}</h4>
-                <h4>Qty: {{ orderDetail.quantity }} pcs</h4>
+                <h2>{{ orderDetail.productDetail.product.name }}</h2>
+                <h1>{{ toCurrency(orderDetail.productDetail.price) }}</h1>
+                <p>Variant: {{ orderDetail.productDetail.SKU }}</p>
+                <p>Discount: {{ toCurrency(orderDetail.discounted) }}</p>
+                <p>Qty: {{ orderDetail.quantity }} pcs</p>
               </div>
             </vs-card>
           </vs-col>
@@ -79,22 +76,19 @@
             </tr>
             <tr>
               <th>{{ $t("orders.confirm.header.total") }}</th>
-              <td>{{ order.total | toCurrency }}</td>
+              <td>{{ toCurrency(order.total) }}</td>
             </tr>
             <tr>
               <th>{{ $t("orders.confirm.header.discounted") }}</th>
-              <td>{{ order.discounted | toCurrency }}</td>
+              <td>{{ toCurrency(order.discounted) }}</td>
+            </tr>
+            <tr>
+              <th>{{ $t("orders.confirm.header.shippingCost") }}</th>
+              <td>{{ toCurrency(order.shippingCost) }}</td>
             </tr>
             <tr>
               <th>{{ $t("orders.confirm.header.payed") }}</th>
-              <td>{{ order.payed | toCurrency }}</td>
-            </tr>
-            <tr>
-              <th>{{ $t("orders.confirm.header.proof") }}</th>
-              <td>
-                <img class="w-100" :src="$store.state.badaso.meta.mediaBaseUrl + order.image" alt="" v-if="order.image">
-                <span v-else>None</span>
-              </td>
+              <td>{{ toCurrency(order.payed) }}</td>
             </tr>
             <tr>
               <th>{{ $t("orders.confirm.header.trackingNumber") }}</th>
@@ -110,27 +104,59 @@
                 <span v-else>None</span>
               </td>
             </tr>
-            <tr v-if="$helper.isAllowed('confirm_orders') && order.status !== -1 && order.status !== 4">
+            <tr v-if="order.status != 'cancel' && order.status != 'done'">
               <th>{{ $t("orders.confirm.header.action") }}</th>
               <td>
-                <vs-button color="success" type="relief" @click="confirmOrder" v-if="order.status === 1 || order.status === 0">
-                  <vs-icon icon="check"></vs-icon> Accept
+                <vs-button type="relief" color="success" @click="confirm" v-if="order.status == 'waitingSellerConfirmation'">
+                  <vs-icon icon="check"></vs-icon>
+                  Confirm
                 </vs-button>
-                <vs-button color="danger" type="relief" @click="rejectOrder" v-if="order.status === 1 || order.status === 0">
-                  <vs-icon icon="close"></vs-icon> Decline
+                <vs-button type="relief" color="danger" @click="openCancelDialog" v-if="order.status == 'waitingBuyerPayment' || order.status == 'waitingSellerConfirmation'">
+                  <vs-icon icon="clear"></vs-icon>
+                  Reject
                 </vs-button>
-                <vs-button color="primary" type="relief" @click="shipOrder" v-if="order.status === 2">
-                  <vs-icon icon="local_shipping"></vs-icon> Send
+                <vs-button type="relief" color="primary" v-if="order.status == 'process'" @click="openTrackingNumber">
+                  <vs-icon icon="local_shipping"></vs-icon>
+                  Add Tracking Number
                 </vs-button>
-                <vs-button color="success" type="relief" @click="done" v-if="order.status === 3 && order.trackingNumber !== null">
-                  <vs-icon icon="check"></vs-icon> Done
+                <vs-button type="relief" color="dark" v-if="order.status == 'delivering'" @click="done">
+                  <vs-icon icon="done_all"></vs-icon>
+                  Done
                 </vs-button>
-                <vs-button color="dark" type="relief" @click="openTrackingNumberDialog" v-if="order.status === 3 && order.trackingNumber === null">
-                  <vs-icon icon="receipt"></vs-icon> Set Tracking Number
-                </vs-button>
-                <vs-button color="dark" type="relief" @click="openTrackingNumberDialog" v-if="order.status === 3 && order.trackingNumber !== null">
-                  <vs-icon icon="receipt"></vs-icon> Edit Tracking Number
-                </vs-button>
+              </td>
+            </tr>
+            <tr v-if="order.status == 'cancel'">
+              <th>{{ $t("orders.confirm.header.cancelMessage") }}</th>
+              <td>{{ order.cancelMessage }}</td>
+            </tr>
+          </table>
+        </vs-card>
+        <vs-card v-if="order.orderPayment">
+          <div slot="header">
+            <h3>{{ $t("orders.confirm.title.orderPayment") }}</h3>
+          </div>
+          <table class="badaso-table">
+            <tr>
+              <th>{{ $t("orders.confirm.header.orderPayment.sourceBank") }}</th>
+              <td>{{ getSourceBank(order.orderPayment.sourceBank) }}</td>
+            </tr>
+            <tr>
+              <th>{{ $t("orders.confirm.header.orderPayment.destinationBank") }}</th>
+              <td>{{ order.orderPayment.destinationBank }}</td>
+            </tr>
+            <tr>
+              <th>{{ $t("orders.confirm.header.orderPayment.accountNumber") }}</th>
+              <td>{{ order.orderPayment.accountNumber }}</td>
+            </tr>
+            <tr>
+              <th>{{ $t("orders.confirm.header.orderPayment.totalTransfer") }}</th>
+              <td>{{ toCurrency(order.orderPayment.totalTransfered) }}</td>
+            </tr>
+            <tr>
+              <th>{{ $t("orders.confirm.header.orderPayment.proofOfTransaction") }}</th>
+              <td>
+                <img class="w-100" :src="order.orderPayment.proofOfTransaction" alt="" v-if="order.orderPayment.proofOfTransaction">
+                <span v-else>None</span>
               </td>
             </tr>
           </table>
@@ -156,15 +182,39 @@
         </vs-col>
       </vs-row>
     </vs-popup>
+    <vs-popup :title="$t('orders.confirm.title.cancel')" :active.sync="cancelDialog">
+      <vs-row>
+        <vs-col vs-w="12" vs-type="flex">
+          <badaso-text
+            type="text"
+            v-model="cancelMessage"
+            size="12"
+            :label="$t('orders.confirm.field.cancel.label')"
+            :placeholder="$t('orders.confirm.field.cancel.placeholder')"
+            style="margin-bottom: 8px !important;"
+          ></badaso-text>
+        </vs-col>
+        <vs-col vs-w="12" vs-type="flex" vs-justify="flex-end">
+          <vs-button type="relief" color="danger" class="ml-2" @click="setCancelMessage">
+            {{ $t('orders.confirm.button.save') }}
+          </vs-button>
+        </vs-col>
+      </vs-row>
+    </vs-popup>
   </div>
 </template>
 
 <script>
 import moment from "moment";
+import currency from 'currency.js';
 export default {
   name: "OrderConfirm",
   components: {},
   data: () => ({
+    trackingNumber: null,
+    trackingNumberDialog: false,
+    cancelDialog: false,
+    cancelMessage: null,
     order: {
       recipientName: "",
       addressLine1: "",
@@ -184,32 +234,35 @@ export default {
       user: {
         email: "",
       },
-      orderDetails: []
+      orderDetails: [],
+      orderPayment: {
+        sourceBank: null,
+        destinationBank: null,
+        accountNumber: null,
+        totalTransfered: null,
+        proofOfTransaction: null,
+      }
     },
-    trackingNumberDialog: false,
-    trackingNumber: null
   }),
   mounted() {
     this.getOrderDetail();
   },
-  filters: {
-    toCurrency: function (value) {
-      var formatter = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        maximumFractionDigits: 0,
-      });
-      return formatter.format(value);
-    },
-  },
   methods: {
+    toCurrency(value) {
+      return currency(value, {
+        precision: this.$store.state.badaso.config.currencyPrecision,
+        decimal: this.$store.state.badaso.config.currencyDecimal,
+        separator: this.$store.state.badaso.config.currencySeparator,
+        symbol: this.$store.state.badaso.config.currencySymbol,
+      }).format()
+    },
     getDate(date) {
-      return moment(date).format("dddd, DD MMMM YYYY");
+      return moment(date).format("dddd, DD MMMM YYYY HH:mm:ss");
     },
     getOrderDetail() {
       this.$openLoader();
       this.$api.badasoOrder
-        .read({ id: this.$route.params.id, relation: ["user", "orderDetails.productDetail.product"] })
+        .read({ id: this.$route.params.id })
         .then((response) => {
           this.$closeLoader();
           this.order = response.data.order;
@@ -225,128 +278,61 @@ export default {
     },
     getOrderStatus(status) {
       switch (status) {
-        case 0:
-          return this.$t("orders.status.0");
-        case 1:
-          return this.$t("orders.status.1");
-        case 2:
-          return this.$t("orders.status.2");
-        case 3:
-          return this.$t("orders.status.3");
-        case 4:
-          return this.$t("orders.status.4");
+        case 'waitingBuyerPayment':
+          return this.$t("orders.status.0")
+        case 'waitingSellerConfirmation':
+          return this.$t("orders.status.1")
+        case 'process':
+          return this.$t("orders.status.2")
+        case 'delivering':
+          return this.$t("orders.status.3")
+        case 'done':
+          return this.$t("orders.status.4")
         default:
-          return this.$t("orders.status.-1");
+          return this.$t("orders.status.-1")
       }
     },
     getOrderStatusColor(status) {
       switch (status) {
-        case 0:
+        case 'waitingBuyerPayment':
           return "warning";
-        case 1:
+        case 'waitingSellerConfirmation':
           return "warning";
-        case 2:
+        case 'process':
           return "primary";
-        case 3:
+        case 'delivering':
           return "dark";
-        case 4:
+        case 'done':
           return "success";
         default:
           return "danger";
       }
     },
-    confirmOrder() {
-      this.$vs.dialog({
-        type: "confirm",
-        color: "success",
-        title: this.$t("action.delete.title"),
-        text: this.$t("action.delete.text"),
-        accept: () => {
-          this.$openLoader();
-          this.$api.badasoOrder
-          .confirm({ id: this.$route.params.id })
-          .then((response) => {
-            this.$closeLoader();
-            this.$router.push({ name: "OrderBrowse" });
-          })
-          .catch((error) => {
-            this.$closeLoader();
-            this.$vs.notify({
-              title: this.$t("alert.danger"),
-              text: error.message,
-              color: "danger",
-            });
-          });
-        },
-        acceptText: this.$t("action.delete.accept"),
-        cancelText: this.$t("action.delete.cancel"),
-      });
-    },
-    rejectOrder() {
-      this.$vs.dialog({
-        type: "confirm",
-        color: "danger",
-        title: this.$t("action.delete.title"),
-        text: this.$t("action.delete.text"),
-        accept: () => {
-          this.$openLoader();
-          this.$api.badasoOrder
-            .reject({ id: this.$route.params.id })
-            .then((response) => {
-              this.$closeLoader();
-              this.$router.push({ name: "OrderBrowse" });
-            })
-            .catch((error) => {
-              this.$closeLoader();
-              this.$vs.notify({
-                title: this.$t("alert.danger"),
-                text: error.message,
-                color: "danger",
-              });
-            });
-        },
-        acceptText: this.$t("action.delete.accept"),
-        cancelText: this.$t("action.delete.cancel"),
-      })
-    },
-    shipOrder() {
-      this.$vs.dialog({
-        type: "confirm",
-        color: "primary",
-        title: this.$t("action.delete.title"),
-        text: this.$t("action.delete.text"),
-        accept: () => {
-          this.$openLoader();
-          this.$api.badasoOrder
-            .ship({ id: this.$route.params.id })
-            .then((response) => {
-              this.$closeLoader();
-              this.$router.push({ name: "OrderBrowse" });
-            })
-            .catch((error) => {
-              this.$closeLoader();
-              this.$vs.notify({
-                title: this.$t("alert.danger"),
-                text: error.message,
-                color: "danger",
-              });
-            });
-        },
-        acceptText: this.$t("action.delete.accept"),
-        cancelText: this.$t("action.delete.cancel"),
-      })
-    },
-    openTrackingNumberDialog() {
-      this.trackingNumberDialog = true
-      this.trackingNumber = JSON.parse(JSON.stringify(this.order.trackingNumber))
-    },
-    setTrackingNumber() {
+    setCancelMessage() {
       this.$openLoader();
       this.$api.badasoOrder
-        .setTrackingNumber({ id: this.$route.params.id, trackingNumber: this.trackingNumber })
+        .reject({ id: this.$route.params.id, cancelMessage: this.cancelMessage })
         .then((response) => {
           this.$closeLoader();
-          this.$router.push({ name: "OrderBrowse" });
+          this.cancelDialog = false
+          this.getOrderDetail()
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    confirm() {
+      this.$openLoader();
+      this.$api.badasoOrder
+        .confirm({ id: this.$route.params.id })
+        .then((response) => {
+          this.$closeLoader();
+          this.getOrderDetail()
         })
         .catch((error) => {
           this.$closeLoader();
@@ -358,32 +344,54 @@ export default {
         });
     },
     done() {
-      this.$vs.dialog({
-        type: "confirm",
-        color: "success",
-        title: this.$t("action.delete.title"),
-        text: this.$t("action.delete.text"),
-        accept: () => {
-          this.$openLoader();
-          this.$api.badasoOrder
-            .done({ id: this.$route.params.id })
-            .then((response) => {
-              this.$closeLoader();
-              this.$router.push({ name: "OrderBrowse" });
-            })
-            .catch((error) => {
-              this.$closeLoader();
-              this.$vs.notify({
-                title: this.$t("alert.danger"),
-                text: error.message,
-                color: "danger",
-              });
-            });
-        },
-        acceptText: this.$t("action.delete.accept"),
-        cancelText: this.$t("action.delete.cancel"),
-      })
-    }
+      this.$openLoader();
+      this.$api.badasoOrder
+        .done({ id: this.$route.params.id })
+        .then((response) => {
+          this.$closeLoader();
+          this.getOrderDetail()
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    openTrackingNumber() {
+      this.trackingNumberDialog = true
+    },
+    setTrackingNumber() {
+      this.$openLoader();
+      this.trackingNumberDialog = false
+      this.$api.badasoOrder
+        .ship({ 
+          id: this.$route.params.id,
+          trackingNumber: this.trackingNumber
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.getOrderDetail()
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    getSourceBank(bank) {
+      if (!bank) return ''
+      return JSON.parse(this.$store.state.badaso.config.availableBanks)[bank]
+    },
+    openCancelDialog() {
+      this.cancelDialog = true
+      this.cancelMessage = null
+    },
   },
 };
 </script>

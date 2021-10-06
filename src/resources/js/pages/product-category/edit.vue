@@ -45,6 +45,13 @@
               :placeholder="$t('productCategories.edit.field.desc.placeholder')"
               :alert="errors.desc"
             ></badaso-textarea>
+            <badaso-upload-image
+              v-model="productCategory.image"
+              size="6"
+              :label="$t('productCategories.add.field.image.title')"
+              :placeholder="$t('productCategories.add.field.image.placeholder')"
+              :alert="errors.image"
+            ></badaso-upload-image>
           </vs-row>
         </vs-card>
       </vs-col>
@@ -70,11 +77,12 @@ export default {
   data: () => ({
     errors: {},
     productCategory: {
-      name: null,
-      slug: null,
-      desc: null,
+      name: '',
+      slug: '',
+      desc: '',
       parentId: '',
-      SKU: null,
+      SKU: '',
+      image: ''
     },
     categories: []
   }),

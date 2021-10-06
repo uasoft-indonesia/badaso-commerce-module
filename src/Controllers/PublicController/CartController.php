@@ -19,7 +19,7 @@ class CartController extends Controller
         try {
             $user_id = auth()->id();
 
-            $data['carts'] = Cart::with('productDetail.product')->where('user_id', $user_id)->get()->toArray();
+            $data['carts'] = Cart::with(['productDetail.product.productCategory', 'productDetail.discount'])->where('user_id', $user_id)->get()->toArray();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -34,6 +34,8 @@ class CartController extends Controller
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductDetail',
                 'quantity' => "required|min:0|integer"
+            ], [
+                'id.required' => 'You have to select one of the variant!'
             ]);
 
             $product_detail = ProductDetail::where('id', $request->id)->first();
@@ -51,14 +53,14 @@ class CartController extends Controller
                     'quantity' => $request->quantity,
                 ]);
             } else {
-                if ($cart->quantity >= $product_detail->quantity) {
+                if ($cart->quantity + $request->quantity > $product_detail->quantity) {
                     return ApiResponse::failed(__('badaso_commerce::validation.stock_not_available'));
                 }
 
                 Cart::where('user_id', auth()->id())->where('product_detail_id', $request->id)->update([
                     'product_detail_id' => $request->id,
                     'user_id' => auth()->id(),
-                    'quantity' => $cart->quantity + 1,
+                    'quantity' => $cart->quantity + $request->quantity,
                 ]);
             }
 

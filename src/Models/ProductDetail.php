@@ -2,13 +2,15 @@
 
 namespace Uasoft\Badaso\Module\Commerce\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Uasoft\Badaso\Module\Commerce\Factories\ProductDetailFactory;
 
 class ProductDetail extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HasFactory;
 
     protected $table = null;
 
@@ -18,7 +20,7 @@ class ProductDetail extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix.'product_details';
+        $this->table = $prefix . 'product_details';
         parent::__construct($attributes);
     }
 
@@ -42,5 +44,10 @@ class ProductDetail extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    protected static function newFactory()
+    {
+        return ProductDetailFactory::new();
     }
 }

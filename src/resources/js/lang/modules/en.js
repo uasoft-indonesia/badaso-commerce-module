@@ -226,6 +226,10 @@ export default {
           title: "Category SKU",
           placeholder: "Category SKU"
         },
+        image: {
+          title: "Image",
+          placeholder: "Image"
+        },
       },
       button: "Save"
     },
@@ -252,6 +256,10 @@ export default {
           title: "Category SKU",
           placeholder: "Category SKU"
         },
+        image: {
+          title: "Image",
+          placeholder: "Image"
+        },
       },
       button: "Save"
     },
@@ -262,6 +270,7 @@ export default {
         slug: "Slug",
         desc: "Description",
         SKU: "SKU",
+        image: "Image",
         createdAt: "Created At",
         updatedAt: "Updated At",
         deletedAt: "Deleted At",
@@ -399,8 +408,8 @@ export default {
     browse: {
       title: "Orders",
       header: {
+        orderId: "Order ID",
         user: "User",
-        provider: "Provider",
         discounted: "Discounted",
         total: "Total",
         payed: "Payed",
@@ -418,7 +427,9 @@ export default {
       title: {
         customerInfo: "Customer Info",
         orderInfo: "Order Info",
-        trackingNumber: "Set Tracking Number"
+        trackingNumber: "Set Tracking Number",
+        orderPayment: "Order Payment",
+        cancel: "Cancel",
       },
       header: {
         recipientName: "Recipient Name",
@@ -430,72 +441,39 @@ export default {
         city: "City",
         postalCode: "Postal Code",
         country: "Country",
-        telephone: "Telephone",
-        mobile: "Mobile Phone",
+        phoneNumber: "Phone Number",
         total: "Total Order",
         status: "Status Order",
         discounted: "Discounted",
         payed: "Must Pay",
         proof: "Proof of Transaction",
+        cancelMessage: "Cancel Message",
+        shippingCost: "Shipping Cost",
         trackingNumber: "Tracking Number",
         expiredAt: "Expired At",
-        action: "Action"
+        action: "Action",
+        orderPayment: {
+          sourceBank: "Source Bank",
+          destinationBank: "Destination Bank",
+          accountNumber: "Account Number",
+          totalTransfer: "Total Transfered",
+          proofOfTransaction: "Proof of Transaction",
+        }
       },
       field: {
         trackingNumber: {
           label: "Tracking Number",
           placeholder: "Tracking Number",
         },
+        cancel: {
+          label: "Cancel Message",
+          placeholder: "Cancel Message",
+        },
       },
       button: {
         save: "Save"
       }
     }
-  },
-  paymentProvider: {
-    browse: {
-      title: "Payment Providers",
-      header: {
-        name: "Name",
-        createdAt: "Created At",
-        updatedAt: "Updated At",
-        action: "Action"
-      },
-      footer: {
-        descriptionTitle: "Registries",
-        descriptionConnector: "of",
-        descriptionBody: "Pages",
-      },
-    },
-    detail: {
-      title: "Payment Providers Detail",
-      header: {
-        name: "Name",
-        createdAt: "Created At",
-        updatedAt: "Updated At",
-        action: "Action"
-      },
-    },
-    add: {
-      title: "Add Payment Provider",
-      field: {
-        name: {
-          title: "Provider Name",
-          placeholder: "Provider Name"
-        },
-      },
-      button: "Save"
-    },
-    edit: {
-      title: "Add Payment Provider",
-      field: {
-        name: {
-          title: "Provider Name",
-          placeholder: "Provider Name"
-        },
-      },
-      button: "Save"
-    },
   },
   cart: {
     browse: {
@@ -556,12 +534,50 @@ export default {
         city: "City",
         postalCode: "Postal Code",
         country: "Country",
-        telephone: "Telephone",
-        mobile: "Mobile",
+        phoneNumber: "Phone Number",
         createdAt: "Created At",
         updatedAt: "Updated At",
         action: "Action"
       }
     }
-  }
+  },
+  commerceSite: {
+    action: "Action",
+    deletedImage: {
+      title: "Deleted Image",
+      text: "The selected image was successfully deleted",
+    },
+    configUpdated: "Config Updated",
+    add: {
+      title: "Add Commerce Configuration",
+      field: {
+        displayName: {
+          title: "Display Name",
+          placeholder: "Example: Display Name",
+        },
+        key: {
+          title: "Key",
+          placeholder: "Example: key_sample",
+        },
+        type: {
+          title: "Type",
+          placeholder: "Type",
+        },
+        group: {
+          title: "Group",
+          placeholder: "Group",
+        },
+        options: {
+          title: "Options",
+          description:
+            "Options is required for Checkbox, Radio, Select, Select-multiple. Example: ",
+          example: `{"items": [{"label":"This is label","value":"this_is_value"}] }`,
+        },
+      },
+      button: "Save",
+    },
+    edit: {
+      multiple: "Update Configurations",
+    },
+  },
 };

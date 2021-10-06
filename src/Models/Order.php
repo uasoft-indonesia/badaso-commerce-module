@@ -43,13 +43,13 @@ class Order extends Model
     }
 
     /**
-     * Get the provider that owns the Order
+     * Get the order associated with the OrderPayment
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function provider()
+    public function orderPayment()
     {
-        return $this->belongsTo(PaymentProvider::class);
+        return $this->hasOne(OrderPayment::class);
     }
 
     /**

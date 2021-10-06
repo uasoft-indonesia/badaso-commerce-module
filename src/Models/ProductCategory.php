@@ -29,6 +29,7 @@ class ProductCategory extends Model
         'slug',
         'desc',
         'SKU',
+        'image',
         'created_at',
         'updated_at',	
         'deleted_at'

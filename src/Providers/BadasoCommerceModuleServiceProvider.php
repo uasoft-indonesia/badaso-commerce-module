@@ -5,9 +5,12 @@ namespace Uasoft\Badaso\Module\Commerce\Providers;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Console\Scheduling\Schedule;
 use Uasoft\Badaso\Module\Commerce\BadasoCommerceModule;
 use Uasoft\Badaso\Module\Commerce\Commands\BadasoCommerceSetup;
+use Uasoft\Badaso\Module\Commerce\Commands\BadasoDeleteExpiredOrder;
 use Uasoft\Badaso\Module\Commerce\Facades\BadasoCommerceModule as FacadesBadasoCommerceModule;
+use Uasoft\Badaso\Module\Commerce\Models\Order;
 
 class BadasoCommerceModuleServiceProvider extends ServiceProvider
 {
@@ -33,12 +36,19 @@ class BadasoCommerceModuleServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../Seeder' => database_path('seeders/Badaso/Commerce'),
-            __DIR__.'/../Config/badaso-commerce.php' => config_path('badaso-commerce.php'),
         ], 'BadasoCommerce');
 
         $this->publishes([
             __DIR__.'/../Swagger' => app_path('Http/Swagger/swagger_models'),
         ], 'BadasoCommerceSwagger');
+
+        $this->app->booted(function () {
+            $schedule = $this->app->make(Schedule::class);
+            $schedule
+                ->command('badaso-commerce:delete-expired-order')
+                ->cron(env('CRON_EXPIRED_ORDER') ?? '0 * * * *')
+                ->runInBackground();
+        });
     }
 
     /**
@@ -49,6 +59,7 @@ class BadasoCommerceModuleServiceProvider extends ServiceProvider
     public function register()
     {
         $this->registerConsoleCommands();
+        $this->app->register(BadasoCommerceModuleEventServiceProvider::class);
     }
 
     /**
@@ -57,5 +68,6 @@ class BadasoCommerceModuleServiceProvider extends ServiceProvider
     private function registerConsoleCommands()
     {
         $this->commands(BadasoCommerceSetup::class);
+        $this->commands(BadasoDeleteExpiredOrder::class);
     }
 }

@@ -24,11 +24,10 @@
               @sort="handleSort"
             >
               <template slot="thead">
-                <badaso-th sort-key="id"> # </badaso-th>
+                <badaso-th sort-key="id"> {{ $t("orders.browse.header.orderId") }} </badaso-th>
                 <badaso-th sort-key="user"> {{ $t("orders.browse.header.user") }} </badaso-th>
-                <badaso-th sort-key="provider"> {{ $t("orders.browse.header.provider") }} </badaso-th>
-                <badaso-th sort-key="discounted"> {{ $t("orders.browse.header.discounted") }} </badaso-th>
                 <badaso-th sort-key="total"> {{ $t("orders.browse.header.total") }} </badaso-th>
+                <badaso-th sort-key="discounted"> {{ $t("orders.browse.header.discounted") }} </badaso-th>
                 <badaso-th sort-key="payed"> {{ $t("orders.browse.header.payed") }} </badaso-th>
                 <badaso-th sort-key="status"> {{ $t("orders.browse.header.status") }} </badaso-th>
                 <badaso-th sort-key="orderedAt"> {{ $t("orders.browse.header.orderedAt") }} </badaso-th>
@@ -43,17 +42,14 @@
                   <vs-td :data="order.user.name">
                     {{ order.user.name }}
                   </vs-td>
-                  <vs-td :data="order.provider.name">
-                    {{ order.provider.name }}
+                  <vs-td :data="order.total">
+                    {{ toCurrency(order.total) }}
                   </vs-td>
                   <vs-td :data="order.discounted">
-                    {{ order.discounted | toCurrency }}
-                  </vs-td>
-                  <vs-td :data="order.total">
-                    {{ order.total | toCurrency }}
+                    {{ toCurrency(order.discounted) }}
                   </vs-td>
                   <vs-td :data="order.payed">
-                    {{ order.payed | toCurrency }}
+                    {{ toCurrency(order.payed) }}
                   </vs-td>
                   <vs-td :data="order.status">
                     {{ getOrderStatus(order.status) }}
@@ -69,13 +65,6 @@
                         icon="more_vert"
                       ></vs-button>
                       <vs-dropdown-menu>
-                        <badaso-dropdown-item
-                          icon="visibility"
-                          :to="{ name: 'OrderRead', params: { id: order.id } }"
-                          v-if="$helper.isAllowed('read_orders')"
-                        >
-                          Detail
-                        </badaso-dropdown-item>
                         <badaso-dropdown-item
                           icon="check"
                           :to="{ name: 'OrderConfirm', params: { id: order.id } }"
@@ -98,6 +87,7 @@
 
 <script>
 import moment from 'moment'
+import currency from 'currency.js';
 export default {
   name: "OrderBrowse",
   components: {},
@@ -117,34 +107,32 @@ export default {
       willDeleteId: null
     }
   },
-  filters: {
-    toCurrency: function (value) {
-      var formatter = new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0
-      });
-      return formatter.format(value);
-    }
-  },
   mounted() {
     this.getOrderList()
   },
   methods: {
+    toCurrency(value) {
+      return currency(value, {
+        precision: this.$store.state.badaso.config.currencyPrecision,
+        decimal: this.$store.state.badaso.config.currencyDecimal,
+        separator: this.$store.state.badaso.config.currencySeparator,
+        symbol: this.$store.state.badaso.config.currencySymbol,
+      }).format()
+    },
     getDate(date) {
-      return moment(date).format('DD MMMM YYYY')
+      return moment(date).format('DD MMMM YYYY HH:mm:ss')
     },
     getOrderStatus(status) {
       switch (status) {
-        case 0:
+        case 'waitingBuyerPayment':
           return this.$t("orders.status.0")
-        case 1:
+        case 'waitingSellerConfirmation':
           return this.$t("orders.status.1")
-        case 2:
+        case 'process':
           return this.$t("orders.status.2")
-        case 3:
+        case 'delivering':
           return this.$t("orders.status.3")
-        case 4:
+        case 'done':
           return this.$t("orders.status.4")
         default:
           return this.$t("orders.status.-1")
@@ -157,7 +145,6 @@ export default {
         page: this.page,
         limit: this.limit,
         relation: [
-          'provider',
           'user',
         ]
       })

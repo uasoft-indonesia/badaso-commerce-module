@@ -32,7 +32,7 @@
             </tr>
             <tr>
               <th>{{ $t("product.detail.header.productImage") }}</th>
-              <td><img width="100" v-if="product.productImage" :src="$store.state.badaso.meta.mediaBaseUrl + product.productImage" loading="lazy"></td>
+              <td><img width="100" v-if="product.productImage" :src="product.productImage" loading="lazy"></td>
             </tr>
             <tr>
               <th>{{ $t("product.detail.header.productCategory") }}</th>
@@ -57,14 +57,14 @@
         <vs-col vs-w="12" v-for="(productDetail, index) in product.productDetails" :key="index" class="product-details__item">
           <vs-card class="mb-0 product-details--card">
             <div slot="media">
-              <img width="100" v-if="productDetail.productImage" :src="$store.state.badaso.meta.mediaBaseUrl + productDetail.productImage" loading="lazy">
+              <img width="100" v-if="productDetail.productImage" :src="productDetail.productImage" loading="lazy">
             </div>
             <div>
               <h6 class="mb-0"><strong>{{ productDetail.name }}</strong></h6>
               <small>{{ productDetail.SKU }}</small>
-              <h3 class="mb-2 mt-2">{{ productDetail.price | toCurrency }}</h3>
+              <h3 class="mb-2 mt-2">{{ toCurrency(productDetail.price) }}</h3>
               <small>{{ productDetail.quantity }} in stock</small>
-              <small v-if="productDetail.discountId" class="d-block">Discount: {{  `${productDetail.discount.name} - ${productDetail.discount.discountType === 'fixed' ? $options.filters.toCurrency(productDetail.discount.discountFixed) : productDetail.discount.discountPercent + '%' }` }}</small>
+              <small v-if="productDetail.discountId" class="d-block">Discount: {{  `${productDetail.discount.name} - ${productDetail.discount.discountType === 'fixed' ? toCurrency(productDetail.discount.discountFixed) : productDetail.discount.discountPercent + '%' }` }}</small>
             </div>
           </vs-card>
         </vs-col>
@@ -75,6 +75,7 @@
 
 <script>
 import moment from 'moment'
+import currency from 'currency.js'
 export default {
   name: "ProductRead",
   components: {},
@@ -92,17 +93,15 @@ export default {
   mounted() {
     this.getProductDetail();
   },
-  filters: {
-    toCurrency: function (value) {
-      var formatter = new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0
-      });
-      return formatter.format(value);
-    }
-  },
   methods: {
+    toCurrency(value) {
+      return currency(value, {
+        precision: this.$store.state.badaso.config.currencyPrecision,
+        decimal: this.$store.state.badaso.config.currencyDecimal,
+        separator: this.$store.state.badaso.config.currencySeparator,
+        symbol: this.$store.state.badaso.config.currencySymbol,
+      }).format()
+    },
     getDate(date) {
       return moment(date).format('dddd, DD MMMM YYYY')
     },

@@ -55,7 +55,7 @@
               <template slot="tbody">
                 <vs-tr :data="product" :key="index" v-for="(product, index) in products.data">
                   <vs-td :data="product.productImage">
-                    <img width="100" :src="$store.state.badaso.meta.mediaBaseUrl + product.productImage" loading="lazy">
+                    <img width="100" :src="product.productImage" loading="lazy">
                   </vs-td>
                   <vs-td :data="product.name">
                     {{ product.name }}

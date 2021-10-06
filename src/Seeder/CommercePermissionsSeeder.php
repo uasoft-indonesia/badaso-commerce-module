@@ -41,8 +41,6 @@ class CommercePermissionsSeeder extends Seeder
         Permission::generateFor('product_categories', true);
         Permission::generateFor('discounts', true);
         Permission::generateFor('orders', true);
-        Permission::generateFor('order_details', true);
-        Permission::generateFor('payment_providers', true);
         Permission::generateFor('carts', true);
         Permission::generateFor('user_addresses', true);
     }

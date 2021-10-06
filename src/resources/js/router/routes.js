@@ -153,57 +153,11 @@ export default [
     },
   },
   {
-    path: prefix + "/order/:id/detail",
-    name: "OrderRead",
-    component: Pages,
-    meta: {
-      title: "Read Order",
-      useComponent: "AdminContainer"
-    },
-  },
-  {
     path: prefix + "/order/:id/confirm",
     name: "OrderConfirm",
     component: Pages,
     meta: {
       title: "Confirm Order",
-      useComponent: "AdminContainer"
-    },
-  },
-
-  {
-    path: prefix + "/payment-provider",
-    name: "PaymentProviderBrowse",
-    component: Pages,
-    meta: {
-      title: "Browse Payment Provider",
-      useComponent: "AdminContainer"
-    },
-  },
-  {
-    path: prefix + "/payment-provider/:id/detail",
-    name: "PaymentProviderRead",
-    component: Pages,
-    meta: {
-      title: "Detail Payment Provider",
-      useComponent: "AdminContainer"
-    },
-  },
-  {
-    path: prefix + "/payment-provider/:id/edit",
-    name: "PaymentProviderEdit",
-    component: Pages,
-    meta: {
-      title: "Edit Payment Provider",
-      useComponent: "AdminContainer"
-    },
-  },
-  {
-    path: prefix + "/payment-provider/add",
-    name: "PaymentProviderAdd",
-    component: Pages,
-    meta: {
-      title: "Add Payment Provider",
       useComponent: "AdminContainer"
     },
   },
@@ -252,6 +206,15 @@ export default [
     component: Pages,
     meta: {
       title: "Commerce Configuration",
+      useComponent: "AdminContainer"
+    },
+  },
+  {
+    path: prefix + "/commerce-config/add",
+    name: "CommerceConfigurationAdd",
+    component: Pages,
+    meta: {
+      title: "Add Commerce Configuration",
       useComponent: "AdminContainer"
     },
   },

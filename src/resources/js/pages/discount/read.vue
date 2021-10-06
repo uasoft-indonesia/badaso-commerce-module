@@ -36,7 +36,7 @@
             </tr>
             <tr>
               <th>{{ $t("discounts.detail.header.discountFixed") }}</th>
-              <td>{{ discount.discountFixed | toCurrency }}</td>
+              <td>{{ toCurrency(discount.discountFixed) }}</td>
             </tr>
             <tr>
               <th>{{ $t("discounts.detail.header.createdAt") }}</th>
@@ -59,6 +59,7 @@
 
 <script>
 import moment from 'moment'
+import currency from 'currency.js';
 export default {
   name: "DiscountRead",
   components: {},
@@ -87,6 +88,14 @@ export default {
     }
   },
   methods: {
+    toCurrency(value) {
+      return currency(value, {
+        precision: this.$store.state.badaso.config.currencyPrecision,
+        decimal: this.$store.state.badaso.config.currencyDecimal,
+        separator: this.$store.state.badaso.config.currencySeparator,
+        symbol: this.$store.state.badaso.config.currencySymbol,
+      }).format()
+    },
     getDate(date) {
       return moment(date).format('dddd, DD MMMM YYYY')
     },

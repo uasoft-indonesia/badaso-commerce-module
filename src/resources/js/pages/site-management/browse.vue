@@ -1,6 +1,16 @@
 <template>
   <div>
-    <badaso-breadcrumb-row />
+    <badaso-breadcrumb-row>
+      <template slot="action">
+        <vs-button
+          color="primary"
+          type="relief"
+          :to="{ name: 'CommerceConfigurationAdd' }"
+          v-if="$helper.isAllowed('add_configurations')"
+          ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
+        >
+      </template>
+    </badaso-breadcrumb-row>
     <vs-row
       v-if="$helper.isAllowed('browse_commerce_configurations') && groupList.length > 0"
     >
@@ -197,6 +207,13 @@
                   size="10"
                   v-model="config.value"
                 ></badaso-upload-file-multiple>
+                <badaso-code-editor
+                  v-if="config.type === 'code'"
+                  :label="config.displayName"
+                  :placeholder="config.value"
+                  size="10"
+                  v-model="config.value"
+                ></badaso-code-editor>
 
                 <vs-col vs-lg="2">
                   <br />

@@ -2,11 +2,13 @@
 
 namespace Uasoft\Badaso\Module\Commerce\Controllers;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
 
 class OrderController extends Controller
@@ -39,9 +41,9 @@ class OrderController extends Controller
                 'relation' => 'nullable'
             ]);
 
-            $order = Order::when($request->relation, function ($query) use ($request) {
-                return $query->with(explode(',', $request->relation));
-            })->where('id', $request->id)->first();
+            $order = Order::with('user', 'orderDetails.productDetail.product', 'orderPayment')
+                ->where('id', $request->id)
+                ->first();
             $data['order'] = $order->toArray();
 
             return ApiResponse::success($data);
@@ -58,11 +60,30 @@ class OrderController extends Controller
             ]);
 
             $order = Order::find($request->id);
-            $order->status = 2;
-            $order->expired_at = null;
-            $order->save();
+            if (!is_null($order->expired_at) && now()->greaterThanOrEqualTo(Carbon::create($order->expired_at))) {
+                foreach ($order->orderDetails as $key => $orderDetail) {
+                    $orderDetail->productDetail->quantity += $orderDetail->quantity;
+                    $orderDetail->productDetail->save();
+                }
 
-            return ApiResponse::success();
+                $order->status = 'cancel';
+                $order->expired_at = null;
+                $order->save();
+
+                return ApiResponse::failed('Order is already expired.');
+            }
+
+            if ($order->status == 'waitingSellerConfirmation') {
+                $order->status = 'process';
+                $order->expired_at = null;
+                $order->save();
+
+                event(new OrderStateWasChanged(auth()->user(), $order));
+
+                return ApiResponse::success();
+            }
+
+            return ApiResponse::failed();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -73,14 +94,28 @@ class OrderController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
+                'cancel_message' => 'required|string|max:255',
             ]);
 
             $order = Order::find($request->id);
-            $order->status = -1;
-            $order->expired_at = null;
-            $order->save();
 
-            return ApiResponse::success();
+            if (in_array($order->status, ['waitingSellerConfirmation', 'waitingBuyerPayment'])) {
+                foreach ($order->orderDetails as $key => $orderDetail) {
+                    $orderDetail->productDetail->quantity += $orderDetail->quantity;
+                    $orderDetail->productDetail->save();
+                }
+
+                $order->status = 'cancel';
+                $order->cancel_message = $request->cancel_message;
+                $order->expired_at = null;
+                $order->save();
+
+                event(new OrderStateWasChanged(auth()->user(), $order));
+
+                return ApiResponse::success();
+            }
+
+            return ApiResponse::failed('Invalid request');
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -91,31 +126,21 @@ class OrderController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
+                'tracking_number' => 'required|alpha_num'
             ]);
 
             $order = Order::find($request->id);
-            $order->status = 3;
-            $order->save();
+            if ($order->status = 'process') {
+                $order->status = 'delivering';
+                $order->tracking_number = $request->tracking_number;
+                $order->save();
 
-            return ApiResponse::success();
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
-    }
+                event(new OrderStateWasChanged(auth()->user(), $order));
 
-    public function trackingNumber(Request $request)
-    {
-        try {
-            $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
-                'tracking_number' => 'required'
-            ]);
+                return ApiResponse::success();
+            }
 
-            $order = Order::find($request->id);
-            $order->tracking_number = $request->tracking_number;
-            $order->save();
-
-            return ApiResponse::success();
+            return ApiResponse::failed();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
@@ -129,10 +154,16 @@ class OrderController extends Controller
             ]);
 
             $order = Order::find($request->id);
-            $order->status = 4;
-            $order->save();
+            if ($order->status = 'delivering') {
+                $order->status = 'done';
+                $order->save();
 
-            return ApiResponse::success();
+                event(new OrderStateWasChanged(auth()->user(), $order));
+
+                return ApiResponse::success();
+            }
+
+            return ApiResponse::failed();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }

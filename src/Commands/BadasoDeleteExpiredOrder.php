@@ -3,6 +3,7 @@
 namespace Uasoft\Badaso\Module\Commerce\Commands;
 
 use Illuminate\Console\Command;
+use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
 
 class BadasoDeleteExpiredOrder extends Command
@@ -53,6 +54,8 @@ class BadasoDeleteExpiredOrder extends Command
             $order->cancel_message = 'Expired';
             $order->expired_at = null;
             $order->save();
+
+            event(new OrderStateWasChanged(auth()->user(), $order));
         }
     }
 }

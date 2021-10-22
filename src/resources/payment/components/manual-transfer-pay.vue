@@ -8,6 +8,6 @@
 export default {
   props: {
     order: Object
-  }
+  },
 }
 </script>

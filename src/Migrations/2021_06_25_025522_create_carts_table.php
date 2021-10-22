@@ -15,15 +15,10 @@ class CreateCartsTable extends Migration
     {
         Schema::create(config('badaso.database.prefix').'carts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_detail_id');
-            $table->unsignedBigInteger('user_id');
-            $table->bigInteger('quantity');
+            $table->foreignId('user_id')->constrained(config('badaso.database.prefix').'users')->onDelete('cascade');
+            $table->foreignId('product_detail_id')->constrained(config('badaso.database.prefix').'product_details')->onDelete('cascade');
+            $table->integer('quantity');
             $table->timestamps();
-        });
-        
-        Schema::table(config('badaso.database.prefix').'carts', function (Blueprint $table) {
-            $table->foreign('product_detail_id')->references('id')->on(config('badaso.database.prefix').'product_details');
-            $table->foreign('user_id')->references('id')->on(config('badaso.database.prefix').'users');
         });
     }
 

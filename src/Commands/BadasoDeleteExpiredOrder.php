@@ -55,7 +55,7 @@ class BadasoDeleteExpiredOrder extends Command
             $order->expired_at = null;
             $order->save();
 
-            event(new OrderStateWasChanged(auth()->user(), $order));
+            event(new OrderStateWasChanged(auth()->user(), $order, 'cancel'));
         }
     }
 }

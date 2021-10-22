@@ -165,21 +165,21 @@ export default {
     handleSearch(e) {
       this.filter = e.target.value;
       this.page = 1;
-      this.getPaymentProviderList();
+      this.getOrderList();
     },
     handleChangePage(page) {
       this.page = page;
-      this.getPaymentProviderList();
+      this.getOrderList();
     },
     handleChangeLimit(limit) {
       this.page = 1;
       this.limit = limit;
-      this.getPaymentProviderList();
+      this.getOrderList();
     },
     handleSort(field, direction) {
       this.orderField = field;
       this.orderDirection = direction;
-      this.getPaymentProviderList();
+      this.getOrderList();
     },
     handleSelect(data) {
       this.selected = data;

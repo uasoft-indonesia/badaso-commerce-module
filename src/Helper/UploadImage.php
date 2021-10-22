@@ -11,13 +11,13 @@ class UploadImage
     public static function createImage($base64, $path = "")
     {
         try {
-            $image_parts = explode(";base64,", $base64);
-            $image_type_aux = explode("image/", $image_parts[0]);
-            $image_type = $image_type_aux[1];
-            $image_base64 = base64_decode($image_parts[1]);
-            $file = config('lfm.folder_categories.file.folder_name') . '/' . auth()->user()->id . '/' . $path . uniqid(Uuid::uuid(), true) . '.' . $image_type;
+            $file_parts = explode(";base64,", $base64);
+            $file_type_aux = explode("/", $file_parts[0]);
+            $file_type = $file_type_aux[1];
+            $file_base64 = base64_decode($file_parts[1]);
+            $file = config('lfm.folder_categories.file.folder_name') . '/' . auth()->user()->id . '/' . $path . uniqid(Uuid::uuid(), true) . '.' . $file_type;
 
-            Storage::put($file, $image_base64);
+            Storage::put($file, $file_base64);
 
             return $file;
         } catch (Exception $e) {

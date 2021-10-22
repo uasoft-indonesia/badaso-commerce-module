@@ -39,7 +39,7 @@ class CartController extends Controller
             ]);
 
             $product_detail = ProductDetail::where('id', $request->id)->first();
-            
+
             if ($product_detail->quantity <= 0) {
                 return ApiResponse::failed(__('badaso_commerce::validation.stock_not_available'));
             }
@@ -88,7 +88,7 @@ class CartController extends Controller
             if ($request->quantity > $product_detail->quantity) {
                 return ApiResponse::failed(__('badaso_commerce::validation.stock_not_available'));
             }
-            
+
             $cart = Cart::where('id', $request->id)->update([
                 'quantity' => $request->quantity
             ]);
@@ -115,6 +115,27 @@ class CartController extends Controller
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function validate(Request $request)
+    {
+        try {
+            $request->validate([
+                'ids' => 'required',
+            ]);
+
+            $id_list = explode(',', $request->ids);
+
+            foreach ($id_list as $key => $id) {
+                $cart = Cart::find($id);
+                if (is_null($cart)) {
+                    return ApiResponse::success(['cart' => false]);
+                }
+            }
+            return ApiResponse::success(['cart' => true]);
+        } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
     }

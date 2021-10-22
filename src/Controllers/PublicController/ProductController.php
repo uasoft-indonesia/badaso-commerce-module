@@ -4,8 +4,6 @@ namespace Uasoft\Badaso\Module\Commerce\Controllers\PublicController;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Config;
@@ -20,11 +18,22 @@ class ProductController extends Controller
                 'page' => 'sometimes|required|integer',
             ]);
 
-            $products = Product::with('productCategory', 'productDetails.discount')
+            $products = Product::with(['productCategory', 'productDetails.discount', 'productDetails' => function ($query) {
+                return $query->withSum(['orderDetails as sold' => function ($query) {
+                    return $query->whereHas('order', function ($query) {
+                        $query
+                            ->whereIn('status', ['process', 'delivering', 'done'])
+                            ->whereDate('created_at', '>=', now()->startOfMonth())
+                            ->whereDate('created_at', '<=', now()->endOfMonth());
+                    });
+                }], 'quantity');
+            }])
+                ->withAvg('review', 'rating')
+                ->withCount('review')
                 ->latest()
-                ->paginate(Config::get('homeProductLimit'));
-                
-            $data['products'] = $products->toArray();
+                ->paginate(Config::get('homeProductLimit') ?? 30);
+
+            $data['products'] = collect($products)->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -38,14 +47,25 @@ class ProductController extends Controller
                 'slug' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductCategory,slug',
             ]);
 
-            $products = Product::with(['productCategory', 'productDetails'])
+            $products = Product::with(['productCategory', 'productDetails', 'productDetails' => function ($query) {
+                return $query->withSum(['orderDetails as sold' => function ($query) {
+                    return $query->whereHas('order', function ($query) {
+                        $query
+                            ->whereIn('status', ['process', 'delivering', 'done'])
+                            ->whereDate('created_at', '>=', now()->startOfMonth())
+                            ->whereDate('created_at', '<=', now()->endOfMonth());
+                    });
+                }], 'quantity');
+            }])
                 ->whereHas('productCategory', function ($query) use ($request) {
                     $query->where('slug', $request->slug);
                 })
+                ->withAvg('review', 'rating')
+                ->withCount('review')
                 ->inRandomOrder()
                 ->limit(Config::get('similarProductLimit'))
                 ->get();
-                
+
             $data['products'] = $products->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -61,13 +81,55 @@ class ProductController extends Controller
                 'page' => 'sometimes|required|integer',
             ]);
 
-            $products = Product::with(['productCategory', 'productDetails.discount'])
+            $products = Product::with(['productCategory', 'productDetails.discount', 'productDetails' => function ($query) {
+                return $query->withSum(['orderDetails as sold' => function ($query) {
+                    return $query->whereHas('order', function ($query) {
+                        $query
+                            ->whereIn('status', ['process', 'delivering', 'done'])
+                            ->whereDate('created_at', '>=', now()->startOfMonth())
+                            ->whereDate('created_at', '<=', now()->endOfMonth());
+                    });
+                }], 'quantity');
+            }])
                 ->whereHas('productCategory', function ($query) use ($request) {
                     $query->where('slug', $request->slug);
                 })
+                ->withAvg('review', 'rating')
+                ->withCount('review')
                 ->latest()
                 ->paginate(Config::get('homeProductLimit'));
-                
+
+            $data['products'] = collect($products)->toArray();
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function browseBestSellingProduct()
+    {
+        try {
+            $products = Product::with(['productCategory', 'productDetails.discount', 'productDetails' => function ($query) {
+                return $query->withSum(['orderDetails as sold' => function ($query) {
+                    return $query->whereHas('order', function ($query) {
+                        $query
+                            ->whereIn('status', ['process', 'delivering', 'done'])
+                            ->whereDate('created_at', '>=', now()->startOfMonth())
+                            ->whereDate('created_at', '<=', now()->endOfMonth());
+                    });
+                }], 'quantity');
+            }])
+            ->withAvg('review', 'rating')
+            ->withCount('review')
+            ->get()
+            ->sortByDesc(function ($product) {
+                $sold = 0;
+                foreach ($product->productDetails as $key => $productDetail) {
+                    $sold += $productDetail->sold;
+                }
+                return $sold;
+            })->take(Config::get('bestSellingLimit') ?? 30);
+
             $data['products'] = $products->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -82,9 +144,48 @@ class ProductController extends Controller
                 'slug' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Product',
             ]);
 
-            $product = Product::with(['productCategory', 'productDetails.discount'])->where('slug', $request->slug)->first();
+            $product = Product::with(['productCategory', 'productDetails.discount', 'productDetails' => function ($query) {
+                return $query->withSum(['orderDetails as sold' => function ($query) {
+                    return $query->whereHas('order', function ($query) {
+                        $query
+                            ->whereIn('status', ['process', 'delivering', 'done'])
+                            ->whereDate('created_at', '>=', now()->startOfMonth())
+                            ->whereDate('created_at', '<=', now()->endOfMonth());
+                    });
+                }], 'quantity');
+            }])
+            ->withAvg('review', 'rating')
+            ->withCount('review')
+            ->where('slug', $request->slug)
+            ->first();
+
             $data['product'] = $product->toArray();
 
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
+    public function search(Request $request)
+    {
+        try {
+            $request->validate([
+                'keyword' => 'required|string'
+            ]);
+
+            $products = Product::with(['productCategory', 'productDetails.discount', 'productDetails' => function ($query) {
+                return $query->withSum(['orderDetails as sold' => function ($query) {
+                    return $query->whereHas('order', function ($query) {
+                        $query->whereIn('status', ['process', 'delivering', 'done']);
+                    });
+                }], 'quantity');
+            }])
+                ->where('name', 'like', '%' . $request->keyword . '%')
+                ->latest()
+                ->paginate(Config::get('homeProductLimit') ?? 30);
+
+            $data['products'] = collect($products)->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

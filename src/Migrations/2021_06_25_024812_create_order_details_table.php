@@ -15,19 +15,13 @@ class CreateOrderDetailsTable extends Migration
     {
         Schema::create(config('badaso.database.prefix').'order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id');
-            $table->foreignId('product_detail_id');
-            $table->foreignId('discount_id')->nullable();
+            $table->foreignUuid('order_id')->constrained(config('badaso.database.prefix').'orders');
+            $table->foreignId('product_detail_id')->constrained(config('badaso.database.prefix').'product_details');
+            $table->foreignId('discount_id')->nullable()->constrained(config('badaso.database.prefix').'discounts')->onDelete('set null');
             $table->double('price');
             $table->double('discounted');
             $table->bigInteger('quantity');
             $table->timestamps();
-        });
-
-        Schema::table(config('badaso.database.prefix').'order_details', function (Blueprint $table) {
-            $table->foreign('order_id')->references('id')->on(config('badaso.database.prefix').'orders');
-            $table->foreign('product_detail_id')->references('id')->on(config('badaso.database.prefix').'product_details');
-            $table->foreign('discount_id')->references('id')->on(config('badaso.database.prefix').'discounts')->onDelete('set null');
         });
     }
 

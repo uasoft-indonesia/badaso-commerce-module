@@ -46,7 +46,7 @@ class BadasoCommerceModuleServiceProvider extends ServiceProvider
             $schedule = $this->app->make(Schedule::class);
             $schedule
                 ->command('badaso-commerce:delete-expired-order')
-                ->cron(env('CRON_EXPIRED_ORDER') ?? '0 * * * *')
+                ->cron(env('CRON_EXPIRED_ORDER') ?? '*/5 * * * *')
                 ->runInBackground();
         });
     }

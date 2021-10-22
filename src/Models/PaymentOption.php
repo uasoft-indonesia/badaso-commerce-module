@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Uasoft\Badaso\Models\User;
 
-class PaymentProvider extends Model
+class PaymentOption extends Model
 {
     protected $table = null;
 
@@ -16,24 +16,23 @@ class PaymentProvider extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix.'payment_providers';
+        $this->table = $prefix.'payment_options';
         parent::__construct($attributes);
     }
 
-    protected $fillable = [
-        'id',
-        'name',
-        'created_at', 
-        'updated_at', 
+    protected $guarded = [];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     /**
-     * Get the user that owns the UserAddress
+     * Get the payment that owns the PaymentOption
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function payment()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Payment::class);
     }
 }

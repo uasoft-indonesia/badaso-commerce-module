@@ -2,6 +2,7 @@
 
 namespace Uasoft\Badaso\Module\Commerce\Models;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Uasoft\Badaso\Models\User;
@@ -9,6 +10,8 @@ use Uasoft\Badaso\Models\User;
 class Order extends Model
 {
     protected $table = null;
+
+    public $incrementing = false;
 
     /**
      * Constructor for setting the table name dynamically.
@@ -18,6 +21,19 @@ class Order extends Model
         $prefix = config('badaso.database.prefix');
         $this->table = $prefix.'orders';
         parent::__construct($attributes);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            try {
+                $model->id = Str::uuid()->toString();
+            } catch (Exception $e) {
+                abort(500, $e->getMessage());
+            }
+        });
     }
 
     protected $guarded = [];
@@ -30,16 +46,6 @@ class Order extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Get the userAddress that owns the Order
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function userAddress()
-    {
-        return $this->belongsTo(UserAddress::class);
     }
 
     /**
@@ -60,5 +66,15 @@ class Order extends Model
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class, 'order_id', 'id');
+    }
+
+    /**
+     * Get the orderAddress associated with the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function orderAddress()
+    {
+        return $this->hasOne(OrderAddress::class);
     }
 }

@@ -22,7 +22,7 @@ class SendNotificationToUser
             return $query;
         })->firstOrFail();
 
-        $status = $event->order->status;
+        $status = $event->status;
         $title = null;
         $content = null;
         $is_read = 0;
@@ -50,7 +50,7 @@ class SendNotificationToUser
                 break;
             case 'cancel':
                 $title = 'Order has been cancelled';
-                $content = "Your order with number #{$event->order->id} has shipped. Thanks so much for shopping with us.";
+                $content = "Your order with number #{$event->order->id} has been cancelled.";
                 break;
             default:
                 return;

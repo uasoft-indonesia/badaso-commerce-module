@@ -5,14 +5,14 @@
         <vs-button
           color="primary"
           type="relief"
-          :to="{ name: 'PaymentProviderAdd' }"
-          v-if="$helper.isAllowed('add_payment_providers')"
+          :to="{ name: 'PaymentAdd' }"
+          v-if="$helper.isAllowed('add_payments')"
           ><vs-icon icon="add"></vs-icon> {{ $t("action.add") }}</vs-button
         >
         <vs-button
           color="danger"
           type="relief"
-          v-if="selected.length > 0 && $helper.isAllowed('delete_payment_providers')"
+          v-if="selected.length > 0 && $helper.isAllowed('delete_payments')"
           @click.stop
           @click="confirmDeleteMultiple"
           ><vs-icon icon="delete_sweep"></vs-icon>
@@ -20,22 +20,22 @@
         >
       </template>
     </badaso-breadcrumb-row>
-    <vs-row v-if="$helper.isAllowed('browse_payment_providers')">
+    <vs-row v-if="$helper.isAllowed('browse_payments')">
       <vs-col vs-lg="12">
         <vs-card>
           <div slot="header">
-            <h3>{{ $t("paymentProvider.browse.title") }}</h3>
+            <h3>{{ $t("payments.browse.title") }}</h3>
           </div>
           <div>
             <badaso-server-side-table
               v-model="selected"
-              :data="paymentProviders.data"
+              :data="payments.data"
               stripe
-              :pagination-data="paymentProviders"
+              :pagination-data="payments"
               :description-items="descriptionItems"
-              :description-title="$t('paymentProvider.browse.footer.descriptionTitle')"
-              :description-connector="$t('paymentProvider.browse.footer.descriptionConnector')"
-              :description-body="$t('paymentProvider.browse.footer.descriptionBody')"
+              :description-title="$t('payments.browse.footer.descriptionTitle')"
+              :description-connector="$t('payments.browse.footer.descriptionConnector')"
+              :description-body="$t('payments.browse.footer.descriptionBody')"
               @search="handleSearch"
               @changePage="handleChangePage"
               @changeLimit="handleChangeLimit"
@@ -43,22 +43,23 @@
               @sort="handleSort"
             >
               <template slot="thead">
-                <badaso-th sort-key="name"> {{ $t("paymentProvider.browse.header.name") }} </badaso-th>
-                <badaso-th sort-key="createdAt"> {{ $t("paymentProvider.browse.header.createdAt") }} </badaso-th>
-                <badaso-th sort-key="updatedAt"> {{ $t("paymentProvider.browse.header.updatedAt") }} </badaso-th>
-                <vs-th> {{ $t("paymentProvider.browse.header.action") }} </vs-th>
+                <badaso-th sort-key="slug"> {{ $t("payments.browse.header.slug") }} </badaso-th>
+                <badaso-th sort-key="name"> {{ $t("payments.browse.header.name") }} </badaso-th>
+                <badaso-th sort-key="isActive"> {{ $t("payments.browse.header.isActive") }} </badaso-th>
+                <vs-th> {{ $t("payments.browse.header.action") }} </vs-th>
               </template>
 
               <template slot="tbody">
-                <vs-tr :data="paymentProvider" :key="index" v-for="(paymentProvider, index) in paymentProviders.data">
-                  <vs-td :data="paymentProvider.name">
-                    {{ paymentProvider.name }}
+                <vs-tr :data="payment" :key="index" v-for="(payment, index) in payments.data">
+                  <vs-td :data="payment.slug">
+                    {{ payment.slug }}
                   </vs-td>
-                  <vs-td :data="paymentProvider.createdAt">
-                    {{ getDate(paymentProvider.createdAt) }}
+                  <vs-td :data="payment.name">
+                    {{ payment.name }}
                   </vs-td>
-                  <vs-td :data="paymentProvider.updatedAt">
-                    {{ getDate(paymentProvider.updatedAt) }}
+                  <vs-td :data="payment.isActive">
+                    <vs-icon color="success" v-if="payment.isActive == 1" icon="radio_button_checked" />
+                    <vs-icon color="gray" v-else icon="radio_button_unchecked" />
                   </vs-td>
                   <vs-td style="width: 1%; white-space: nowrap">
                     <badaso-dropdown vs-trigger-click>
@@ -69,29 +70,33 @@
                       ></vs-button>
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
-                          icon="visibility"
+                          icon="list"
+                          v-if="$helper.isAllowed('edit_payments')"
                           :to="{
-                            name: 'PaymentProviderRead',
-                            params: { id: paymentProvider.id },
+                            name: 'PaymentOption',
+                            params: { id: payment.id },
                           }"
-                          v-if="$helper.isAllowed('read_payment_providers')"
                         >
-                          Detail
+                          Manage Options
+                        </badaso-dropdown-item>
+                        <badaso-dropdown-item
+                          icon="visibility"
+                          :to="{ name: 'PaymentRead', params: { id: payment.id } }"
+                          v-if="$helper.isAllowed('read_payments')"
+                        >
+                          Read
                         </badaso-dropdown-item>
                         <badaso-dropdown-item
                           icon="edit"
-                          :to="{
-                            name: 'PaymentProviderEdit',
-                            params: { id: paymentProvider.id },
-                          }"
-                          v-if="$helper.isAllowed('edit_payment_providers')"
+                          :to="{ name: 'PaymentEdit', params: { id: payment.id } }"
+                          v-if="$helper.isAllowed('edit_payments')"
                         >
                           Edit
                         </badaso-dropdown-item>
                         <badaso-dropdown-item
                           icon="delete"
-                          @click="confirmDelete(paymentProvider.id)"
-                          v-if="$helper.isAllowed('delete_payment_providers')"
+                          @click="confirmDelete(payment.id)"
+                          v-if="$helper.isAllowed('delete_payments')"
                         >
                           Delete
                         </badaso-dropdown-item>
@@ -109,14 +114,13 @@
 </template>
 
 <script>
-import moment from 'moment'
 export default {
-  name: "PaymentProviderBrowse",
+  name: "PaymentBrowse",
   components: {},
   data() {
     return {
       selected: [],
-      paymentProviders: {
+      payments: {
         data: []
       },
       descriptionItems: [10, 50, 100],
@@ -124,17 +128,15 @@ export default {
       filter: "",
       page: 1,
       limit: 10,
-      orderField: "updated_at",
+      orderField: "updatedAt",
       orderDirection: "desc",
+      willDeleteId: null
     }
   },
   mounted() {
-    this.getPaymentProviderList()
+    this.getPaymentList()
   },
   methods: {
-    getDate(date) {
-      return moment(date).format('DD MMMM YYYY')
-    },
     confirmDelete(id) {
       this.willDeleteId = id;
       this.$vs.dialog({
@@ -142,29 +144,12 @@ export default {
         color: "danger",
         title: this.$t("action.delete.title"),
         text: this.$t("action.delete.text"),
-        accept: this.deletePaymentProvider,
+        accept: this.deletePayment,
         acceptText: this.$t("action.delete.accept"),
         cancelText: this.$t("action.delete.cancel"),
         cancel: () => {
           this.willDeleteId = null;
         },
-      });
-    },
-    deletePaymentProvider() {
-      this.$openLoader();
-      this.$api.badasoPaymentProvider
-      .delete({ id: this.willDeleteId })
-      .then((response) => {
-        this.$closeLoader();
-        this.getPaymentProviderList();
-      })
-      .catch((error) => {
-        this.$closeLoader();
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: error.message,
-          color: "danger",
-        });
       });
     },
     confirmDeleteMultiple(id) {
@@ -173,22 +158,22 @@ export default {
         color: "danger",
         title: this.$t("action.delete.title"),
         text: this.$t("action.delete.text"),
-        accept: this.bulkDeletePaymentProvider,
+        accept: this.bulkDeletePayment,
         acceptText: this.$t("action.delete.accept"),
         cancelText: this.$t("action.delete.cancel"),
         cancel: () => {},
       });
     },
-    bulkDeletePaymentProvider() {
+    bulkDeletePayment() {
       const ids = this.selected.map((item) => item.id);
       this.$openLoader();
-      this.$api.badasoPaymentProvider
+      this.$api.badasoPayment
         .deleteMultiple({
           ids: ids.join(","),
         })
         .then((response) => {
           this.$closeLoader();
-          this.getPaymentProviderList();
+          this.getPaymentList();
         })
         .catch((error) => {
           this.$closeLoader();
@@ -199,14 +184,33 @@ export default {
           });
         });
     },
-    getPaymentProviderList() {
+    deletePayment() {
       this.$openLoader();
-      this.$api.badasoPaymentProvider
-      .browse({ limit: this.limit, page: this.page })
+      this.$api.badasoPayment
+        .delete({ id: this.willDeleteId })
+        .then((response) => {
+          this.$closeLoader();
+          this.getPaymentList();
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
+        });
+    },
+    getPaymentList() {
+      this.$openLoader();
+      this.$api.badasoPayment
+      .browse({
+        page: this.page,
+      })
       .then((response) => {
         this.$closeLoader();
         this.selected = [];
-        this.paymentProviders = response.data.paymentProviders;
+        this.payments = response.data.payments;
       })
       .catch((error) => {
         this.$closeLoader();
@@ -220,21 +224,21 @@ export default {
     handleSearch(e) {
       this.filter = e.target.value;
       this.page = 1;
-      this.getPaymentProviderList();
+      this.getPaymentList();
     },
     handleChangePage(page) {
       this.page = page;
-      this.getPaymentProviderList();
+      this.getPaymentList();
     },
     handleChangeLimit(limit) {
       this.page = 1;
       this.limit = limit;
-      this.getPaymentProviderList();
+      this.getPaymentList();
     },
     handleSort(field, direction) {
       this.orderField = field;
       this.orderDirection = direction;
-      this.getPaymentProviderList();
+      this.getPaymentList();
     },
     handleSelect(data) {
       this.selected = data;

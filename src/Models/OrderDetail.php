@@ -30,4 +30,24 @@ class OrderDetail extends Model
     {
         return $this->belongsTo(ProductDetail::class);
     }
+
+    /**
+     * Get the order that owns the OrderDetail
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    /**
+     * Get the review associated with the OrderDetail
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function review()
+    {
+        return $this->hasOne(ProductReview::class);
+    }
 }

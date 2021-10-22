@@ -25,9 +25,17 @@ import DiscountAdd from "./discount/add";
 import DiscountRead from "./discount/read";
 import DiscountEdit from "./discount/edit";
 
+import PaymentBrowse from "./payment/browse";
+import PaymentAdd from "./payment/add";
+import PaymentRead from "./payment/read";
+import PaymentEdit from "./payment/edit";
+import PaymentOption from "./payment/option";
+
 import OrderBrowse from "./order/browse";
 import OrderConfirm from "./order/confirm";
 
+import ProductReviewBrowse from "./review/browse";
+import ProductReviewRead from "./review/read";
 
 import CartBrowse from "./cart/browse";
 import CartRead from "./cart/read";
@@ -42,15 +50,28 @@ export default {
   components: {
     ProductBrowse,
     ProductBrowseBin,
+    ProductAdd,
     ProductRead,
+    ProductEdit,
+    ProductCategoryBrowse,
+    ProductCategoryBrowseBin,
     ProductCategoryAdd,
+    ProductCategoryRead,
+    ProductCategoryEdit,
     DiscountBrowse,
     DiscountBrowseBin,
     DiscountAdd,
     DiscountRead,
     DiscountEdit,
+    PaymentBrowse,
+    PaymentAdd,
+    PaymentRead,
+    PaymentEdit,
+    PaymentOption,
     OrderBrowse,
     OrderConfirm,
+    ProductReviewBrowse,
+    ProductReviewRead,
     CartBrowse,
     CartRead,
     UserAddressBrowse,

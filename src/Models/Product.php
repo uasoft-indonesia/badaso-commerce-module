@@ -60,4 +60,14 @@ class Product extends Model
     {
         return ProductFactory::new();
     }
+
+    /**
+     * Get all of the review for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function review()
+    {
+        return $this->hasMany(ProductReview::class);
+    }
 }

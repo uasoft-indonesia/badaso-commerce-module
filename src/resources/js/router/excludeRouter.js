@@ -23,5 +23,12 @@ export default [
   'CartRead',
   'UserAddressBrowse',
   'UserAddressRead',
-  'CommerceConfiguration'
+  'CommerceConfiguration',
+  'ProductReviewBrowse',
+  'ProductReviewRead',
+  'PaymentBrowse',
+  'PaymentRead',
+  'PaymentEdit',
+  'PaymentAdd',
+  'PaymentOption',
 ]

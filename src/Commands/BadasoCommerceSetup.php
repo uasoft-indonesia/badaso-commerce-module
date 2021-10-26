@@ -71,6 +71,9 @@ class BadasoCommerceSetup extends Command
     {
         return [
             'COMMERCE_PRODUCTS_LIMIT_QUERY' => '',
+            'MIX_ANALYTICS_ACCOUNT_ID' => '',
+            'MIX_ANALYTICS_WEBPROPERTY_ID' => '',
+            'MIX_ANALYTICS_VIEW_ID' => '',
         ];
     }
 

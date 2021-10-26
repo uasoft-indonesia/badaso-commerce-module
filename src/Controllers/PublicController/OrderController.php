@@ -16,8 +16,10 @@ use Uasoft\Badaso\Module\Commerce\Helper\UploadImage;
 use Uasoft\Badaso\Module\Commerce\Models\Cart;
 use Uasoft\Badaso\Module\Commerce\Models\Discount;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
+use Uasoft\Badaso\Module\Commerce\Models\OrderAddress;
 use Uasoft\Badaso\Module\Commerce\Models\OrderDetail;
 use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
+use Uasoft\Badaso\Module\Commerce\Models\PaymentOption;
 use Uasoft\Badaso\Module\Commerce\Models\ProductDetail;
 use Uasoft\Badaso\Module\Commerce\Models\UserAddress;
 use Webpatser\Uuid\Uuid;
@@ -35,10 +37,10 @@ class OrderController extends Controller
                             return $query
                                 ->select(['id', 'product_id', 'name', 'product_image'])
                                 ->with(['product' => function ($query) {
-                                    return $query->select(['id', 'name']);
+                                    return $query->select(['id', 'name', 'slug']);
                                 }]);
                         }]);
-                }])
+                }, 'orderDetails.review', 'orderPayment'])
                 ->where('user_id', auth()->user()->id)
                 ->latest()
                 ->get();
@@ -57,12 +59,15 @@ class OrderController extends Controller
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id'
             ]);
 
-            $order = Order::with('orderDetails.productDetail.product')
+            $order = Order::with(['orderDetails.productDetail.product', 'orderPayment', 'orderAddress'])
                 ->where('id', $request->id)
                 ->where('user_id', auth()->user()->id)
                 ->firstOrFail();
 
+            $payment_option = PaymentOption::where('slug', $order->orderPayment->payment_type)->first();
+
             $data['order'] = $order->toArray();
+            $data['payment_option'] = $payment_option;
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -76,11 +81,11 @@ class OrderController extends Controller
             $request->validate([
                 'items' => 'required|array|exists:Uasoft\Badaso\Module\Commerce\Models\Cart,id',
                 'user_address_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\UserAddress,id',
-                'payment_type' => 'required|string|max:255',
+                'payment_type' => 'required|string|max:255|exists:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,slug',
                 'message' => 'nullable|string'
             ]);
 
-            $user_address = UserAddress::select('recipient_name', 'address_line1', 'address_line2', 'city', 'postal_code', 'country', 'phone_number')->find($request->user_address_id);
+            $user_address = UserAddress::select('recipient_name', 'address_line1', 'address_line2', 'city', 'postal_code', 'country', 'phone_number')->where('id', $request->user_address_id)->where('user_id', auth()->user()->id)->firstOrFail();
             $total_discounted = 0;
             $total = 0;
             $status = 'waitingBuyerPayment';
@@ -93,6 +98,11 @@ class OrderController extends Controller
             foreach ($request->items as $key => $item) {
                 $cart = Cart::find($item);
                 $product_detail = ProductDetail::with('discount')->findOrFail($cart->product_detail_id);
+
+                if ($cart->quantity > $product_detail->quantity) {
+                    throw new Exception("Out of stock");
+                }
+
                 $discount = null;
                 $discounted = 0;
                 if ($product_detail->discount_id) {
@@ -103,7 +113,7 @@ class OrderController extends Controller
                         }
 
                         if ($discount->discount_type === 'percent') {
-                            $discounted = $product_detail->price * $discount->discount_percent / 100 * $cart->quantity;
+                            $discounted = round($product_detail->price * $discount->discount_percent / 100) * $cart->quantity;
                         }
                     }
                 }
@@ -112,12 +122,9 @@ class OrderController extends Controller
                 $total += $product_detail->price * $cart->quantity;
             }
 
-            $order_replicated = $user_address
-                ->replicate([
-                    'id'
-                ])->toArray();
+            $order_replicated = $user_address->replicate(['id'])->toArray();
 
-            $order = Order::create(array_merge([
+            $order = Order::create([
                 'user_id' => auth()->user()->id,
                 'discounted' => $total_discounted,
                 'total' => $total,
@@ -128,8 +135,16 @@ class OrderController extends Controller
                     ? Carbon::now()->addDays(Config::get('commerceExpiredOrderDay'))
                     : null,
                 'message' => $request->message,
-                'payment_type' => $request->paymentType
+            ]);
+
+            OrderAddress::create(array_merge([
+                'order_id' => $order->id
             ], $order_replicated));
+
+            OrderPayment::create([
+                'order_id' => $order->id,
+                'payment_type' => $request->payment_type
+            ]);
 
             foreach ($request->items as $key => $item) {
                 $cart = Cart::find($item);
@@ -143,7 +158,7 @@ class OrderController extends Controller
                             $discounted = $discount->discount_fixed;
                         }
                         if ($discount->discount_type === 'percent') {
-                            $discounted = $product_detail->price * $discount->discount_percent / 100;
+                            $discounted = round($product_detail->price * $discount->discount_percent / 100);
                         }
                     }
                 }
@@ -161,9 +176,9 @@ class OrderController extends Controller
                 $product_detail->save();
 
                 Cart::where('id', $item)->delete();
-
-                event(new OrderStateWasChanged(auth()->user(), $order));
             }
+
+            event(new OrderStateWasChanged(auth()->user(), $order, 'waitingBuyerPayment'));
 
             DB::commit();
             return ApiResponse::success(['order' => $order->id]);
@@ -203,13 +218,14 @@ class OrderController extends Controller
                     'destination_bank' => $request->destination_bank,
                     'account_number' => $request->account_number,
                     'total_transfered' => $request->total_transfered,
+                    'payment_type' => 'manual-transfer'
                 ]);
 
                 $order->status = 'waitingSellerConfirmation';
                 $order->expired_at = null;
                 $order->save();
 
-                event(new OrderStateWasChanged(auth()->user(), $order));
+                event(new OrderStateWasChanged(auth()->user(), $order, 'waitingSellerConfirmation'));
 
                 DB::commit();
             } else {

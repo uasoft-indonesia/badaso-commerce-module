@@ -13,10 +13,14 @@ class BadasoCommerceModuleSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(CommerceMenusSeeder::class);
-        $this->call(CommerceFixedMenuItemSeeder::class);
-        $this->call(CommercePermissionsSeeder::class);
-        $this->call(CommerceRolePermissionsSeeder::class);
-        $this->call(CommerceSiteManagementSeeder::class);
+        $this->call([
+            CommerceMenusSeeder::class,
+            CommerceFixedMenuItemSeeder::class,
+            CommercePermissionsSeeder::class,
+            CommerceRolePermissionsSeeder::class,
+            CommerceSiteManagementSeeder::class,
+            CommercePaymentsSeeder::class,
+            CommercePaymentOptionsSeeder::class,
+        ]);
     }
 }

@@ -1,5 +1,9 @@
 <?php
 
 return [
-    'products_limit_on_query' => env('COMMERCE_PRODUCTS_LIMIT_QUERY', 10),
+    /*
+     * This array of class will be registered as payment gateway
+     * to the commerce module when this application is started.
+     */
+    'payments' => []
 ];

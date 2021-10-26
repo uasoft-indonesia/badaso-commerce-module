@@ -2,7 +2,9 @@
 
 namespace Database\Seeders\Badaso\Commerce;
 
+use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Models\Configuration;
 
 class CommerceSiteManagementSeeder extends Seeder
@@ -16,7 +18,7 @@ class CommerceSiteManagementSeeder extends Seeder
      */
     public function run()
     {
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $countries = <<<'TXT'
@@ -1025,7 +1027,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'commerceHasExpiredOrder',
                     'display_name' => 'Has Expired Order',
                     'value' => 1,
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'switch',
                     'order' => 1,
                     'group' => 'commercePanel',
@@ -1035,7 +1037,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'commerceExpiredOrderDay',
                     'display_name' => 'Expired Order Day',
                     'value' => '1',
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'number',
                     'order' => 2,
                     'group' => 'commercePanel',
@@ -1045,7 +1047,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'commerceLimitUserAddresses',
                     'display_name' => 'Limit User Addresses',
                     'value' => '3',
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'number',
                     'order' => 3,
                     'group' => 'commercePanel',
@@ -1055,7 +1057,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'commerceUseFixRateShippingCost',
                     'display_name' => 'Use Fix Rate Shipping Cost',
                     'value' => 1,
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'switch',
                     'order' => 4,
                     'group' => 'commercePanel',
@@ -1065,7 +1067,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'commerceFixRateShippingCost',
                     'display_name' => 'Fix Rate Shipping Cost',
                     'value' => '35000',
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'number',
                     'order' => 5,
                     'group' => 'commercePanel',
@@ -1075,7 +1077,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'allowedCountries',
                     'display_name' => 'Allowed Countries',
                     'value' => $countries,
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'code',
                     'order' => 6,
                     'group' => 'commercePanel',
@@ -1085,7 +1087,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'currencyPrecision',
                     'display_name' => 'Currency Precision',
                     'value' => 0,
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'number',
                     'order' => 7,
                     'group' => 'commercePanel',
@@ -1095,7 +1097,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'currencyDecimal',
                     'display_name' => 'Currency Decimal',
                     'value' => ',',
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'text',
                     'order' => 8,
                     'group' => 'commercePanel',
@@ -1105,7 +1107,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'currencySeparator',
                     'display_name' => 'Currency Separator',
                     'value' => '.',
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'text',
                     'order' => 9,
                     'group' => 'commercePanel',
@@ -1115,7 +1117,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'currencySymbol',
                     'display_name' => 'Currency Symbol',
                     'value' => 'Rp',
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'text',
                     'order' => 10,
                     'group' => 'commercePanel',
@@ -1125,7 +1127,7 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'homeProductLimit',
                     'display_name' => 'Home Product Limit',
                     'value' => 30,
-                    'details' => '{}',
+                    'details' => '',
                     'type' => 'number',
                     'order' => 11,
                     'group' => 'commercePanel',
@@ -1135,30 +1137,50 @@ class CommerceSiteManagementSeeder extends Seeder
                     'key' => 'paymentBank',
                     'display_name' => 'Payment Bank',
                     'value' => '{ "name": "lorem", "displayName": "Bank Lorem", "accountNumber": "123457890", "accountName": "John Doe" }',
-                    'details' => null,
+                    'details' => '',
                     'type' => 'code',
                     'order' => 12,
-                    'group' => 'commerceThemePanel',
+                    'group' => 'commercePanel',
                     'can_delete' => 0,
                 ],
                 12 => [
                     'key' => 'availableBanks',
                     'display_name' => 'Available Banks',
                     'value' => '{ "lorem": "Bank Lorem", "ipsum": "Bank Ipsum", "dolor": "Bank Dolor" }',
-                    'details' => null,
+                    'details' => '',
                     'type' => 'code',
                     'order' => 13,
-                    'group' => 'commerceThemePanel',
+                    'group' => 'commercePanel',
                     'can_delete' => 0,
                 ],
                 13 => [
                     'key' => 'notificationBrowseLimit',
                     'display_name' => 'Notification Browse Limit',
                     'value' => 10,
-                    'details' => null,
+                    'details' => '',
                     'type' => 'number',
                     'order' => 14,
-                    'group' => 'commerceThemePanel',
+                    'group' => 'commercePanel',
+                    'can_delete' => 0,
+                ],
+                14 => [
+                    'key' => 'bestSellingLimit',
+                    'display_name' => 'Best Selling Limit',
+                    'value' => 24,
+                    'details' => '',
+                    'type' => 'number',
+                    'order' => 15,
+                    'group' => 'commercePanel',
+                    'can_delete' => 0,
+                ],
+                15 => [
+                    'key' => 'topSearchedProductLimit',
+                    'display_name' => 'Top Searched Product Limit',
+                    'value' => 5,
+                    'details' => '',
+                    'type' => 'number',
+                    'order' => 16,
+                    'group' => 'commercePanel',
                     'can_delete' => 0,
                 ],
             ];
@@ -1167,10 +1189,10 @@ class CommerceSiteManagementSeeder extends Seeder
                 Configuration::where('key', $value['key'])->delete();
                 Configuration::create($value);
             }
-            \DB::commit();
+            DB::commit();
         } catch (Exception $e) {
             throw new Exception('Exception occur ' . $e);
-            \DB::rollBack();
+            DB::rollBack();
         }
     }
 }

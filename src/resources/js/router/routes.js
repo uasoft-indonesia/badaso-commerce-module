@@ -144,6 +144,52 @@ export default [
   },
 
   {
+    path: prefix + "/payment",
+    name: "PaymentBrowse",
+    component: Pages,
+    meta: {
+      title: "Browse Payment",
+      useComponent: "AdminContainer"
+    },
+  },
+  {
+    path: prefix + "/payment/:id/detail",
+    name: "PaymentRead",
+    component: Pages,
+    meta: {
+      title: "Detail Payment",
+      useComponent: "AdminContainer"
+    },
+  },
+  {
+    path: prefix + "/payment/:id/edit",
+    name: "PaymentEdit",
+    component: Pages,
+    meta: {
+      title: "Edit Payment",
+      useComponent: "AdminContainer"
+    },
+  },
+  {
+    path: prefix + "/payment/add",
+    name: "PaymentAdd",
+    component: Pages,
+    meta: {
+      title: "Add Payment",
+      useComponent: "AdminContainer"
+    },
+  },
+  {
+    path: prefix + "/payment/:id/option",
+    name: "PaymentOption",
+    component: Pages,
+    meta: {
+      title: "Edit Payment Option",
+      useComponent: "AdminContainer"
+    },
+  },
+
+  {
     path: prefix + "/order",
     name: "OrderBrowse",
     component: Pages,
@@ -196,6 +242,25 @@ export default [
     component: Pages,
     meta: {
       title: "Detail User Address",
+      useComponent: "AdminContainer"
+    },
+  },
+
+  {
+    path: prefix + "/review",
+    name: "ProductReviewBrowse",
+    component: Pages,
+    meta: {
+      title: "Browse Product Review",
+      useComponent: "AdminContainer"
+    },
+  },
+  {
+    path: prefix + "/review/:id/detail",
+    name: "ProductReviewRead",
+    component: Pages,
+    meta: {
+      title: "Detail Product Review",
       useComponent: "AdminContainer"
     },
   },

@@ -11,15 +11,27 @@ class BadasoCommerceModule
         'discounts',
         'orders',
         'order_details',
-        'payment_details',
+        'order_payments',
         'carts',
         'user_addresses',
-        'user_payments',
-        'payment_providers',
+    ];
+
+    protected $protected_payments = [
+        'card',
+        'bank-transfer',
+        'e-money',
+        'direct-debit',
+        'convenience-store',
+        'cardless-credit'
     ];
 
     public function getProtectedTables()
     {
         return $this->protected_tables;
+    }
+
+    public function getProtectedPayments()
+    {
+        return $this->protected_payments;
     }
 }

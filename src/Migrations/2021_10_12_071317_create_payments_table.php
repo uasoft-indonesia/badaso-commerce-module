@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePaymentProvidersTable extends Migration
+class CreatePaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreatePaymentProvidersTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('badaso.database.prefix').'payment_providers', function (Blueprint $table) {
+        Schema::create(config('badaso.database.prefix').'payments', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
+            $table->string('name');
+            $table->string('slug')->unique();
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ class CreatePaymentProvidersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('badaso.database.prefix').'payment_providers');
+        Schema::dropIfExists(config('badaso.database.prefix').'payments');
     }
 }

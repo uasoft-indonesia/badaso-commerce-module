@@ -49,7 +49,7 @@ class UserAddressController extends Controller
                 'city' => 'required|string|max:255',
                 'postal_code' => 'required|string|max:10',
                 'country' => 'required|string|size:2',
-                'phone_number' => 'nullable|string|max:15',
+                'phone_number' => 'required|string|max:15',
             ]);
 
             DB::beginTransaction();
@@ -94,7 +94,7 @@ class UserAddressController extends Controller
                 'city' => 'required|string|max:255',
                 'postal_code' => 'required|string|max:10',
                 'country' => 'required|string|size:2',
-                'phone_number' => 'nullable|string|max:15',
+                'phone_number' => 'required|string|max:15',
             ]);
 
             DB::beginTransaction();

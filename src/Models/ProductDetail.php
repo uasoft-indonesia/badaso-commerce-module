@@ -46,6 +46,16 @@ class ProductDetail extends Model
         return $this->belongsTo(Product::class);
     }
 
+    /**
+     * Get all of the orderDetails for the ProductDetail
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
     protected static function newFactory()
     {
         return ProductDetailFactory::new();

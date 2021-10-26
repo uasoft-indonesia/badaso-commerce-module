@@ -580,4 +580,139 @@ export default {
       multiple: "Update Configurations",
     },
   },
+  productReview: {
+    browse: {
+      title: "Product Review",
+      header: {
+        name: "Product Name",
+        orderDate: "Order Date",
+        email: "Email",
+        rating: "Rating",
+        createdAt: "Created At",
+        updatedAt: "Updated At",
+        action: "Action"
+      },
+      footer: {
+        descriptionTitle: "Registries",
+        descriptionConnector: "of",
+        descriptionBody: "Pages",
+      },
+    },
+    detail: {
+      title: "Detail Product Review",
+      header: {
+        name: "Product Name",
+        orderDate: "Order Date",
+        email: "Email",
+        rating: "Rating",
+        review: "Review",
+        media: "Media",
+        createdAt: "Created At",
+        updatedAt: "Updated At",
+        action: "Action"
+      },
+    }
+  },
+  payments: {
+    browse: {
+      title: "Payments",
+      header: {
+        name: "Name",
+        slug: "Slug",
+        isActive: "Active",
+        action: "Action"
+      },
+      footer: {
+        descriptionTitle: "Registries",
+        descriptionConnector: "of",
+        descriptionBody: "Pages",
+      },
+    },
+    add: {
+      title: "Add Payment",
+      field: {
+        name: {
+          title: "Name",
+          placeholder: "Name"
+        },
+        slug: {
+          title: "Slug",
+          placeholder: "Slug"
+        },
+        isActive: {
+          title: "Active",
+          placeholder: "Active"
+        },
+      },
+      button: "Save"
+    },
+    edit: {
+      title: "Edit Payment",
+      field: {
+        name: {
+          title: "Name",
+          placeholder: "Name"
+        },
+        slug: {
+          title: "Slug",
+          placeholder: "Slug"
+        },
+        isActive: {
+          title: "Active",
+          placeholder: "Active"
+        },
+      },
+      button: "Save"
+    },
+    detail: {
+      title: "Detail Discount",
+      header: {
+        name: "Discount Name",
+        desc: "Description",
+        discountType: "Discount Type",
+        discountPercent: "Discount Percent",
+        discountFixed: "Discount Fixed",
+        active: "Active",
+        createdAt: "Created At",
+        updatedAt: "Updated At",
+        deletedAt: "Deleted At",
+        action: "Action"
+      },
+    },
+    option: {
+      title: "Payment Option",
+      popup: {
+        add: {
+          title: "Add Payment Option",
+          field: {
+            name: "Name",
+            slug: "Slug",
+            description: "Description",
+            image: "Image",
+            isActive: "Active",
+            order: "order",
+          },
+          button: {
+            cancel: "Cancel",
+            add: "Add"
+          }
+        },
+        edit: {
+          title: "Edit Payment Option",
+          field: {
+            name: "Name",
+            slug: "Slug",
+            description: "Description",
+            image: "Image",
+            isActive: "Active",
+            order: "order",
+          },
+          button: {
+            cancel: "Cancel",
+            edit: "Edit"
+          }
+        }
+      }
+    }
+  },
 };

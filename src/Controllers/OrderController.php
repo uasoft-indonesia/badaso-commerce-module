@@ -78,7 +78,7 @@ class OrderController extends Controller
                 $order->expired_at = null;
                 $order->save();
 
-                event(new OrderStateWasChanged(auth()->user(), $order));
+                event(new OrderStateWasChanged(auth()->user(), $order, 'process'));
 
                 return ApiResponse::success();
             }
@@ -110,8 +110,8 @@ class OrderController extends Controller
                 $order->expired_at = null;
                 $order->save();
 
-                event(new OrderStateWasChanged(auth()->user(), $order));
-
+                event(new OrderStateWasChanged(auth()->user(), $order, 'cancel'));
+                
                 return ApiResponse::success();
             }
 
@@ -135,7 +135,7 @@ class OrderController extends Controller
                 $order->tracking_number = $request->tracking_number;
                 $order->save();
 
-                event(new OrderStateWasChanged(auth()->user(), $order));
+                event(new OrderStateWasChanged(auth()->user(), $order, 'delivering'));
 
                 return ApiResponse::success();
             }
@@ -158,7 +158,7 @@ class OrderController extends Controller
                 $order->status = 'done';
                 $order->save();
 
-                event(new OrderStateWasChanged(auth()->user(), $order));
+                event(new OrderStateWasChanged(auth()->user(), $order, 'done'));
 
                 return ApiResponse::success();
             }

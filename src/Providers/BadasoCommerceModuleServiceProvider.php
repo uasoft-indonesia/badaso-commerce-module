@@ -36,6 +36,7 @@ class BadasoCommerceModuleServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../Seeder' => database_path('seeders/Badaso/Commerce'),
+            __DIR__.'/../Config/badaso-commerce.php' => config_path('badaso-commerce.php'),
         ], 'BadasoCommerce');
 
         $this->publishes([

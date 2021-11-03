@@ -47,6 +47,7 @@ class BadasoCommerceSetup extends Command
         $this->addCommerceTablesToHiddenTables();
         $this->linkStorage();
         $this->generateSwagger();
+        $this->updatePackageJson();
     }
 
     protected function generateSwagger()

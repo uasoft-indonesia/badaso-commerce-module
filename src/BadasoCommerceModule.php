@@ -2,7 +2,10 @@
 
 namespace Uasoft\Badaso\Module\Commerce;
 
-class BadasoCommerceModule
+use Uasoft\Badaso\Module\Commerce\Abstracts\BadasoPayment as AbstractsBadasoPayment;
+use Uasoft\Badaso\Module\Commerce\Interfaces\BadasoPayment;
+
+class BadasoCommerceModule extends AbstractsBadasoPayment implements BadasoPayment
 {
     protected $protected_tables = [
         'products',
@@ -17,20 +20,20 @@ class BadasoCommerceModule
     ];
 
     protected $protected_payments = [
-        'card',
-        'bank-transfer',
-        'e-money',
-        'direct-debit',
-        'convenience-store',
-        'cardless-credit'
+        'manual-transfer'
     ];
+
+    public function getPaymentSlug()
+    {
+        return $this->protected_payments;
+    }
 
     public function getProtectedTables()
     {
         return $this->protected_tables;
     }
 
-    public function getProtectedPayments()
+    public function getProtectedPaymentSlug()
     {
         return $this->protected_payments;
     }

@@ -96,7 +96,7 @@ class ReviewController extends Controller
                 foreach ($request->media as $key => $media) {
                     $filename[] = UploadImage::createImage($media, 'review/');
                 }
-                $review->media = json_encode($filename);
+                $review->media = array_values($filename);
                 $review->save();
             }
 

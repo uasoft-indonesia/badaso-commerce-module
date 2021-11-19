@@ -58,7 +58,7 @@ class UserAddressController extends Controller
             $user_addresses_total = UserAddress::where('user_id', auth()->user()->id)->count();
 
             if ($user_addresses_total < $limit) {
-                UserAddress::create([
+                $user_address = UserAddress::create([
                     'user_id' => auth()->user()->id,
                     'recipient_name' => $request->recipient_name,
                     'address_line1' => $request->address_line1,
@@ -76,7 +76,7 @@ class UserAddressController extends Controller
             }
 
             DB::commit();
-            return ApiResponse::success();
+            return ApiResponse::success($user_address->only(['id']));
         } catch (Exception $e) {
             DB::rollback();
             return ApiResponse::failed($e);

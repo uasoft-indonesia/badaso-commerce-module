@@ -167,6 +167,25 @@ class ProductController extends Controller
         }
     }
 
+    public function readSimple(Request $request)
+    {
+        try {
+            $request->validate([
+                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Product,id',
+            ]);
+
+            $product = Product::with(['productCategory', 'productDetails.discount'])
+                ->where('id', $request->id)
+                ->firstOrFail();
+
+            $data['product'] = $product->toArray();
+
+            return ApiResponse::success($data);
+        } catch (Exception $e) {
+            return ApiResponse::failed($e);
+        }
+    }
+
     public function search(Request $request)
     {
         try {

@@ -101,6 +101,40 @@ class CartController extends Controller
         }
     }
 
+    public function editCart(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Cart',
+                'product_detail_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductDetail,id',
+                'quantity' => "required|min:0|integer"
+            ]);
+
+            $cart = Cart::where('id', $request->id)
+                ->where('user_id', auth()->user()->id)
+                ->first();
+
+            $product_detail = ProductDetail::where('id', $cart->product_detail_id)
+                ->first();
+
+            if ($request->quantity > $product_detail->quantity) {
+                return ApiResponse::failed(__('badaso_commerce::validation.stock_not_available'));
+            }
+
+            $cart = Cart::where('id', $request->id)->update([
+                'quantity' => $request->quantity,
+                'product_detail_id' => $request->product_detail_id
+            ]);
+
+            DB::commit();
+            return ApiResponse::success();
+        } catch (Exception $e) {
+            DB::rollback();
+            return ApiResponse::failed($e);
+        }
+    }
+
     public function delete(Request $request)
     {
         DB::beginTransaction();

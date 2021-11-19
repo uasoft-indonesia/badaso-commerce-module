@@ -1,5 +1,5 @@
 <template>
-  <div @click="$router.push({ name: 'PaymentInfo', params: { id: order.id } })">
+  <div @click="emit">
     <slot />
   </div>
 </template>
@@ -8,6 +8,14 @@
 export default {
   props: {
     order: Object
+  },
+  methods: {
+    emit() {
+      this.$emit("input", this.redirect);
+    },
+    redirect(res) {
+      this.$inertia.visit(this.route('badaso.commerce-theme.payment-info', this.order.id))
+    },
   },
 }
 </script>

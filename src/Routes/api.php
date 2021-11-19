@@ -107,6 +107,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
             Route::get('/browse-category-slug', 'PublicController\ProductController@browseByCategorySlug');
             Route::get('/browse-similar', 'PublicController\ProductController@browseSimilar');
             Route::get('/read', 'PublicController\ProductController@read');
+            Route::get('/read-by-cart', 'PublicController\ProductController@readSimple');
             Route::get('/search', 'PublicController\ProductController@search');
             Route::get('/best-selling', 'PublicController\ProductController@browseBestSellingProduct');
         });
@@ -120,6 +121,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
             Route::get('/', 'PublicController\CartController@browse');
             Route::post('/add', 'PublicController\CartController@add');
             Route::put('/edit', 'PublicController\CartController@edit');
+            Route::put('/edit-cart', 'PublicController\CartController@editCart');
             Route::delete('/delete', 'PublicController\CartController@delete');
             Route::post('/validate', 'PublicController\CartController@validate');
         });
@@ -131,7 +133,7 @@ Route::group(['prefix' => $api_route_prefix, 'namespace' => 'Uasoft\Badaso\Modul
             Route::post('/finish', 'PublicController\OrderController@finish');
         });
 
-        Route::group(['prefix' => 'review/public', 'middleware' => [BadasoAuthenticate::class]], function () {
+        Route::group(['prefix' => 'review/public'], function () {
             Route::get('/', 'PublicController\ReviewController@browse');
             Route::post('/submit', 'PublicController\ReviewController@submit');
             Route::get('/read', 'PublicController\ReviewController@read');

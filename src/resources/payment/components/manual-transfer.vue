@@ -16,12 +16,7 @@ export default {
       this.$emit("checkout", this.redirect);
     },
     redirect(res) {
-      this.$router.push({
-        name: "PaymentInfo",
-        params: {
-          id: res.data.order,
-        },
-      });
+      this.$inertia.visit(this.route('badaso.commerce-theme.payment-info', res.data.order))
     },
   },
 };

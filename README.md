@@ -31,4 +31,7 @@ MIX_BADASO_MENU=admin,commerce-module
 
 - Fill the other variables in .env file.
   - `COMMERCE_PRODUCTS_LIMIT_QUERY=10` Limit query browse on product, default is 10.
+  - `MIX_PAYMENT_MODULE=commerce-module` Register the payment module.
 
+- Fill the payment config in `badaso-commerce.php`. For example:
+  - `'payments' => ['Uasoft\Badaso\Module\Midtrans\BadasoMidtransModule']`

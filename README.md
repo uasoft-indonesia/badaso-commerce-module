@@ -34,4 +34,4 @@ MIX_BADASO_MENU=admin,commerce-module
   - `MIX_PAYMENT_MODULE=commerce-module` Register the payment module.
 
 - Fill the payment config in `badaso-commerce.php`. For example:
-  - `'payments' => ['Uasoft\Badaso\Module\Midtrans\BadasoMidtransModule']`
+  - `'payments' => ['Uasoft\Badaso\Module\Commerce\BadasoCommerceModule']`

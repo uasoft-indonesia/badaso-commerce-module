@@ -79,6 +79,9 @@ class ProductController extends Controller
             $request->validate([
                 'slug' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductCategory,slug',
                 'page' => 'sometimes|required|integer',
+                'min' => 'nullable|integer',
+                'max' => 'nullable|integer',
+                'rating' => 'nullable|integer',
             ]);
 
             $products = Product::with(['productCategory', 'productDetails.discount', 'productDetails' => function ($query) {
@@ -89,15 +92,31 @@ class ProductController extends Controller
                             ->whereDate('created_at', '>=', now()->startOfMonth())
                             ->whereDate('created_at', '<=', now()->endOfMonth());
                     });
-                }], 'quantity');
+                }], 'quantity')
+                    ->when(request('min'), function ($query) {
+                        return $query->where('price', '>=', request('min'));
+                    })->when(request('max'), function ($query) {
+                        return $query->where('price', '<=', request('max'));
+                    });
             }])
                 ->whereHas('productCategory', function ($query) use ($request) {
                     $query->where('slug', $request->slug);
                 })
                 ->withAvg('review', 'rating')
                 ->withCount('review')
-                ->latest()
-                ->paginate(Config::get('homeProductLimit'));
+                ->latest();
+
+            // filter the $products with rating
+            if (request('rating')) {
+                $products = $products->paginate(Config::get('homeProductLimit') ?? 30);
+                $products = collect($products)->toArray();
+                $products['data'] = collect($products['data'])->filter(function ($product) {
+                    $rating = (int) $product['review_avg_rating'];
+                    return $rating >= request('rating');
+                });                
+            } else {
+                $products = $products->paginate(Config::get('homeProductLimit') ?? 30);
+            }
 
             $data['products'] = collect($products)->toArray();
             return ApiResponse::success($data);
@@ -119,16 +138,16 @@ class ProductController extends Controller
                     });
                 }], 'quantity');
             }])
-            ->withAvg('review', 'rating')
-            ->withCount('review')
-            ->get()
-            ->sortByDesc(function ($product) {
-                $sold = 0;
-                foreach ($product->productDetails as $key => $productDetail) {
-                    $sold += $productDetail->sold;
-                }
-                return $sold;
-            })->take(Config::get('bestSellingLimit') ?? 30);
+                ->withAvg('review', 'rating')
+                ->withCount('review')
+                ->get()
+                ->sortByDesc(function ($product) {
+                    $sold = 0;
+                    foreach ($product->productDetails as $key => $productDetail) {
+                        $sold += $productDetail->sold;
+                    }
+                    return $sold;
+                })->take(Config::get('bestSellingLimit') ?? 30);
 
             $data['products'] = $products->toArray();
             return ApiResponse::success($data);
@@ -154,10 +173,10 @@ class ProductController extends Controller
                     });
                 }], 'quantity');
             }])
-            ->withAvg('review', 'rating')
-            ->withCount('review')
-            ->where('slug', $request->slug)
-            ->first();
+                ->withAvg('review', 'rating')
+                ->withCount('review')
+                ->where('slug', $request->slug)
+                ->first();
 
             $data['product'] = $product->toArray();
 

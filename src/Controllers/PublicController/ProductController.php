@@ -81,7 +81,7 @@ class ProductController extends Controller
                 'page' => 'sometimes|required|integer',
                 'min' => 'nullable|integer',
                 'max' => 'nullable|integer',
-                'rating' => 'nullable|integer',
+                'rating' => 'nullable',
             ]);
 
             $products = Product::with(['productCategory', 'productDetails.discount', 'productDetails' => function ($query) {
@@ -107,13 +107,14 @@ class ProductController extends Controller
                 ->latest();
 
             // filter the $products with rating
-            if (request('rating')) {
+            if ((int) $request->rating > 0) {
                 $products = $products->paginate(Config::get('homeProductLimit') ?? 30);
                 $products = collect($products)->toArray();
                 $products['data'] = collect($products['data'])->filter(function ($product) {
                     $rating = (int) $product['review_avg_rating'];
+                    dd($rating >= request('rating'));
                     return $rating >= request('rating');
-                });                
+                });
             } else {
                 $products = $products->paginate(Config::get('homeProductLimit') ?? 30);
             }
@@ -209,19 +210,43 @@ class ProductController extends Controller
     {
         try {
             $request->validate([
-                'keyword' => 'required|string'
+                'keyword' => 'required|string',
+                'page' => 'sometimes|required|integer',
+                'min' => 'nullable|integer',
+                'max' => 'nullable|integer',
+                'rating' => 'nullable|integer',
             ]);
 
             $products = Product::with(['productCategory', 'productDetails.discount', 'productDetails' => function ($query) {
                 return $query->withSum(['orderDetails as sold' => function ($query) {
                     return $query->whereHas('order', function ($query) {
-                        $query->whereIn('status', ['process', 'delivering', 'done']);
+                        $query
+                            ->whereIn('status', ['process', 'delivering', 'done'])
+                            ->whereDate('created_at', '>=', now()->startOfMonth())
+                            ->whereDate('created_at', '<=', now()->endOfMonth());
                     });
-                }], 'quantity');
+                }], 'quantity')
+                    ->when(request('min'), function ($query) {
+                        return $query->where('price', '>=', request('min'));
+                    })->when(request('max'), function ($query) {
+                        return $query->where('price', '<=', request('max'));
+                    });
             }])
+                ->withAvg('review', 'rating')
                 ->where('name', 'like', '%' . $request->keyword . '%')
-                ->latest()
-                ->paginate(Config::get('homeProductLimit') ?? 30);
+                ->withCount('review')
+                ->latest();
+
+            if ((int) $request->rating > 0) {
+                $products = $products->paginate(Config::get('homeProductLimit') ?? 30);
+                $products = collect($products)->toArray();
+                $products['data'] = collect($products['data'])->filter(function ($product) {
+                    $rating = (int) $product['review_avg_rating'];
+                    return $rating >= request('rating');
+                });
+            } else {
+                $products = $products->paginate(Config::get('homeProductLimit') ?? 30);
+            }
 
             $data['products'] = collect($products)->toArray();
             return ApiResponse::success($data);

@@ -9,7 +9,7 @@ slug: /
   <a href="https://badaso-docs.uatech.co.id/">
     <img src="img/badaso-commerce-logo.png" width="150px" alt="Badaso logo" />  
   </a>
-  <p>badaso/commerce-module</p>
+  <p><b>badaso/commerce-module</b></p>
 </p>
 
 <p align="left">Official commerce module for <a href="https://github.com/uasoft-indonesia/badaso">badaso</a></p>

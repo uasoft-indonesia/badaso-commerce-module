@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Installation
 
-1. Instal badaso dulu. Setelah itu, Anda dapat menginstal modul dengan perintah berikut.
+1. Instal [badaso](https://badaso-docs.uatech.co.id/getting-started/installation) dulu. Setelah itu, Anda dapat menginstal modul dengan perintah berikut.
 
 ```bash
 composer require badaso/commerce-module

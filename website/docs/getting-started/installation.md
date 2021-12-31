@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Installation
 
-1. Install badaso first. After that, you can install the module with the following command.
+1. Install [badaso](https://badaso-docs.uatech.co.id/getting-started/installation) first. After that, you can install the module with the following command.
 
 ```bash
 composer require badaso/commerce-module

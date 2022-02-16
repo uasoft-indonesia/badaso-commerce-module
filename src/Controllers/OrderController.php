@@ -25,7 +25,7 @@ class OrderController extends Controller
             $orders = Order::when($request->relation, function ($query) use ($request) {
                 return $query->with(explode(',', $request->relation));
             })->orderBy('id', 'desc')->paginate($request->limit ?? 10);
-            
+
             $data['orders'] = $orders->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -111,7 +111,7 @@ class OrderController extends Controller
                 $order->save();
 
                 event(new OrderStateWasChanged(auth()->user(), $order, 'cancel'));
-                
+
                 return ApiResponse::success();
             }
 

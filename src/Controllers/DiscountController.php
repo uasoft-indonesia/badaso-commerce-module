@@ -25,7 +25,7 @@ class DiscountController extends Controller
             } else {
                 $discount = Discount::all();
             }
-            
+
             $data['discounts'] = $discount->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -46,7 +46,7 @@ class DiscountController extends Controller
             } else {
                 $discount = Discount::onlyTrashed()->get();
             }
-            
+
             $data['discounts'] = $discount->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -63,8 +63,8 @@ class DiscountController extends Controller
                 'name' => 'required|string|max:255',
                 'desc' => 'nullable|string',
                 'discount_type' => 'required|in:fixed,percent',
-                'discount_percent' => ['nullable', 'integer', 'max:100', 'min:0', 'string', Rule::requiredIf($request->discount_type === 'percent')],
-                'discount_fixed' => ['nullable', 'integer', 'min:0', 'string', Rule::requiredIf($request->discount_type === 'fixed')],
+                'discount_percent' => ['nullable', 'integer', 'max:100', 'min:0', Rule::requiredIf($request->discount_type === 'percent')],
+                'discount_fixed' => ['nullable', 'integer', 'min:0',  Rule::requiredIf($request->discount_type === 'fixed')],
                 'active' => 'required|boolean',
             ]);
 
@@ -151,8 +151,8 @@ class DiscountController extends Controller
                 'name' => 'required|string|max:255',
                 'desc' => 'nullable|string',
                 'discount_type' => 'required|in:fixed,percent',
-                'discount_percent' => ['nullable', 'integer', 'max:100', 'min:0', 'string', Rule::requiredIf($request->discount_type === 'percent')],
-                'discount_fixed' => ['nullable', 'integer', 'min:0', 'string', Rule::requiredIf($request->discount_type === 'fixed')],
+                'discount_percent' => ['nullable', 'integer', 'max:100', 'min:0', Rule::requiredIf($request->discount_type === 'percent')],
+                'discount_fixed' => ['nullable', 'integer', 'min:0', Rule::requiredIf($request->discount_type === 'fixed')],
                 'active' => 'required|boolean',
             ]);
 
@@ -255,7 +255,7 @@ class DiscountController extends Controller
             $id_list = explode(',', $request->ids);
 
             DB::beginTransaction();
-            
+
             $discounts = Discount::withTrashed()->whereIn('id', $id_list)->get();
 
             foreach ($discounts as $discount) {

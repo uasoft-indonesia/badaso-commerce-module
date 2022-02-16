@@ -15,6 +15,7 @@ class ProductController extends Controller
 {
     public function browse(Request $request)
     {
+
         try {
             $request->validate([
                 'page' => 'sometimes|required|integer',
@@ -31,7 +32,7 @@ class ProductController extends Controller
                     return $query->with(explode(',', $request->relation));
                 })->get();
             }
-            
+
             $data['products'] = $products->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -57,7 +58,7 @@ class ProductController extends Controller
                     return $query->with(explode(',', $request->relation));
                 })->get();
             }
-            
+
             $data['products'] = $products->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -106,7 +107,7 @@ class ProductController extends Controller
                     'product_image' => $item['product_image'],
                 ]);
             }
-            
+
             DB::commit();
 
             return ApiResponse::success($product);
@@ -296,7 +297,7 @@ class ProductController extends Controller
             $id_list = explode(',', $request->ids);
 
             DB::beginTransaction();
-            
+
             $products = Product::withTrashed()->whereIn('id', $id_list)->get();
 
             foreach ($products as $product) {

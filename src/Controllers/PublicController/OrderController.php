@@ -86,6 +86,7 @@ class OrderController extends Controller
             ]);
 
             $user_address = UserAddress::select('recipient_name', 'address_line1', 'address_line2', 'city', 'postal_code', 'country', 'phone_number')->where('id', $request->user_address_id)->where('user_id', auth()->user()->id)->firstOrFail();
+            // dd($user_address);
             $total_discounted = 0;
             $total = 0;
             $status = 'waitingBuyerPayment';
@@ -96,12 +97,15 @@ class OrderController extends Controller
             }
 
             foreach ($request->items as $key => $item) {
-                $cart = Cart::find($item);
+                $cart = Cart::find($item['id']);
+
                 $product_detail = ProductDetail::with('discount')->findOrFail($cart->product_detail_id);
 
                 if ($cart->quantity > $product_detail->quantity) {
                     throw new Exception("Out of stock");
                 }
+
+                // dd($cart->product_detail_id);
 
                 $discount = null;
                 $discounted = 0;

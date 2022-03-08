@@ -6,8 +6,6 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Config;
@@ -22,7 +20,6 @@ use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
 use Uasoft\Badaso\Module\Commerce\Models\PaymentOption;
 use Uasoft\Badaso\Module\Commerce\Models\ProductDetail;
 use Uasoft\Badaso\Module\Commerce\Models\UserAddress;
-use Webpatser\Uuid\Uuid;
 
 class OrderController extends Controller
 {
@@ -46,6 +43,7 @@ class OrderController extends Controller
                 ->get();
 
             $data['orders'] = $orders->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -56,7 +54,7 @@ class OrderController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id'
+                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
             ]);
 
             $order = Order::with(['orderDetails.productDetail.product', 'orderPayment', 'orderAddress'])
@@ -68,6 +66,7 @@ class OrderController extends Controller
 
             $data['order'] = $order->toArray();
             $data['payment_option'] = $payment_option;
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -82,7 +81,7 @@ class OrderController extends Controller
                 'items' => 'required|array|exists:Uasoft\Badaso\Module\Commerce\Models\Cart,id',
                 'user_address_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\UserAddress,id',
                 'payment_type' => 'required|string|max:255|exists:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,slug',
-                'message' => 'nullable|string'
+                'message' => 'nullable|string',
             ]);
 
             $user_address = UserAddress::select('recipient_name', 'address_line1', 'address_line2', 'city', 'postal_code', 'country', 'phone_number')->where('id', $request->user_address_id)->where('user_id', auth()->user()->id)->firstOrFail();
@@ -102,7 +101,7 @@ class OrderController extends Controller
                 $product_detail = ProductDetail::with('discount')->findOrFail($cart->product_detail_id);
 
                 if ($cart->quantity > $product_detail->quantity) {
-                    throw new Exception("Out of stock");
+                    throw new Exception('Out of stock');
                 }
 
                 // dd($cart->product_detail_id);
@@ -142,12 +141,12 @@ class OrderController extends Controller
             ]);
 
             OrderAddress::create(array_merge([
-                'order_id' => $order->id
+                'order_id' => $order->id,
             ], $order_replicated));
 
             OrderPayment::create([
                 'order_id' => $order->id,
-                'payment_type' => $request->payment_type
+                'payment_type' => $request->payment_type,
             ]);
 
             foreach ($request->items as $key => $item) {
@@ -155,7 +154,7 @@ class OrderController extends Controller
                 $product_detail = ProductDetail::findOrFail($cart->product_detail_id);
                 $discount = null;
                 $discounted = 0;
-                if (!empty($product_detail->discount_id)) {
+                if (! empty($product_detail->discount_id)) {
                     $discount = Discount::findOrFail($product_detail->discount_id);
                     if ($discount->active === 1 || $discount->active === '1') {
                         if ($discount->discount_type === 'fixed') {
@@ -185,9 +184,11 @@ class OrderController extends Controller
             event(new OrderStateWasChanged(auth()->user(), $order, 'waitingBuyerPayment'));
 
             DB::commit();
+
             return ApiResponse::success(['order' => $order->id]);
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -214,7 +215,7 @@ class OrderController extends Controller
             $url = null;
 
             if ($order->status == 'waitingBuyerPayment' && now()->lessThan(Carbon::create($order->expired_at))) {
-                $url = UploadImage::createImage($request->proof_of_transaction, "proof/");
+                $url = UploadImage::createImage($request->proof_of_transaction, 'proof/');
                 OrderPayment::create([
                     'order_id' => $order->id,
                     'proof_of_transaction' => $url,
@@ -222,7 +223,7 @@ class OrderController extends Controller
                     'destination_bank' => $request->destination_bank,
                     'account_number' => $request->account_number,
                     'total_transfered' => $request->total_transfered,
-                    'payment_type' => 'manual-transfer'
+                    'payment_type' => 'manual-transfer',
                 ]);
 
                 $order->status = 'waitingSellerConfirmation';
@@ -234,12 +235,14 @@ class OrderController extends Controller
                 DB::commit();
             } else {
                 DB::rollback();
+
                 return ApiResponse::failed(__('badaso_commerce::validation.order_is_failed'));
             }
 
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }

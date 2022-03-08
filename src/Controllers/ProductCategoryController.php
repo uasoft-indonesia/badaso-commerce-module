@@ -24,8 +24,9 @@ class ProductCategoryController extends Controller
             } else {
                 $product_category = ProductCategory::with('children')->get();
             }
-            
+
             $data['product_categories'] = $product_category->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -45,8 +46,9 @@ class ProductCategoryController extends Controller
             } else {
                 $product_category = ProductCategory::onlyTrashed()->with('children')->get();
             }
-            
+
             $data['product_categories'] = $product_category->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -64,7 +66,7 @@ class ProductCategoryController extends Controller
                 'slug' => 'required|string|max:255|unique:Uasoft\Badaso\Module\Commerce\Models\ProductCategory',
                 'desc' => 'nullable|string',
                 'SKU' => 'nullable|string|max:255|unique:Uasoft\Badaso\Module\Commerce\Models\ProductCategory',
-                'image' => 'nullable|string'
+                'image' => 'nullable|string',
             ]);
 
             $product = ProductCategory::create($request->all());
@@ -116,6 +118,7 @@ class ProductCategoryController extends Controller
             }
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
@@ -151,7 +154,7 @@ class ProductCategoryController extends Controller
                 'name' => 'required|string|max:255',
                 'desc' => 'nullable|string',
                 'SKU' => 'nullable|string|max:255',
-                'image' => 'nullable|string'
+                'image' => 'nullable|string',
             ]);
 
             $product_category = ProductCategory::find($request->id);
@@ -252,7 +255,7 @@ class ProductCategoryController extends Controller
             $id_list = explode(',', $request->ids);
 
             DB::beginTransaction();
-            
+
             $product_categories = ProductCategory::withTrashed()->whereIn('id', $id_list)->get();
 
             foreach ($product_categories as $product_category) {
@@ -260,6 +263,7 @@ class ProductCategoryController extends Controller
             }
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();

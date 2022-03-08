@@ -26,7 +26,7 @@ class CommercePermissionsSeeder extends Seeder
             'restore_product_details',
             'delete_permanent_product_details',
             'browse_commerce_configurations',
-            'confirm_orders'
+            'confirm_orders',
         ];
 
         foreach ($keys as $key) {

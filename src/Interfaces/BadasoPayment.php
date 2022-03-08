@@ -2,22 +2,19 @@
 
 namespace Uasoft\Badaso\Module\Commerce\Interfaces;
 
-use Illuminate\Http\Request;
-use Uasoft\Badaso\Helpers\ApiResponse;
-
 interface BadasoPayment
 {
     /**
-     * Get all payment slugs
+     * Get all payment slugs.
      *
-     * @return Array List of all payment options
+     * @return array List of all payment options
      */
     public function getPaymentSlug();
 
     /**
-     * Get all protected payment slugs
+     * Get all protected payment slugs.
      *
-     * @return Array List of all protected payment options
+     * @return array List of all protected payment options
      */
     public function getProtectedPaymentSlug();
 }

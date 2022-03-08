@@ -2,9 +2,8 @@
 
 namespace Uasoft\Badaso\Module\Commerce\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 use Bezhanov\Faker\ProviderCollectionHelper;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Uasoft\Badaso\Module\Commerce\Models\Discount;
 
 class DiscountFactory extends Factory

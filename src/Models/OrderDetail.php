@@ -3,7 +3,6 @@
 namespace Uasoft\Badaso\Module\Commerce\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class OrderDetail extends Model
 {
@@ -22,7 +21,7 @@ class OrderDetail extends Model
     protected $guarded = [];
 
     /**
-     * Get the productDetail that owns the ProductDetail
+     * Get the productDetail that owns the ProductDetail.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -32,7 +31,7 @@ class OrderDetail extends Model
     }
 
     /**
-     * Get the order that owns the OrderDetail
+     * Get the order that owns the OrderDetail.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -42,7 +41,7 @@ class OrderDetail extends Model
     }
 
     /**
-     * Get the review associated with the OrderDetail
+     * Get the review associated with the OrderDetail.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

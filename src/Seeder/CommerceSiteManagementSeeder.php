@@ -12,9 +12,9 @@ class CommerceSiteManagementSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @throws Exception
-     *
      * @return void
+     *
+     * @throws Exception
      */
     public function run()
     {
@@ -1191,7 +1191,7 @@ class CommerceSiteManagementSeeder extends Seeder
             }
             DB::commit();
         } catch (Exception $e) {
-            throw new Exception('Exception occur ' . $e);
+            throw new Exception('Exception occur '.$e);
             DB::rollBack();
         }
     }

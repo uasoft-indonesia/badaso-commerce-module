@@ -22,8 +22,9 @@ class NotificationController extends Controller
                 ->where('receiver_user_id', auth()->user()->id)
                 ->latest()
                 ->paginate(Config::get('notificationBrowseLimit'));
-                
+
             $data['notifications'] = $notifications->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -43,9 +44,9 @@ class NotificationController extends Controller
                 ->firstOrFail();
 
             $notification->update([
-                'is_read' => 1
+                'is_read' => 1,
             ]);
-                
+
             return ApiResponse::success();
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -61,10 +62,10 @@ class NotificationController extends Controller
 
             foreach ($notifications as $key => $notification) {
                 $notification->update([
-                    'is_read' => 1
+                    'is_read' => 1,
                 ]);
             }
-                
+
             return ApiResponse::success();
         } catch (Exception $e) {
             return ApiResponse::failed($e);

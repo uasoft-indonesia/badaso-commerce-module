@@ -27,7 +27,7 @@ class PaymentController extends Controller
                     $this->slugs[] = $slug;
                 }
             } else {
-                throw new Exception("Class in badaso commerce payment config must be instance of BadasoPayment abstract & interface");
+                throw new Exception('Class in badaso commerce payment config must be instance of BadasoPayment abstract & interface');
             }
         }
     }
@@ -42,6 +42,7 @@ class PaymentController extends Controller
             $payments = Payment::paginate(15);
 
             $data['payments'] = $payments->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -72,12 +73,12 @@ class PaymentController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Payment,id',
-                'name' => "required|string|max:255",
+                'name' => 'required|string|max:255',
                 'slug' => "required|string|max:255|unique:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,slug",
-                'description' => "nullable|string|max:255",
-                'image' => "nullable|string",
-                'order' => "required|numeric|min:1",
-                'is_active' => "required|boolean",
+                'description' => 'nullable|string|max:255',
+                'image' => 'nullable|string',
+                'order' => 'required|numeric|min:1',
+                'is_active' => 'required|boolean',
             ]);
 
             $option = PaymentOption::create([
@@ -164,11 +165,11 @@ class PaymentController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,id',
-                'name' => "required|string|max:255",
-                'description' => "nullable|string|max:255",
-                'image' => "nullable|string",
-                'order' => "required|numeric|min:1",
-                'is_active' => "required|boolean",
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string|max:255',
+                'image' => 'nullable|string',
+                'order' => 'required|numeric|min:1',
+                'is_active' => 'required|boolean',
             ]);
 
             $option = PaymentOption::where('id', $request->id)
@@ -203,14 +204,13 @@ class PaymentController extends Controller
                 ->whereNotIn('slug', $this->slugs)
                 ->first();
 
-            if (!is_null($option)) {
+            if (! is_null($option)) {
                 foreach ($request->payment_options as $index => $item) {
                     $payment_option = PaymentOption::find($item['id']);
                     $payment_option->order = $item['order'];
                     $payment_option->save();
                 }
             }
-
 
             DB::commit();
 
@@ -239,6 +239,7 @@ class PaymentController extends Controller
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }

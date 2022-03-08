@@ -12,10 +12,10 @@ class BadasoCommerceModuleEventServiceProvider extends EventServiceProvider
 {
     protected $listen = [
         OrderStateWasChanged::class => [
-            SendNotificationToUser::class
+            SendNotificationToUser::class,
         ],
         GoogleAnalytics::class => [
-            SendHit::class
-        ]
+            SendHit::class,
+        ],
     ];
 }

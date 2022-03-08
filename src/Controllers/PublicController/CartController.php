@@ -5,8 +5,6 @@ namespace Uasoft\Badaso\Module\Commerce\Controllers\PublicController;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Commerce\Models\Cart;
@@ -33,9 +31,9 @@ class CartController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductDetail',
-                'quantity' => "required|min:0|integer"
+                'quantity' => 'required|min:0|integer',
             ], [
-                'id.required' => 'You have to select one of the variant!'
+                'id.required' => 'You have to select one of the variant!',
             ]);
 
             $product_detail = ProductDetail::where('id', $request->id)->first();
@@ -65,9 +63,11 @@ class CartController extends Controller
             }
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -78,7 +78,7 @@ class CartController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Cart',
-                'quantity' => "required|min:0|integer"
+                'quantity' => 'required|min:0|integer',
             ]);
 
             $cart = Cart::where('id', $request->id)->where('user_id', auth()->user()->id)->first();
@@ -90,13 +90,15 @@ class CartController extends Controller
             }
 
             $cart = Cart::where('id', $request->id)->update([
-                'quantity' => $request->quantity
+                'quantity' => $request->quantity,
             ]);
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -108,7 +110,7 @@ class CartController extends Controller
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Cart',
                 'product_detail_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductDetail,id',
-                'quantity' => "required|min:0|integer"
+                'quantity' => 'required|min:0|integer',
             ]);
 
             $cart = Cart::where('id', $request->id)
@@ -124,13 +126,15 @@ class CartController extends Controller
 
             $cart = Cart::where('id', $request->id)->update([
                 'quantity' => $request->quantity,
-                'product_detail_id' => $request->product_detail_id
+                'product_detail_id' => $request->product_detail_id,
             ]);
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -146,9 +150,11 @@ class CartController extends Controller
             $cart = Cart::where('id', $request->id)->delete();
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -168,6 +174,7 @@ class CartController extends Controller
                     return ApiResponse::success(['cart' => false]);
                 }
             }
+
             return ApiResponse::success(['cart' => true]);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

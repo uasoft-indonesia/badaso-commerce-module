@@ -3,23 +3,12 @@
 namespace Uasoft\Badaso\Module\Commerce\Tests\Feature;
 
 use Carbon\Carbon;
-use Tests\TestCase;
-use Illuminate\Support\Str;
-use Uasoft\Badaso\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
-use Illuminate\Foundation\Testing\WithFaker;
+use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Uasoft\Badaso\Module\Commerce\Models\Cart;
-use Uasoft\Badaso\Module\Commerce\Models\Discount;
-use Uasoft\Badaso\Module\Commerce\Models\OrderAddress;
-use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
-use Uasoft\Badaso\Module\Commerce\Models\PaymentOption;
-use Uasoft\Badaso\Module\Commerce\Models\Product;
-use Uasoft\Badaso\Module\Commerce\Models\ProductCategory;
-use Uasoft\Badaso\Module\Commerce\Models\ProductDetail;
-use Uasoft\Badaso\Module\Commerce\Models\UserAddress;
 
 class BadasoCommerceApiOrderTest extends TestCase
 {
@@ -38,13 +27,12 @@ class BadasoCommerceApiOrderTest extends TestCase
         $ids = [];
         $orders = [];
         for ($index = 0; $index < 3; $index++) {
-
             $name = Str::uuid();
             $user = User::create([
                 'name' => $name,
                 'username' => $name,
-                'email' => $name . "@mail.com",
-                'password' => Hash::make("secret"),
+                'email' => $name.'@mail.com',
+                'password' => Hash::make('secret'),
                 'avatar' => 'photos/shares/default-user.png',
                 'additional_info' => null,
             ]);
@@ -56,8 +44,8 @@ class BadasoCommerceApiOrderTest extends TestCase
                 'shipping_cost' => 0,
                 'payed' => 10,
                 'status' => 'process',
-                'message' => 'yes' . $index,
-                'expired_at' => Carbon::now()
+                'message' => 'yes'.$index,
+                'expired_at' => Carbon::now(),
             ]);
             $ids[] = $order->id;
             $orders[] = $order;
@@ -66,7 +54,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $count_order = Order::all()->count();
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order', [
             'page' => 1,
-            'limit' => $count_order
+            'limit' => $count_order,
         ]);
         $response->assertSuccessful();
         foreach ($orders as $key => $order_key) {
@@ -80,8 +68,8 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . "@mail.com",
-            'password' => Hash::make("secret"),
+            'email' => $name.'@mail.com',
+            'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
         ]);
@@ -94,11 +82,11 @@ class BadasoCommerceApiOrderTest extends TestCase
             'payed' => 10,
             'status' => 'process',
             'message' => 'yes',
-            'expired_at' => Carbon::now()
+            'expired_at' => Carbon::now(),
         ]);
         $order_id = $order->id;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order/read', [
-            'id' => $order_id
+            'id' => $order_id,
         ]);
         $response->assertSuccessful();
         $order->forceDelete();
@@ -110,8 +98,8 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . "@mail.com",
-            'password' => Hash::make("secret"),
+            'email' => $name.'@mail.com',
+            'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
         ]);
@@ -124,11 +112,11 @@ class BadasoCommerceApiOrderTest extends TestCase
             'payed' => 10,
             'status' => 'waitingSellerConfirmation',
             'message' => 'yes',
-            'expired_at' => Carbon::tomorrow()
+            'expired_at' => Carbon::tomorrow(),
         ]);
         $order_id = $order->id;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/confirm', [
-            'id' => $order_id
+            'id' => $order_id,
         ]);
         $response->assertSuccessful();
         $order->forceDelete();
@@ -140,8 +128,8 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . "@mail.com",
-            'password' => Hash::make("secret"),
+            'email' => $name.'@mail.com',
+            'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
         ]);
@@ -155,14 +143,14 @@ class BadasoCommerceApiOrderTest extends TestCase
             'status' => 'waitingSellerConfirmation',
             'message' => 'yes',
             'cancel_message' => 'test',
-            'expired_at' => Carbon::tomorrow()
+            'expired_at' => Carbon::tomorrow(),
         ]);
         $order_id = $order->id;
         $order_cancel_message = $order->cancel_message;
 
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/reject', [
             'id' => $order_id,
-            'cancel_message' => $order_cancel_message
+            'cancel_message' => $order_cancel_message,
         ]);
         $response->assertSuccessful();
         $order->forceDelete();
@@ -174,8 +162,8 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . "@mail.com",
-            'password' => Hash::make("secret"),
+            'email' => $name.'@mail.com',
+            'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
         ]);
@@ -190,13 +178,13 @@ class BadasoCommerceApiOrderTest extends TestCase
             'tracking_number' => '10003642868793',
             'message' => 'yes',
             'cancel_message' => 'test',
-            'expired_at' => Carbon::tomorrow()
+            'expired_at' => Carbon::tomorrow(),
         ]);
         $order_id = $order->id;
         $tracking_order = $order->tracking_number;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/ship', [
             'id' => $order_id,
-            'tracking_number' => $tracking_order
+            'tracking_number' => $tracking_order,
         ]);
         $response->assertSuccessful();
     }
@@ -207,8 +195,8 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . "@mail.com",
-            'password' => Hash::make("secret"),
+            'email' => $name.'@mail.com',
+            'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
         ]);
@@ -223,11 +211,11 @@ class BadasoCommerceApiOrderTest extends TestCase
             'tracking_number' => 'LOREM12312323',
             'message' => 'yes',
             'cancel_message' => 'test',
-            'expired_at' => Carbon::tomorrow()
+            'expired_at' => Carbon::tomorrow(),
         ]);
         $order_id = $order->id;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/done', [
-            'id' => $order_id
+            'id' => $order_id,
         ]);
         $response->assertSuccessful();
         $order->forceDelete();
@@ -250,14 +238,14 @@ class BadasoCommerceApiOrderTest extends TestCase
                 'payed' => 10,
                 'status' => 'delivering',
                 'tracking_number' => 'LOREM12312323',
-                'message' => 'yes' . $index,
-                'cancel_message' => 'test' . $index,
-                'expired_at' => Carbon::tomorrow()
+                'message' => 'yes'.$index,
+                'cancel_message' => 'test'.$index,
+                'expired_at' => Carbon::tomorrow(),
             ]);
             $ids[] = $order->id;
             $orders[] = $order;
         }
-        $join_id = join(",", $ids);
+        $join_id = join(',', $ids);
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order/public');
         $response->assertSuccessful();
 
@@ -269,8 +257,6 @@ class BadasoCommerceApiOrderTest extends TestCase
             $data_order->forceDelete();
         }
     }
-
-
 
     public function testFinishPublicOrder()
     {
@@ -293,7 +279,7 @@ class BadasoCommerceApiOrderTest extends TestCase
             'tracking_number' => 'LOREM12312323',
             'message' => 'yes',
             'cancel_message' => 'test',
-            'expired_at' => Carbon::now()->addMonths(3)
+            'expired_at' => Carbon::now()->addMonths(3),
         ]);
         $order_id = $order->id;
         $request_order = [
@@ -308,7 +294,6 @@ class BadasoCommerceApiOrderTest extends TestCase
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/public/pay', $request_order);
         $response->assertSuccessful();
     }
-
 
     public function testEditOrderAddressPublic()
     {

@@ -20,7 +20,7 @@ class BadasoCommerceModule extends AbstractsBadasoPayment implements BadasoPayme
     ];
 
     protected $protected_payments = [
-        'manual-transfer'
+        'manual-transfer',
     ];
 
     public function getPaymentSlug()

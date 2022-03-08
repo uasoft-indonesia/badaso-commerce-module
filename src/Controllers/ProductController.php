@@ -5,7 +5,6 @@ namespace Uasoft\Badaso\Module\Commerce\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Commerce\Models\Product;
@@ -19,7 +18,7 @@ class ProductController extends Controller
             $request->validate([
                 'page' => 'sometimes|required|integer',
                 'limit' => 'sometimes|required|integer',
-                'relation' => 'nullable'
+                'relation' => 'nullable',
             ]);
 
             if ($request->has('page') || $request->has('limit')) {
@@ -31,8 +30,9 @@ class ProductController extends Controller
                     return $query->with(explode(',', $request->relation));
                 })->get();
             }
-            
+
             $data['products'] = $products->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -45,7 +45,7 @@ class ProductController extends Controller
             $request->validate([
                 'page' => 'sometimes|required|integer',
                 'limit' => 'sometimes|required|integer',
-                'relation' => 'nullable'
+                'relation' => 'nullable',
             ]);
 
             if ($request->has('page') || $request->has('limit')) {
@@ -57,8 +57,9 @@ class ProductController extends Controller
                     return $query->with(explode(',', $request->relation));
                 })->get();
             }
-            
+
             $data['products'] = $products->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -106,7 +107,7 @@ class ProductController extends Controller
                     'product_image' => $item['product_image'],
                 ]);
             }
-            
+
             DB::commit();
 
             return ApiResponse::success($product);
@@ -157,6 +158,7 @@ class ProductController extends Controller
             }
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
@@ -170,7 +172,7 @@ class ProductController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Product',
-                'relation' => 'nullable'
+                'relation' => 'nullable',
             ]);
 
             $product = Product::when($request->relation, function ($query) use ($request) {
@@ -296,7 +298,7 @@ class ProductController extends Controller
             $id_list = explode(',', $request->ids);
 
             DB::beginTransaction();
-            
+
             $products = Product::withTrashed()->whereIn('id', $id_list)->get();
 
             foreach ($products as $product) {
@@ -305,6 +307,7 @@ class ProductController extends Controller
             }
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();

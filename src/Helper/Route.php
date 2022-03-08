@@ -10,8 +10,8 @@ class Route
         $controllers = config('badaso-commerce.controllers');
 
         // if the key is not found, return $key
-        if (!isset($controllers[$key])) {
-            return 'Uasoft\\Badaso\\Module\\Commerce\\Controllers\\' . $key;
+        if (! isset($controllers[$key])) {
+            return 'Uasoft\\Badaso\\Module\\Commerce\\Controllers\\'.$key;
         }
 
         // return the value of the key

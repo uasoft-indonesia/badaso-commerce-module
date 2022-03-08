@@ -8,7 +8,7 @@ return [
     'payments' => [],
 
     /**
-     * Override the controllers
+     * Override the controllers.
      */
     'controllers' => [],
 ];

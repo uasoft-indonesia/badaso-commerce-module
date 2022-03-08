@@ -25,8 +25,9 @@ class DiscountController extends Controller
             } else {
                 $discount = Discount::all();
             }
-            
+
             $data['discounts'] = $discount->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -46,8 +47,9 @@ class DiscountController extends Controller
             } else {
                 $discount = Discount::onlyTrashed()->get();
             }
-            
+
             $data['discounts'] = $discount->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -117,6 +119,7 @@ class DiscountController extends Controller
             }
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
@@ -255,7 +258,7 @@ class DiscountController extends Controller
             $id_list = explode(',', $request->ids);
 
             DB::beginTransaction();
-            
+
             $discounts = Discount::withTrashed()->whereIn('id', $id_list)->get();
 
             foreach ($discounts as $discount) {
@@ -263,6 +266,7 @@ class DiscountController extends Controller
             }
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();

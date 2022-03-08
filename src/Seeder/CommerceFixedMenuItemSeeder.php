@@ -11,9 +11,9 @@ class CommerceFixedMenuItemSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @throws Exception
-     *
      * @return void
+     *
+     * @throws Exception
      */
     public function run()
     {
@@ -121,7 +121,7 @@ class CommerceFixedMenuItemSeeder extends Seeder
                     'parent_id' => null,
                     'order' => 9,
                     'permissions' => 'browse_commerce_configurations',
-                ]
+                ],
             ];
 
             $new_menu_items = [];

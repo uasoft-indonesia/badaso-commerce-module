@@ -79,7 +79,7 @@ jobs:
         run: git branch &&
           cd laravel &&
           composer require badaso/core:^2.0 &&
-          composer require badaso/post-module:dev-${GITHUB_HEAD_REF} &&
+          composer require badaso/commerce-module:dev-${GITHUB_HEAD_REF} &&
           composer update --no-interaction
 
       # Mysql | Laravel setup
@@ -147,5 +147,5 @@ jobs:
       # Pgsql | Badaso Post Module test
       - name: Pgsql | Badaso Post Module test
         run: cd laravel && php artisan test
-        
-        
+
+

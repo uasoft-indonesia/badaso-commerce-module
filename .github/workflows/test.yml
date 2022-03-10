@@ -112,15 +112,15 @@ jobs:
       - name: Sqlite | Laravel setup
         run: cd laravel &&
           php artisan badaso:setup --force &&
-          php artisan badaso-post:setup  &&
-          php artisan badaso-post-test:setup  &&
+          php artisan badaso-commerce:setup  &&
+          php artisan badaso-commerce-test:setup  &&
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder"
 
-      # Sqlite | Badaso Post Module test
-      - name: Sqlite | Badaso Post Module test
+      # Sqlite | Badaso Commerce Module test
+      - name: Sqlite | Badaso Commerce Module test
         run: cd laravel && php artisan test
 
       # Pgsql | Laravel configuration

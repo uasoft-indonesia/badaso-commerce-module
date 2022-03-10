@@ -151,7 +151,7 @@ class BadasoCommerceApiProductTest extends TestCase
             ]);
             $ids[] = $product_category->id;
         }
-        $join_ids_product_category = join(" ", $ids);
+        $join_ids_product_category = join(",", $ids);
 
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/delete-multiple', [
             'ids' => $join_ids_product_category

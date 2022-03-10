@@ -85,7 +85,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'limit' => $cart_count
         ]);
         $response->assertSuccessful();
-        $cart->delete();
+        $cart->delete($response->assertSuccessful());
     }
 
     public function testReadCart()

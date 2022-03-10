@@ -86,15 +86,15 @@ jobs:
       - name: Mysql | Laravel setup
         run: cd laravel &&
           php artisan badaso:setup --force &&
-          php artisan badaso-post:setup  &&
-          php artisan badaso-post-test:setup  &&
+          php artisan badaso-commerce-module:setup  &&
+          php artisan badaso-commerce-module-test:setup  &&
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder" &&
-          sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},post-module/g' .env &&
-          echo -e "\nMIX_BADASO_MODULES=post-module" >> .env &&
-          echo -e "\nMIX_POST_URL_PREFIX=/post" >> .env
+          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoCommerceModuleSeeder" &&
+          sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},commerce-module/g' .env &&
+          echo -e "\nMIX_BADASO_MODULES=commerce-module" >> .env &&
+          echo -e "\nMIX_POST_URL_PREFIX=/commerce" >> .env
 
       # Mysql | Badaso Post Module test
       - name: Mysql | Badaso Post Module test

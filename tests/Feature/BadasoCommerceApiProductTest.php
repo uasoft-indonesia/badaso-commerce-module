@@ -35,8 +35,6 @@ class BadasoCommerceApiProductTest extends TestCase
 
     public function testEditProductCategory()
     {
-
-
         $model = ProductCategory::create([
             'name' => 'coba',
             'slug' => Str::uuid(),
@@ -143,7 +141,6 @@ class BadasoCommerceApiProductTest extends TestCase
 
     public function testDeleteMultipleProductCategory()
     {
-
         $ids = [];
         for ($index = 0; $index < 5; $index++) {
             $product_category = ProductCategory::create([
@@ -159,9 +156,9 @@ class BadasoCommerceApiProductTest extends TestCase
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/delete-multiple', [
             'ids' => $join_ids_product_category
         ]);
-        $response->assertSuccessful();
 
-        $product_category->forceDelete();
+        $response->assertSuccessful();
+        // $product_category->forceDelete();
     }
 
     public function testForceDeleteProductCategory()

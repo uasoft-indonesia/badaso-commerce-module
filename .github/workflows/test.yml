@@ -137,15 +137,15 @@ jobs:
       - name: Pgsql | Laravel setup
         run: cd laravel &&
           php artisan badaso:setup --force &&
-          php artisan badaso-post:setup  &&
-          php artisan badaso-post-test:setup  &&
+          php artisan badaso-commerce:setup  &&
+          php artisan badaso-commerce-test:setup  &&
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoPostModuleSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder"
 
-      # Pgsql | Badaso Post Module test
-      - name: Pgsql | Badaso Post Module test
+      # Pgsql | Badaso Commerce Module test
+      - name: Pgsql | Badaso Commerce Module test
         run: cd laravel && php artisan test
 
 

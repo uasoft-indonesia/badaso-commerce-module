@@ -91,10 +91,10 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Post\BadasoCommerceModuleSeeder" &&
+          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder" &&
           sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},commerce-module/g' .env &&
           echo -e "\nMIX_BADASO_MODULES=commerce-module" >> .env &&
-          echo -e "\nMIX_POST_URL_PREFIX=/commerce" >> .env
+          echo -e "\nMIX_COMMERCE_URL_PREFIX=/commerce" >> .env
 
       # Mysql | Badaso Post Module test
       - name: Mysql | Badaso Post Module test

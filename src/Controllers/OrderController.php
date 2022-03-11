@@ -2,6 +2,7 @@
 
 namespace Uasoft\Badaso\Module\Commerce\Controllers;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -10,6 +11,8 @@ use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
+use Uasoft\Badaso\Module\Commerce\Models\OrderDetail;
+use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
 
 class OrderController extends Controller
 {
@@ -41,9 +44,29 @@ class OrderController extends Controller
                 'relation' => 'nullable'
             ]);
 
-            $order = Order::with('user', 'orderDetails.productDetail.product', 'orderPayment')
-                ->where('id', $request->id)
-                ->first();
+            if (in_array(env('DB_CONNECTION'), ['pgsql'])) {
+
+                $order = Order::where('id', $request->id);
+                $order_data = $order->first();
+                $with = ["user"];
+
+                $order_payment = OrderPayment::where('order_id', $order_data->id)->count();
+                if ($order_payment > 0) {
+                    $with[] = "orderDetails.productDetail.product";
+                }
+
+                $order_detail = OrderDetail::where('order_id', $order_data->id)->count();
+                if ($order_detail > 0) {
+                    $with[] = "orderPayment";
+                }
+
+                $order = $order->with($with)->first();
+            } else {
+                $order = Order::with('user', 'orderDetails.productDetail.product', 'orderPayment')
+                    ->where('id', $request->id)
+                    ->first();
+            }
+
             $data['order'] = $order->toArray();
 
             return ApiResponse::success($data);

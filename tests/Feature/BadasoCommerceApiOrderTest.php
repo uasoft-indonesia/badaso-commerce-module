@@ -14,6 +14,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Uasoft\Badaso\Module\Commerce\Models\Cart;
 use Uasoft\Badaso\Module\Commerce\Models\Discount;
 use Uasoft\Badaso\Module\Commerce\Models\OrderAddress;
+use Uasoft\Badaso\Module\Commerce\Models\OrderDetail;
 use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
 use Uasoft\Badaso\Module\Commerce\Models\PaymentOption;
 use Uasoft\Badaso\Module\Commerce\Models\Product;
@@ -86,6 +87,7 @@ class BadasoCommerceApiOrderTest extends TestCase
             'additional_info' => null,
         ]);
         $user_id = $user->id;
+        $orders = [];
         $order = Order::create([
             'user_id' => $user_id,
             'discounted' => 10,
@@ -93,15 +95,19 @@ class BadasoCommerceApiOrderTest extends TestCase
             'shipping_cost' => 0,
             'payed' => 10,
             'status' => 'process',
+            'tracking_number' => 'LOREA12312323',
             'message' => 'yes',
+            'cancel_message' => 'no',
             'expired_at' => Carbon::now()
         ]);
-        $order_id = $order->id;
+
+        $order_id = $order->id ;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order/read', [
             'id' => $order_id
         ]);
         $response->assertSuccessful();
         $order->forceDelete();
+
     }
 
     public function testConfirmOrder()
@@ -269,8 +275,6 @@ class BadasoCommerceApiOrderTest extends TestCase
             $data_order->forceDelete();
         }
     }
-
-
 
     public function testFinishPublicOrder()
     {

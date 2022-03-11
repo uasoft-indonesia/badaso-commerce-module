@@ -20,6 +20,7 @@ use Uasoft\Badaso\Module\Commerce\Models\OrderAddress;
 use Uasoft\Badaso\Module\Commerce\Models\OrderDetail;
 use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
 use Uasoft\Badaso\Module\Commerce\Models\PaymentOption;
+use Uasoft\Badaso\Module\Commerce\Models\Product;
 use Uasoft\Badaso\Module\Commerce\Models\ProductDetail;
 use Uasoft\Badaso\Module\Commerce\Models\UserAddress;
 use Webpatser\Uuid\Uuid;
@@ -29,7 +30,27 @@ class OrderController extends Controller
     public function browse()
     {
         try {
-            $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message'])
+            if (in_array(env('DB_CONNECTION'), ['pgsql']))
+            {
+                $orders = Order::where('user_id', auth()->user()->id);
+                $order_data = $orders->select('id', 'status', 'payed', 'expired_at', 'cancel_message')->get();
+                $with = ["orderDetails"];
+
+               $order_payment = OrderPayment::where('order_id',$order_data->id)->count();
+               if($order_payment > 0){
+                $with[] = "orderDetails.review";
+               }
+               $order_detail = OrderDetail::select('id', 'order_id', 'product_detail_id', 'price', 'discounted', 'quantity')->where('order_id',$order_data->id)->with('productDetail.product')->count();
+               if( $order_detail > 0)
+               {
+                // $product_detail = ProductDetail::select('id', 'product_id', 'name', 'product_image')->where('id',$order_detail->product_detail_id)->get();
+                // $product = Product::select('id', 'name', 'slug')->where('id',$product_detail->product_id)->get();
+                $with = ["orderPayment"];
+               }
+               $orders = $orders->with($with)->latest()->get();
+
+            } else{
+                $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message'])
                 ->with(['orderDetails' => function ($query) {
                     return $query
                         ->select(['id', 'order_id', 'product_detail_id', 'price', 'discounted', 'quantity'])
@@ -44,7 +65,7 @@ class OrderController extends Controller
                 ->where('user_id', auth()->user()->id)
                 ->latest()
                 ->get();
-
+            }
             $data['orders'] = $orders->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {

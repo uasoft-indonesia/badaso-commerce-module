@@ -52,12 +52,12 @@ class OrderController extends Controller
 
                 $order_payment = OrderPayment::where('order_id', $order_data->id)->count();
                 if ($order_payment > 0) {
-                    $with[] = "orderDetails.productDetail.product";
+                    $with[] = "orderPayment";
                 }
 
                 $order_detail = OrderDetail::where('order_id', $order_data->id)->count();
                 if ($order_detail > 0) {
-                    $with[] = "orderPayment";
+                    $with[] = "orderDetails.productDetail.product";
                 }
 
                 $order = $order->with($with)->first();

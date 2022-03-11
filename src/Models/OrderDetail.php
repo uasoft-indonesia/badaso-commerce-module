@@ -48,6 +48,6 @@ class OrderDetail extends Model
      */
     public function review()
     {
-        return $this->hasOne(ProductReview::class);
+        return $this->hasOne(ProductReview::class, 'order_detail_id');
     }
 }

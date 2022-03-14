@@ -194,7 +194,6 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
         $get_response_product = $response->json('data.id');
         $data = Product::find($get_response_product);
         $this->assertNotEmpty($data);
-
     }
 
     public function testEditProduct()

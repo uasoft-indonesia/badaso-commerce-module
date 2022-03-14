@@ -2,15 +2,15 @@
 
 namespace Uasoft\Badaso\Module\Commerce\Providers;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Console\Scheduling\Schedule;
 use Uasoft\Badaso\Module\Commerce\BadasoCommerceModule;
 use Uasoft\Badaso\Module\Commerce\Commands\BadasoCommerceSetup;
+use Uasoft\Badaso\Module\Commerce\Commands\BadasoCommerceTestSetup;
 use Uasoft\Badaso\Module\Commerce\Commands\BadasoDeleteExpiredOrder;
 use Uasoft\Badaso\Module\Commerce\Facades\BadasoCommerceModule as FacadesBadasoCommerceModule;
-use Uasoft\Badaso\Module\Commerce\Models\Order;
 
 class BadasoCommerceModuleServiceProvider extends ServiceProvider
 {
@@ -69,6 +69,7 @@ class BadasoCommerceModuleServiceProvider extends ServiceProvider
     private function registerConsoleCommands()
     {
         $this->commands(BadasoCommerceSetup::class);
+        $this->commands(BadasoCommerceTestSetup::class);
         $this->commands(BadasoDeleteExpiredOrder::class);
     }
 }

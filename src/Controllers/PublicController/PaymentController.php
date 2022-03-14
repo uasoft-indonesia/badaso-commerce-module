@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Module\Commerce\Controllers\PublicController;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Commerce\Abstracts\BadasoPayment as AbstractsBadasoPayment;
@@ -27,7 +26,7 @@ class PaymentController extends Controller
                     $this->slugs[] = $slug;
                 }
             } else {
-                throw new Exception("Class in badaso commerce payment config must be instance of BadasoPayment abstract & interface");
+                throw new Exception('Class in badaso commerce payment config must be instance of BadasoPayment abstract & interface');
             }
         }
     }
@@ -40,6 +39,7 @@ class PaymentController extends Controller
             }])->where('is_active', 1)->get();
 
             $data['payments'] = $payments->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

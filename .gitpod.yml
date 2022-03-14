@@ -1,13 +1,14 @@
 image:
   file: .gitpod.Dockerfile
+
 tasks:
-  - name: Starting Project
+  - name: Starting Projects
     init: composer create-project laravel/laravel:^8.0 laravel &&
-      mkdir -p laravel/packages/badaso/commerce-module &&
+      mkdir -p laravel/packages/badaso/commerce-module && 
       mv {,.}* laravel/packages/badaso/commerce-module 2>/dev/null; true &&
       cd laravel/packages/badaso &&
       git clone --branch 2.x --single-branch https://github.com/uasoft-indonesia/badaso.git core &&
-      git clone https://github.com/uasoft-indonesia/badaso-commerce-theme.git commerce-theme &&
+
       cd ../../ &&
       cp packages/badaso/commerce-module/.gitpod/AppServiceProvider.php app/Providers/AppServiceProvider.php &&
       cp packages/badaso/commerce-module/.gitpod/app.php config/app.php &&
@@ -19,6 +20,7 @@ tasks:
       mysql -u root -e "create database laravel"
     command: php artisan badaso:setup --force &&
       php artisan badaso-commerce:setup &&
+
       php artisan badaso-commerce-theme:setup &&
 
       sed -i 's/http:\/\/localhost//g' .env &&
@@ -40,6 +42,7 @@ tasks:
       php artisan migrate &&
       npm install &&
       php artisan badaso:admin admin@admin.com --name=admin --username=admin --password=admin --confirm_password=admin --create &&
+
       npm run dev &&
       php artisan serve --host=0.0.0.0
 ports:
@@ -53,3 +56,4 @@ vscode:
     - MehediDracula.php-namespace-resolver
     - junstyle.php-cs-fixer
     - PKief.material-icon-theme
+

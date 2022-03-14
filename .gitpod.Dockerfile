@@ -25,4 +25,6 @@ RUN sudo curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
 RUN sudo apt -y install nodejs 2>/dev/null; true
 RUN sudo node -v
 
+
 USER gitpod
+

@@ -136,9 +136,9 @@ return [
 
     'providers' => [
 
-        /*
-         * Laravel Framework Service Providers...
-         */
+       
+      
+
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -165,15 +165,11 @@ return [
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
 
-        "Uasoft\\Badaso\\Providers\\BadasoServiceProvider",
-        "Uasoft\\Badaso\\Module\\Commerce\\Providers\\BadasoCommerceModuleServiceProvider",
-        "Uasoft\\Badaso\\Theme\\CommerceTheme\\Providers\\CommerceThemeProvider",
-
-
-
         /*
          * Package Service Providers...
          */
+        "Uasoft\\Badaso\\Module\\Commerce\\Providers\\BadasoCommerceModuleServiceProvider",
+        "Uasoft\\Badaso\\Providers\\BadasoServiceProvider",
 
         /*
          * Application Service Providers...

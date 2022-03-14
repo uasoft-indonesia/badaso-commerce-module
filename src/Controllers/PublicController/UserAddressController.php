@@ -18,6 +18,7 @@ class UserAddressController extends Controller
             $user_addresses = UserAddress::where('user_id', auth()->user()->id)->get();
 
             $data['user_addresses'] = $user_addresses->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -67,18 +68,19 @@ class UserAddressController extends Controller
                     'postal_code' => $request->postal_code,
                     'country' => $request->country,
                     'phone_number' => $request->phone_number ?? null,
-                    'is_main' => 0
+                    'is_main' => 0,
                 ]);
             } else {
                 DB::rollback();
                 throw new Exception(__('badaso_commerce::validation.limit_user_addresses'));
-                
             }
 
             DB::commit();
+
             return ApiResponse::success($user_address->only(['id']));
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }
@@ -111,9 +113,11 @@ class UserAddressController extends Controller
             $user_address->save();
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
+
             return ApiResponse::failed($e);
         }
     }

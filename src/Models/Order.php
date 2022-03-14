@@ -11,6 +11,9 @@ class Order extends Model
 {
     protected $table = null;
 
+    // protected $primaryKey = 'id';
+    // protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**
@@ -39,7 +42,7 @@ class Order extends Model
     protected $guarded = [];
 
     /**
-     * Get the user that owns the Order
+     * Get the user that owns the Order.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -49,7 +52,7 @@ class Order extends Model
     }
 
     /**
-     * Get the order associated with the OrderPayment
+     * Get the order associated with the OrderPayment.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -59,7 +62,7 @@ class Order extends Model
     }
 
     /**
-     * Get all of the orderDetails for the Order
+     * Get all of the orderDetails for the Order.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -69,7 +72,7 @@ class Order extends Model
     }
 
     /**
-     * Get the orderAddress associated with the Order
+     * Get the orderAddress associated with the Order.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

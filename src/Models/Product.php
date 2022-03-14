@@ -5,7 +5,6 @@ namespace Uasoft\Badaso\Module\Commerce\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Module\Commerce\Factories\ProductFactory;
 
 class Product extends Model
@@ -31,13 +30,13 @@ class Product extends Model
         'slug',
         'desc',
         'product_image',
-        'created_at', 
-        'updated_at', 
-        'deleted_at'
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     * Get the productCategory that owns the Product
+     * Get the productCategory that owns the Product.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -47,7 +46,7 @@ class Product extends Model
     }
 
     /**
-     * Get all of the productDetails for the Product
+     * Get all of the productDetails for the Product.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -62,7 +61,7 @@ class Product extends Model
     }
 
     /**
-     * Get all of the review for the Product
+     * Get all of the review for the Product.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

@@ -5,7 +5,6 @@ namespace Uasoft\Badaso\Module\Commerce\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Module\Commerce\Factories\ProductDetailFactory;
 
 class ProductDetail extends Model
@@ -20,14 +19,14 @@ class ProductDetail extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'product_details';
+        $this->table = $prefix.'product_details';
         parent::__construct($attributes);
     }
 
     protected $guarded = [];
 
     /**
-     * Get the discount that owns the ProductDetail
+     * Get the discount that owns the ProductDetail.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -37,7 +36,7 @@ class ProductDetail extends Model
     }
 
     /**
-     * Get the product that owns the ProductDetail
+     * Get the product that owns the ProductDetail.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -47,7 +46,7 @@ class ProductDetail extends Model
     }
 
     /**
-     * Get all of the orderDetails for the ProductDetail
+     * Get all of the orderDetails for the ProductDetail.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

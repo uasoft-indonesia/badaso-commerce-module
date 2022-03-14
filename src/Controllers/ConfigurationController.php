@@ -67,7 +67,7 @@ class ConfigurationController extends Controller
                 $configuration->details = $request->details;
                 $configuration->type = $request->type;
                 $configuration->order = $request->order;
-                $configuration->group = "commercePanel";
+                $configuration->group = 'commercePanel';
                 $configuration->save();
             }
 
@@ -101,7 +101,7 @@ class ConfigurationController extends Controller
                     $updated_configuration->details = json_encode($configuration['details']);
                     $updated_configuration->type = $configuration['type'];
                     $updated_configuration->order = $configuration['order'];
-                    $updated_configuration->group = "commercePanel";
+                    $updated_configuration->group = 'commercePanel';
                     $updated_configuration->save();
                 }
             }

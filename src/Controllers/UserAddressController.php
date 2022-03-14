@@ -4,7 +4,6 @@ namespace Uasoft\Badaso\Module\Commerce\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Commerce\Models\UserAddress;
@@ -17,7 +16,7 @@ class UserAddressController extends Controller
             $request->validate([
                 'page' => 'sometimes|required|integer',
                 'limit' => 'sometimes|required|integer',
-                'relation' => 'nullable'
+                'relation' => 'nullable',
             ]);
 
             if ($request->has('page') || $request->has('limit')) {
@@ -29,8 +28,9 @@ class UserAddressController extends Controller
                     return $query->with(explode(',', $request->relation));
                 })->get();
             }
-            
+
             $data['user_addresses'] = $user_addresses->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -42,7 +42,7 @@ class UserAddressController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\UserAddress',
-                'relation' => 'nullable'
+                'relation' => 'nullable',
             ]);
 
             $user_address = UserAddress::when($request->relation, function ($query) use ($request) {

@@ -4,10 +4,7 @@ namespace Uasoft\Badaso\Module\Commerce\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Models\User;
-use Uasoft\Badaso\Module\Commerce\Factories\ProductDetailFactory;
 
 class ProductReview extends Model
 {
@@ -25,14 +22,14 @@ class ProductReview extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix . 'product_reviews';
+        $this->table = $prefix.'product_reviews';
         parent::__construct($attributes);
     }
 
     protected $guarded = [];
 
     /**
-     * Get the product that owns the ProductReview
+     * Get the product that owns the ProductReview.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -42,7 +39,7 @@ class ProductReview extends Model
     }
 
     /**
-     * Get the user that owns the ProductReview
+     * Get the user that owns the ProductReview.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -52,7 +49,7 @@ class ProductReview extends Model
     }
 
     /**
-     * Get the orderDetail that owns the ProductReview
+     * Get the orderDetail that owns the ProductReview.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

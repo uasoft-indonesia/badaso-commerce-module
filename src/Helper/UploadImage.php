@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Storage;
 
 class UploadImage
 {
-    public static function createImage($base64, $path = "")
+    public static function createImage($base64, $path = '')
     {
         try {
-            $file_parts = explode(";base64,", $base64);
-            $file_type_aux = explode("/", $file_parts[0]);
+            $file_parts = explode(';base64,', $base64);
+            $file_type_aux = explode('/', $file_parts[0]);
             $file_type = $file_type_aux[1];
             $file_base64 = base64_decode($file_parts[1]);
-            $file = config('lfm.folder_categories.file.folder_name') . '/' . auth()->user()->id . '/' . $path . uniqid(Uuid::uuid(), true) . '.' . $file_type;
+            $file = config('lfm.folder_categories.file.folder_name').'/'.auth()->user()->id.'/'.$path.uniqid(Uuid::uuid(), true).'.'.$file_type;
 
             Storage::put($file, $file_base64);
 
@@ -29,6 +29,7 @@ class UploadImage
     {
         try {
             Storage::delete($file);
+
             return 1;
         } catch (Exception $e) {
             return 0;

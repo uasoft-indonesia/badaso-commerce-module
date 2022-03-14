@@ -12,7 +12,9 @@ class OrderStateWasChanged
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user, $order, $status;
+    public $user;
+    public $order;
+    public $status;
 
     /**
      * Create a new event instance.

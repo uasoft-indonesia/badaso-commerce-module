@@ -34,6 +34,7 @@ class ProductController extends Controller
                 ->paginate(Config::get('homeProductLimit') ?? 30);
 
             $data['products'] = collect($products)->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -67,6 +68,7 @@ class ProductController extends Controller
                 ->get();
 
             $data['products'] = $products->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -113,6 +115,7 @@ class ProductController extends Controller
                 $products['data'] = collect($products['data'])->filter(function ($product) {
                     $rating = (int) $product['review_avg_rating'];
                     dd($rating >= request('rating'));
+
                     return $rating >= request('rating');
                 });
             } else {
@@ -120,6 +123,7 @@ class ProductController extends Controller
             }
 
             $data['products'] = collect($products)->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -147,10 +151,12 @@ class ProductController extends Controller
                     foreach ($product->productDetails as $key => $productDetail) {
                         $sold += $productDetail->sold;
                     }
+
                     return $sold;
                 })->take(Config::get('bestSellingLimit') ?? 30);
 
             $data['products'] = $products->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -233,7 +239,7 @@ class ProductController extends Controller
                     });
             }])
                 ->withAvg('review', 'rating')
-                ->where('name', 'like', '%' . $request->keyword . '%')
+                ->where('name', 'like', '%'.$request->keyword.'%')
                 ->withCount('review')
                 ->latest();
 
@@ -242,6 +248,7 @@ class ProductController extends Controller
                 $products = collect($products)->toArray();
                 $products['data'] = collect($products['data'])->filter(function ($product) {
                     $rating = (int) $product['review_avg_rating'];
+
                     return $rating >= request('rating');
                 });
             } else {
@@ -249,6 +256,7 @@ class ProductController extends Controller
             }
 
             $data['products'] = collect($products)->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

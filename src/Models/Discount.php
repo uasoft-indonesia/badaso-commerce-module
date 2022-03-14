@@ -5,7 +5,6 @@ namespace Uasoft\Badaso\Module\Commerce\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Module\Commerce\Factories\DiscountFactory;
 
 class Discount extends Model
@@ -32,13 +31,13 @@ class Discount extends Model
         'discount_percent',
         'discount_fixed',
         'active',
-        'created_at', 
-        'updated_at', 
-        'deleted_at'
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     /**
-     * Get all of the productDetail for the Discount
+     * Get all of the productDetail for the Discount.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

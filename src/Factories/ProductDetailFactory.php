@@ -27,17 +27,17 @@ class ProductDetailFactory extends Factory
         ProviderCollectionHelper::addAllProvidersTo($this->faker);
         $product_name = $this->faker->word();
         $slug = Str::slug($product_name);
-        $image = 'https://picsum.photos/seed/'. $slug .'/300/300';
-        
+        $image = 'https://picsum.photos/seed/'.$slug.'/300/300';
+
         $image_content = file_get_contents($image);
-        Storage::put('files/product-image/' . $slug . '.jpg', $image_content);
+        Storage::put('files/product-image/'.$slug.'.jpg', $image_content);
 
         return [
             'name' => $product_name,
             'quantity' => $this->faker->randomNumber(5),
             'price' => $this->faker->numberBetween(10000, 10000000),
             'SKU' => $slug,
-            'product_image' => 'files/product-image/' . $slug . '.jpg',
+            'product_image' => 'files/product-image/'.$slug.'.jpg',
             'created_at' => now(),
             'updated_at' => now(),
         ];

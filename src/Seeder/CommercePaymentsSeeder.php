@@ -12,9 +12,9 @@ class CommercePaymentsSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @throws Exception
-     *
      * @return void
+     *
+     * @throws Exception
      */
     public function run()
     {
@@ -25,32 +25,32 @@ class CommercePaymentsSeeder extends Seeder
                 0 => [
                     'slug' => 'card',
                     'name' => 'Credit Card',
-                    'is_active' => 1
+                    'is_active' => 1,
                 ],
                 1 => [
                     'slug' => 'bank-transfer',
                     'name' => 'Bank Transfer',
-                    'is_active' => 1
+                    'is_active' => 1,
                 ],
                 2 => [
                     'slug' => 'e-money',
                     'name' => 'E-Money',
-                    'is_active' => 1
+                    'is_active' => 1,
                 ],
                 3 => [
                     'slug' => 'direct-debit',
                     'name' => 'Direct Debit',
-                    'is_active' => 1
+                    'is_active' => 1,
                 ],
                 4 => [
                     'slug' => 'convenience-store',
                     'name' => 'Convenience Store',
-                    'is_active' => 1
+                    'is_active' => 1,
                 ],
                 5 => [
                     'slug' => 'cardless-credit',
                     'name' => 'Cardless Credit',
-                    'is_active' => 1
+                    'is_active' => 1,
                 ],
             ];
 

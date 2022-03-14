@@ -3,8 +3,6 @@
 namespace Uasoft\Badaso\Module\Commerce\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use Uasoft\Badaso\Models\User;
 
 class PaymentOption extends Model
 {
@@ -27,7 +25,7 @@ class PaymentOption extends Model
     ];
 
     /**
-     * Get the payment that owns the PaymentOption
+     * Get the payment that owns the PaymentOption.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

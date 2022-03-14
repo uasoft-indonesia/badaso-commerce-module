@@ -4,9 +4,6 @@ namespace Uasoft\Badaso\Module\Commerce\Controllers\PublicController;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Commerce\Models\ProductCategory;

@@ -8,9 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Commerce\Helper\UploadImage;
-use Uasoft\Badaso\Traits\FileHandler;
 
 class UserController extends Controller
 {
@@ -52,7 +50,7 @@ class UserController extends Controller
         try {
             $request->validate([
                 'old_password' => 'required|string',
-                'password' => 'required|confirmed|string'
+                'password' => 'required|confirmed|string',
             ]);
 
             $user = auth()->user();

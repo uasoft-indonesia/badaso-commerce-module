@@ -24,7 +24,7 @@ class ProductCategoryController extends Controller
             } else {
                 $product_category = ProductCategory::with('children')->get();
             }
-            
+
             $data['product_categories'] = $product_category->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -45,7 +45,7 @@ class ProductCategoryController extends Controller
             } else {
                 $product_category = ProductCategory::onlyTrashed()->with('children')->get();
             }
-            
+
             $data['product_categories'] = $product_category->toArray();
             return ApiResponse::success($data);
         } catch (Exception $e) {
@@ -252,7 +252,7 @@ class ProductCategoryController extends Controller
             $id_list = explode(',', $request->ids);
 
             DB::beginTransaction();
-            
+
             $product_categories = ProductCategory::withTrashed()->whereIn('id', $id_list)->get();
 
             foreach ($product_categories as $product_category) {

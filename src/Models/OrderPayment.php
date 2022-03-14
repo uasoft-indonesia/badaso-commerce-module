@@ -3,7 +3,6 @@
 namespace Uasoft\Badaso\Module\Commerce\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class OrderPayment extends Model
 {
@@ -22,7 +21,7 @@ class OrderPayment extends Model
     protected $guarded = [];
 
     /**
-     * Get the order that owns the OrderPayment
+     * Get the order that owns the OrderPayment.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

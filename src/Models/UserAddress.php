@@ -3,7 +3,6 @@
 namespace Uasoft\Badaso\Module\Commerce\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Models\User;
 
 class UserAddress extends Model
@@ -31,12 +30,12 @@ class UserAddress extends Model
         'country',
         'phone_number',
         'is_main',
-        'created_at', 
-        'updated_at', 
+        'created_at',
+        'updated_at',
     ];
 
     /**
-     * Get the user that owns the UserAddress
+     * Get the user that owns the UserAddress.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

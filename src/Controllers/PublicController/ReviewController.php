@@ -17,7 +17,7 @@ class ReviewController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Product,slug'
+                'slug' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Product,slug',
             ]);
 
             $reviews = ProductReview::with(['user' => function ($query) {
@@ -43,7 +43,7 @@ class ReviewController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id'
+                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
             ]);
 
             $order = Order::with(['orderDetails.productDetail.product', 'orderDetails' => function ($query) {
@@ -90,7 +90,7 @@ class ReviewController extends Controller
                 $filename = [];
 
                 if (count($request->media) > 5) {
-                    throw new Exception("Maximum media is reached");
+                    throw new Exception('Maximum media is reached');
                 }
 
                 foreach ($request->media as $key => $media) {

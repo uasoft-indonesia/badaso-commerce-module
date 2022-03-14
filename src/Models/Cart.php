@@ -3,7 +3,6 @@
 namespace Uasoft\Badaso\Module\Commerce\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 use Uasoft\Badaso\Models\User;
 
 class Cart extends Model
@@ -25,12 +24,12 @@ class Cart extends Model
         'product_detail_id',
         'user_id',
         'quantity',
-        'created_at', 
-        'updated_at', 
+        'created_at',
+        'updated_at',
     ];
 
     /**
-     * Get the productDetail that owns the Cart
+     * Get the productDetail that owns the Cart.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -40,7 +39,7 @@ class Cart extends Model
     }
 
     /**
-     * Get the user that owns the Cart
+     * Get the user that owns the Cart.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

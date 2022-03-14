@@ -27,6 +27,7 @@ class DiscountController extends Controller
             }
 
             $data['discounts'] = $discount->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -48,6 +49,7 @@ class DiscountController extends Controller
             }
 
             $data['discounts'] = $discount->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -117,6 +119,7 @@ class DiscountController extends Controller
             }
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
@@ -263,6 +266,7 @@ class DiscountController extends Controller
             }
 
             DB::commit();
+
             return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();

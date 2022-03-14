@@ -8,7 +8,7 @@ abstract class BadasoPayment
      * Set all payment options that available for your payment
      * options.
      *
-     * @return Array An array that filled with classes
+     * @return array An array that filled with classes
      */
     protected $payment_slug;
 
@@ -17,7 +17,7 @@ abstract class BadasoPayment
      * Payments menu. Instead create your own configuration
      * menu & logic there.
      *
-     * @return Array An array that filled with classes
+     * @return array An array that filled with classes
      */
     protected $protected_payment_slug;
 }

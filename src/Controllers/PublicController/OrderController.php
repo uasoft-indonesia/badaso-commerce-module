@@ -24,11 +24,10 @@ use Uasoft\Badaso\Module\Commerce\Models\UserAddress;
 
 class OrderController extends Controller
 {
-
     public function browse()
     {
         try {
-            if (in_array(env('DB_CONNECTION'), ['pgsql'])){
+            if (in_array(env('DB_CONNECTION'), ['pgsql'])) {
                 $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message']);
                 $orders = $orders->where('user_id', auth()->user()->id)
                     ->latest()
@@ -36,22 +35,23 @@ class OrderController extends Controller
 
                 $orders = $orders->map(function ($order) {
                     if (isset($order->orderDetails)) {
-                        $order_details =  $order->orderDetails;
+                        $order_details = $order->orderDetails;
                         $order_details = $order_details->map(function ($order_detail) {
                             $product_detail = $order_detail->productDetail;
                             if (isset($product_detail)) {
                                 $product_detail->product = $product_detail->product;
                             }
                             $product_detail->review;
+
                             return $order_detail;
                         });
                         $order->order_details = $order_details;
                     }
                     $order->order_payment = $order->orderPayment;
+
                     return $order;
                 });
-            }
-            else{
+            } else {
                 $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message'])
                     ->with(['orderDetails' => function ($query) {
                         return $query
@@ -67,7 +67,6 @@ class OrderController extends Controller
                     ->where('user_id', auth()->user()->id)
                     ->latest()
                     ->get();
-
             }
             $data['orders'] = $orders->toArray();
 
@@ -75,7 +74,6 @@ class OrderController extends Controller
         } catch (Exception $e) {
             return ApiResponse::failed($e);
         }
-
     }
 
     public function read(Request $request)

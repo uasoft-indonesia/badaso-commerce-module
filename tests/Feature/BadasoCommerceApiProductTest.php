@@ -186,8 +186,6 @@ class BadasoCommerceApiProductTest extends TestCase
 
     public function testBrowseBinProductCategory()
     {
-
-
         $ids = [];
         for ($index = 0; $index < 3; $index++) {
             $product_category = ProductCategory::create([

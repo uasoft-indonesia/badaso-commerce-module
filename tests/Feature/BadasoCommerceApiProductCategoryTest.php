@@ -27,7 +27,6 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
 
     public function testBrowseProduct()
     {
-
         $ids = [];
         for ($index = 0; $index < 2; $index++)
         {
@@ -70,8 +69,6 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
 
     public function testBrowseBinProduct()
     {
-
-
         $ids = [];
         $products = [];
         for ($index = 0; $index < 2; $index++)
@@ -135,7 +132,6 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
 
     public function testRestoreDeletedProduct()
     {
-
         $product_category = ProductCategory::create([
             'name' => 'coba 1',
             'slug' => Str::uuid(),
@@ -167,7 +163,6 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
 
     public function testInsertProduct()
     {
-
         $product_category = ProductCategory::create([
             'name' => 'coba 1',
             'slug' => Str::uuid(),
@@ -208,7 +203,7 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
         $get_response_product = $response->json('data.id');
         $data = Product::find($get_response_product);
         $this->assertNotEmpty($data);
-        $data->forceDelete();
+        // $data->forceDelete();
 
     }
 

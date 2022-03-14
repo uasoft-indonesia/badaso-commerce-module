@@ -3,15 +3,11 @@
 namespace Uasoft\Badaso\Module\Commerce\Tests\Feature;
 
 use Tests\TestCase;
-use Illuminate\Support\Str;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
 use Uasoft\Badaso\Module\Commerce\Models\Discount;
 
 class BadasoCommerceApiDiscountTest extends TestCase
 {
-
     public function testInitStart()
     {
         CallHelperTest::handleUserAdminAuthorize($this);
@@ -28,12 +24,12 @@ class BadasoCommerceApiDiscountTest extends TestCase
         $discounts = [];
         for ($index = 0; $index < 3; $index++) {
             $discount = Discount::create([
-                'name' => 'Diskon Kemerdekaan' . $index,
-                'desc' => 'description diskon' . $index,
+                'name' => 'Diskon Kemerdekaan'.$index,
+                'desc' => 'description diskon'.$index,
                 'discount_type' => 'percent',
                 'discount_percent' => 10,
                 'discount_fixed' => null,
-                'active' => 1
+                'active' => 1,
             ]);
             $discounts[] = $discount;
             $ids[] = $discount->id;
@@ -43,7 +39,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
 
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/discount', [
             'page' => 1,
-            'limit' => $count_discount
+            'limit' => $count_discount,
         ]);
         $response->assertSuccessful();
         foreach ($discounts as $key => $discount_key) {
@@ -53,17 +49,16 @@ class BadasoCommerceApiDiscountTest extends TestCase
 
     public function testBrowseBinDiscount()
     {
-
         $ids = [];
         $discounts = [];
         for ($index = 0; $index < 3; $index++) {
             $discount = Discount::create([
-                'name' => 'Diskon Kemerdekaan' . $index,
-                'desc' => 'description diskon' . $index,
+                'name' => 'Diskon Kemerdekaan'.$index,
+                'desc' => 'description diskon'.$index,
                 'discount_type' => 'percent',
                 'discount_percent' => 10,
                 'discount_fixed' => null,
-                'active' => 1
+                'active' => 1,
             ]);
             $discounts[] = $discount;
             $ids[] = $discount->id;
@@ -74,7 +69,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
         $discount_trans_count = Discount::withTrashed()->count();
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/discount/bin', [
             'page' => 1,
-            'limit' => $discount_trans_count
+            'limit' => $discount_trans_count,
         ]);
 
         $response->assertSuccessful();
@@ -91,11 +86,11 @@ class BadasoCommerceApiDiscountTest extends TestCase
             'discount_type' => 'percent',
             'discount_percent' => 10,
             'discount_fixed' => null,
-            'active' => 1
+            'active' => 1,
         ]);
         $discount_id = $discount->id;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/discount/read', [
-            'id' => $discount_id
+            'id' => $discount_id,
         ]);
         $response->assertSuccessful();
         $discount->forceDelete();
@@ -109,7 +104,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
             'discount_type' => 'percent',
             'discount_percent' => 10,
             'discount_fixed' => 10000,
-            'active' => 1
+            'active' => 1,
         ]);
 
         $response->assertSuccessful();
@@ -127,7 +122,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
             'discount_type' => 'percent',
             'discount_percent' => 10,
             'discount_fixed' => 10000,
-            'active' => 1
+            'active' => 1,
         ]);
         $discount_id = $discount->id;
         $request_discount = [
@@ -137,19 +132,19 @@ class BadasoCommerceApiDiscountTest extends TestCase
             'discount_type' => 'percent',
             'discount_percent' => 10,
             'discount_fixed' => 10000,
-            'active' => 1
+            'active' => 1,
         ];
         $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/discount/edit', $request_discount);
         $response->assertSuccessful();
 
-        $data_discount =Discount::find($discount_id);
+        $data_discount = Discount::find($discount_id);
         $this->assertNotEmpty($data_discount);
-        $this->assertTrue( $request_discount['name'] == $data_discount->name);
-        $this->assertTrue( $request_discount['desc'] == $data_discount->desc);
-        $this->assertTrue( $request_discount['discount_type'] == $data_discount->discount_type);
-        $this->assertTrue( $request_discount['discount_percent'] == $data_discount->discount_percent);
-        $this->assertTrue( $request_discount['discount_fixed'] == $data_discount->discount_fixed);
-        $this->assertTrue( $request_discount['active'] == $data_discount->active);
+        $this->assertTrue($request_discount['name'] == $data_discount->name);
+        $this->assertTrue($request_discount['desc'] == $data_discount->desc);
+        $this->assertTrue($request_discount['discount_type'] == $data_discount->discount_type);
+        $this->assertTrue($request_discount['discount_percent'] == $data_discount->discount_percent);
+        $this->assertTrue($request_discount['discount_fixed'] == $data_discount->discount_fixed);
+        $this->assertTrue($request_discount['active'] == $data_discount->active);
         $data_discount->forceDelete();
     }
 
@@ -161,11 +156,11 @@ class BadasoCommerceApiDiscountTest extends TestCase
             'discount_type' => 'percent',
             'discount_percent' => 10,
             'discount_fixed' => null,
-            'active' => 1
+            'active' => 1,
         ]);
         $discount_id = $discount->id;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/delete', [
-            'id' => $discount_id
+            'id' => $discount_id,
         ]);
         $response->assertSuccessful();
         $discount->forceDelete();
@@ -179,12 +174,12 @@ class BadasoCommerceApiDiscountTest extends TestCase
             'discount_type' => 'percent',
             'discount_percent' => 10,
             'discount_fixed' => null,
-            'active' => 1
+            'active' => 1,
         ]);
         $discount_id = $discount->id;
         $discount->delete();
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/force-delete', [
-            'id' => $discount_id
+            'id' => $discount_id,
         ]);
         $response->assertSuccessful();
         $discount_trans = Discount::withTrashed()->find($discount_id);
@@ -198,20 +193,20 @@ class BadasoCommerceApiDiscountTest extends TestCase
         $discounts = [];
         for ($index = 0; $index < 3; $index++) {
             $discount = Discount::create([
-                'name' => 'Diskon Kemerdekaan delete multiple' . $index,
-                'desc' => 'description diskon delete multiple' . $index,
+                'name' => 'Diskon Kemerdekaan delete multiple'.$index,
+                'desc' => 'description diskon delete multiple'.$index,
                 'discount_type' => 'percent',
                 'discount_percent' => 10,
                 'discount_fixed' => null,
-                'active' => 1
+                'active' => 1,
             ]);
             $ids[] = $discount->id;
             $discounts[] = $discount;
         }
 
-        $join_discount = join(",", $ids);
+        $join_discount = join(',', $ids);
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/delete-multiple', [
-            'ids' =>  $join_discount
+            'ids' =>  $join_discount,
         ]);
         $response->assertSuccessful();
         $discount->forceDelete();
@@ -223,23 +218,23 @@ class BadasoCommerceApiDiscountTest extends TestCase
         $discounts = [];
         for ($index = 0; $index < 3; $index++) {
             $discount = Discount::create([
-                'name' => 'Diskon Kemerdekaan delete multiple' . $index,
-                'desc' => 'description diskon delete multiple' . $index,
+                'name' => 'Diskon Kemerdekaan delete multiple'.$index,
+                'desc' => 'description diskon delete multiple'.$index,
                 'discount_type' => 'percent',
                 'discount_percent' => 10,
                 'discount_fixed' => null,
-                'active' => 1
+                'active' => 1,
             ]);
             $ids[] = $discount->id;
             $discounts[] = $discount;
         }
 
-        $join_discount = join(",", $ids);
+        $join_discount = join(',', $ids);
         foreach ($discounts as $key => $discount_key) {
             $discount_key->delete();
         }
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/force-delete-multiple', [
-            'ids' =>  $join_discount
+            'ids' =>  $join_discount,
         ]);
         $response->assertSuccessful();
         $history = [];
@@ -255,20 +250,20 @@ class BadasoCommerceApiDiscountTest extends TestCase
 
     public function testRestoreDeleteDiscount()
     {
-        $discount =Discount::create([
+        $discount = Discount::create([
             'name' => 'Diskon Kemerdekaan restore',
             'desc' => 'description diskon restore',
             'discount_type' => 'percent',
             'discount_percent' => 10,
             'discount_fixed' => null,
-            'active' => 1
+            'active' => 1,
         ]);
         $discount_id = $discount->id;
         $discount->delete();
         $discount_trashed = Discount::withTrashed()->find($discount_id);
         $discount_trashed_id = $discount_trashed->id;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/restore', [
-            'id' =>  $discount_trashed_id
+            'id' =>  $discount_trashed_id,
         ]);
         $response->assertSuccessful();
         $discount_get = Discount::find($discount_id);
@@ -279,23 +274,21 @@ class BadasoCommerceApiDiscountTest extends TestCase
 
     public function testRestoreMultipleDeleteDiscount()
     {
-
-        $ids =[];
-        $discounts =[];
-        for($index = 0; $index<3; $index++)
-        {
+        $ids = [];
+        $discounts = [];
+        for ($index = 0; $index < 3; $index++) {
             $discount = Discount::create([
                 'name' => 'Diskon Kemerdekaan restore multiple'.$index,
                 'desc' => 'description diskon restore'.$index,
                 'discount_type' => 'percent',
                 'discount_percent' => 10,
                 'discount_fixed' => null,
-                'active' => 1
+                'active' => 1,
             ]);
             $ids[] = $discount->id;
             $discounts[] = $discount;
         }
-        $join_discount = explode(",", $discount->id);
+        $join_discount = explode(',', $discount->id);
         foreach ($discounts as $key => $discount_key) {
             $discount_key->delete();
         }
@@ -305,7 +298,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
         }
 
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/restore-multiple', [
-            'ids' =>  $discount_trashed_id
+            'ids' =>  $discount_trashed_id,
         ]);
         $response->assertSuccessful();
         foreach ($join_discount as $key => $id) {

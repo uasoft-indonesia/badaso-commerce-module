@@ -5,7 +5,6 @@ namespace Database\Seeders\Badaso\Commerce;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Uasoft\Badaso\Models\Menu;
 use Uasoft\Badaso\Module\Commerce\Models\Payment;
 use Uasoft\Badaso\Module\Commerce\Models\PaymentOption;
 
@@ -14,9 +13,9 @@ class CommercePaymentOptionsSeeder extends Seeder
     /**
      * Auto generated seed file.
      *
-     * @throws Exception
-     *
      * @return void
+     *
+     * @throws Exception
      */
     public function run()
     {
@@ -55,7 +54,7 @@ class CommercePaymentOptionsSeeder extends Seeder
                 }
             }
         } catch (Exception $e) {
-            throw new Exception('Exception occur ' . $e);
+            throw new Exception('Exception occur '.$e);
             DB::rollBack();
         }
 

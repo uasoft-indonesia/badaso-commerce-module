@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
-use Uasoft\Badaso\Module\Commerce\Helper\UploadImage;
-use Uasoft\Badaso\Module\Commerce\Models\Order;
-use Uasoft\Badaso\Module\Commerce\Models\OrderDetail;
 use Uasoft\Badaso\Module\Commerce\Models\ProductReview;
 
 class ReviewController extends Controller
@@ -31,7 +28,7 @@ class ReviewController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductReview,id'
+                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductReview,id',
             ]);
 
             $review = ProductReview::with(['product', 'user', 'orderDetail'])
@@ -50,7 +47,7 @@ class ReviewController extends Controller
 
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductReview,id'
+                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\ProductReview,id',
             ]);
 
             $review = ProductReview::findOrFail($request->id);

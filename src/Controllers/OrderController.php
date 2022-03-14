@@ -6,7 +6,6 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
@@ -22,7 +21,7 @@ class OrderController extends Controller
             $request->validate([
                 'page' => 'sometimes|required|integer',
                 'limit' => 'sometimes|required|integer',
-                'relation' => 'nullable'
+                'relation' => 'nullable',
             ]);
 
             $orders = Order::when($request->relation, function ($query) use ($request) {
@@ -30,6 +29,7 @@ class OrderController extends Controller
             })->orderBy('id', 'desc')->paginate($request->limit ?? 10);
 
             $data['orders'] = $orders->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);
@@ -41,7 +41,7 @@ class OrderController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
-                'relation' => 'nullable'
+                'relation' => 'nullable',
             ]);
 
             if (in_array(env('DB_CONNECTION'), ['pgsql'])) {
@@ -83,7 +83,7 @@ class OrderController extends Controller
             ]);
 
             $order = Order::find($request->id);
-            if (!is_null($order->expired_at) && now()->greaterThanOrEqualTo(Carbon::create($order->expired_at))) {
+            if (! is_null($order->expired_at) && now()->greaterThanOrEqualTo(Carbon::create($order->expired_at))) {
                 foreach ($order->orderDetails as $key => $orderDetail) {
                     $orderDetail->productDetail->quantity += $orderDetail->quantity;
                     $orderDetail->productDetail->save();
@@ -149,7 +149,7 @@ class OrderController extends Controller
         try {
             $request->validate([
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
-                'tracking_number' => 'required|alpha_num'
+                'tracking_number' => 'required|alpha_num',
             ]);
 
             $order = Order::find($request->id);
@@ -173,7 +173,7 @@ class OrderController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id'
+                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
             ]);
 
             $order = Order::find($request->id);

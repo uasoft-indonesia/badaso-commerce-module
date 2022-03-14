@@ -30,107 +30,108 @@ class OrderController extends Controller
 
     public function browse()
     {
-        try {
 
-            // $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message']);
+        $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message']);
 
-            // $orders = $orders->where('user_id', auth()->user()->id)
-            //     ->latest()
-            //     ->get();
+        $orders = $orders->where('user_id', auth()->user()->id)
+            ->latest()
+            ->get();
 
-            // $orders = $orders->map(function ($order) {
-            //     if (isset($order->orderDetails)) {
-            //         $order_details =  $order->orderDetails;
-            //         $order_details = $order_details->map(function ($order_detail) {
-            //             $product_detail = $order_detail->productDetail;
-            //             if (isset($product_detail)) {
-            //                 $product_detail->product = $product_detail->product;
-            //             }
-            //             $product_detail->review;
-            //             return $order_detail;
-            //         });
-            //     }
-            //     $order->order_payment = $order->orderPayment;
-            // });
+        $orders = $orders->map(function ($order) {
+            if (isset($order->orderDetails)) {
+                $order_details =  $order->orderDetails;
+                $order_details = $order_details->map(function ($order_detail) {
+                    $product_detail = $order_detail->productDetail;
+                    if (isset($product_detail)) {
+                        $product_detail->product = $product_detail->product;
+                    }
+                    $product_detail->review;
+                    return $order_detail;
+                });
+                $order->order_details = $order_details;
+            }
+            $order->order_payment = $order->orderPayment;
 
-            // $data['orders'] = $orders->toArray();
+            return $order;
+        });
 
-            // return ApiResponse::success($data);
+        $data['orders'] = $orders->toArray();
 
-            // if (in_array(env('DB_CONNECTION'), ['pgsql'])) {
-            //     $orders = Order::where('user_id', auth()->user()->id);
+        return ApiResponse::success($data);
 
-            //     $order_data = $orders->select('id')->first();
-            //     $order_id = $order_data->id;
+        // try {
+        //     if (in_array(env('DB_CONNECTION'), ['pgsql'])) {
+        //         $orders = Order::where('user_id', auth()->user()->id);
 
-            //     $with = [];
-            //     $order_detail = OrderDetail::where('order_id', $order_id)->count();
-            //     if ($order_detail > 0) {
-            //         $with['productDetail'] = function ($query) {
-            //             return $query
-            //                 ->select(['id', 'product_id', 'name', 'product_image'])->with(['product' => function ($query) {
-            //                    return $query->select(['id', 'name', 'slug']);
-            //                 }]);
-            //         };
-            //     }
+        //         $order_data = $orders->select('id')->first();
+        //         $order_id = $order_data->id;
 
-            //     $order_detail = OrderDetail::where('order_id', $order_id)->count();
-            //     if ($order_detail > 0) {
-            //         $with[] = "orderDetails.review";
-            //     }
+        //         $with = [];
+        //         $order_detail = OrderDetail::where('order_id', $order_id)->count();
+        //         if ($order_detail > 0) {
+        //             $with['productDetail'] = function ($query) {
+        //                 return $query
+        //                     ->select(['id', 'product_id', 'name', 'product_image'])->with(['product' => function ($query) {
+        //                        return $query->select(['id', 'name', 'slug']);
+        //                     }]);
+        //             };
+        //         }
 
-            //     $order_payment = OrderPayment::where('order_id', $order_id)->count();
-            //     if ($order_payment > 0) {
-            //         $with[] = "orderPayment";
-            //     }
+        //         $order_detail = OrderDetail::where('order_id', $order_id)->count();
+        //         if ($order_detail > 0) {
+        //             $with[] = "orderDetails.review";
+        //         }
 
-            //     if (count($with) > 0) {
-            //         dd($orders->with("orderPayment")->first());
-            //         $orders = $orders->with($with)->first();
-            //     } else {
-            //         $orders = $orders->first();
-            //     }
+        //         $order_payment = OrderPayment::where('order_id', $order_id)->count();
+        //         if ($order_payment > 0) {
+        //             $with[] = "orderPayment";
+        //         }
 
-            // } else {
-            //     $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message'])
-            //         ->with(['orderDetails' => function ($query) {
-            //             return $query
-            //                 ->select(['id', 'order_id', 'product_detail_id', 'price', 'discounted', 'quantity'])
-            //                 ->with(['productDetail' => function ($query) {
-            //                     return $query
-            //                         ->select(['id', 'product_id', 'name', 'product_image'])
-            //                         ->with(['product' => function ($query) {
-            //                             return $query->select(['id', 'name', 'slug']);
-            //                         }]);
-            //                 }]);
-            //         }, 'orderDetails.review', 'orderPayment'])
-            //         ->where('user_id', auth()->user()->id)
-            //         ->latest()
-            //         ->get();
-            // }
+        //         if (count($with) > 0) {
+        //             // dd($orders->with("orderPayment")->first());
+        //             $orders = $orders->with($with)->first();
+        //         } else {
+        //             $orders = $orders->first();
+        //         }
 
+        //     } else {
+        //         $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message'])
+        //             ->with(['orderDetails' => function ($query) {
+        //                 return $query
+        //                     ->select(['id', 'order_id', 'product_detail_id', 'price', 'discounted', 'quantity'])
+        //                     ->with(['productDetail' => function ($query) {
+        //                         return $query
+        //                             ->select(['id', 'product_id', 'name', 'product_image'])
+        //                             ->with(['product' => function ($query) {
+        //                                 return $query->select(['id', 'name', 'slug']);
+        //                             }]);
+        //                     }]);
+        //             }, 'orderDetails.review', 'orderPayment'])
+        //             ->where('user_id', auth()->user()->id)
+        //             ->latest()
+        //             ->get();
+        //     }
+        // $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message'])
+        //     ->with(['orderDetails' => function ($query) {
+        //         return $query
+        //             ->select(['id', 'order_id', 'product_detail_id', 'price', 'discounted', 'quantity'])
+        //             ->with(['productDetail' => function ($query) {
+        //                 return $query
+        //                     ->select(['id', 'product_id', 'name', 'product_image'])
+        //                     ->with(['product' => function ($query) {
+        //                         return $query->select(['id', 'name', 'slug']);
+        //                     }]);
+        //             }]);
+        //     }, 'orderDetails.review', 'orderPayment'])
+        //     ->where('user_id', auth()->user()->id)
+        //     ->latest()
+        //     ->get();
 
-            $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message'])
-                ->with(['orderDetails' => function ($query) {
-                    return $query
-                        ->select(['id', 'order_id', 'product_detail_id', 'price', 'discounted', 'quantity'])
-                        ->with(['productDetail' => function ($query) {
-                            return $query
-                                ->select(['id', 'product_id', 'name', 'product_image'])
-                                ->with(['product' => function ($query) {
-                                    return $query->select(['id', 'name', 'slug']);
-                                }]);
-                        }]);
-                }, 'orderDetails.review', 'orderPayment'])
-                ->where('user_id', auth()->user()->id)
-                ->latest()
-                ->get();
-
-            $data['orders'] = $orders->toArray();
-            return ApiResponse::success($data);
-        } catch (Exception $e) {
-            return ApiResponse::failed($e);
-        }
+        //     $data['orders'] = $orders->toArray();
+        //     return ApiResponse::success($data);
+        // } catch (Exception $e) {
+        //     return ApiResponse::failed($e);
+        // }
     }
 
     public function read(Request $request)

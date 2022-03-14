@@ -260,6 +260,60 @@ class BadasoCommerceApiOrderTest extends TestCase
                 'cancel_message' => 'test' . $index,
                 'expired_at' => Carbon::tomorrow()
             ]);
+            $product_category = ProductCategory::create([
+                'name' => 'coba 1',
+                'slug' => Str::uuid(),
+                'desc' => 'decription 1',
+                'SKU'  => Str::uuid()
+            ]);
+            $product_category_id = $product_category->id;
+            $product = Product::create([
+                'product_category_id ' =>$product_category_id,
+                'name' => 10,
+                'slug' => Str::uuid(),
+                'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fkumparan.com%2Fberita-terkini%2Fcara-foto-aesthetic-mudah-menggunakan-handphone-1x1gfvs9lVO&psig=AOvVaw36mQDD7OwrnMAadVPHM_bD&ust=1644547347891000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNijqLaO9PUCFQAAAAAdAAAAABAF',
+                'desc' => 'desc coba'
+
+            ]);
+            $product_id = $product->id;
+            $discount = Discount::create([
+                'name' => 'Diskon Kemerdekaan read',
+                'desc' => 'description diskon read',
+                'discount_type' => 'percent',
+                'discount_percent' => 10,
+                'discount_fixed' => null,
+                'active' => 1
+            ]);
+            $discount_id = $discount->id;
+            $product_detail = ProductDetail::create([
+                'product_id' => $product_id,
+                'discount_id' => $discount_id,
+                'name' => 'test nama',
+                'quantity' => 3,
+                'price' => 1000,
+                'SKU' => Str::uuid(),
+                'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fkumparan.com%2Fberita-terkini%2Fcara-foto-aesthetic-mudah-menggunakan-handphone-1x1gfvs9lVO&psig=AOvVaw36mQDD7OwrnMAadVPHM_bD&ust=1644547347891000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCNijqLaO9PUCFQAAAAAdAAAAABAF',
+            ]);
+
+            $order_detail = OrderDetail::create([
+                'order_id' => $order->id,
+                'product_detail_id' => $product_detail->id ,
+                'discount_id' =>  $discount_id,
+                'price' => 10000,
+                'discounted' => 10,
+                'quantity' => 3
+
+            ]);
+            $order_payment = OrderPayment::create([
+                'order_id' => $order->id,
+                'payment_type' => 'manual-transfer',
+                'source_bank' => 'BCA',
+                'destination_bank' => 'BNI',
+                'account_number' => '201B23546800',
+                'total_transfered' => '200000',
+                'proof_of_transaction' => 'null',
+                'token' => 'null'
+            ]);
             $ids[] = $order->id;
             $orders[] = $order;
         }
@@ -267,13 +321,6 @@ class BadasoCommerceApiOrderTest extends TestCase
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order/public');
         $response->assertSuccessful();
 
-        $response_get_order = $response->json('data.orders');
-        foreach ($orders as $key => $value_order) {
-            $get_id_order = $value_order->id;
-            $data_order = Order::find($get_id_order);
-            $this->assertNotEmpty($data_order);
-            $data_order->forceDelete();
-        }
     }
 
     public function testFinishPublicOrder()

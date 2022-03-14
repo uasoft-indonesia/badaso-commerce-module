@@ -11,6 +11,9 @@ class Order extends Model
 {
     protected $table = null;
 
+    // protected $primaryKey = 'id';
+    // protected $keyType = 'string';
+
     public $incrementing = false;
 
     /**

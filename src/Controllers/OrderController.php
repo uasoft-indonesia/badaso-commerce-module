@@ -9,6 +9,8 @@ use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
+use Uasoft\Badaso\Module\Commerce\Models\OrderDetail;
+use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
 
 class OrderController extends Controller
 {
@@ -40,12 +42,30 @@ class OrderController extends Controller
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
                 'relation' => 'nullable',
             ]);
+            if (in_array(env('DB_CONNECTION'), ['pgsql'])) {
 
-            $order = Order::with('user', 'orderDetails.productDetail.product', 'orderPayment')
-                ->where('id', $request->id)
-                ->first();
+                $order = Order::where('id', $request->id);
+                $order_data = $order->first();
+                $with = ["user"];
+
+                $order_payment = OrderPayment::where('order_id', $order_data->id)->count();
+                if ($order_payment > 0) {
+                    $with[] = "orderPayment";
+                }
+
+                $order_detail = OrderDetail::where('order_id', $order_data->id)->count();
+                if ($order_detail > 0) {
+                    $with[] = "orderDetails.productDetail.product";
+                }
+
+                $order = $order->with($with)->first();
+            } else{
+                $order = Order::with('user', 'orderDetails.productDetail.product', 'orderPayment')
+                    ->where('id', $request->id)
+                    ->first();
+
+            }
             $data['order'] = $order->toArray();
-
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

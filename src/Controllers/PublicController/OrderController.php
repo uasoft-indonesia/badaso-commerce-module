@@ -26,6 +26,51 @@ class OrderController extends Controller
     public function browse()
     {
         try {
+            if (in_array(env('DB_CONNECTION'), ['pgsql'])) {
+                $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message']);
+
+                $orders = $orders->where('user_id', auth()->user()->id)
+                    ->latest()
+                    ->get();
+
+                $orders = $orders->map(function ($order) {
+                    if (isset($order->orderDetails)) {
+                        $order_details =  $order->orderDetails;
+                        $order_details = $order_details->map(function ($order_detail) {
+                            $product_detail = $order_detail->productDetail;
+                            if (isset($product_detail)) {
+                                $product_detail->product = $product_detail->product;
+                            }
+                            $product_detail->review;
+                            return $order_detail;
+                        });
+                        $order->order_details = $order_details;
+                    }
+                    $order->order_payment = $order->orderPayment;
+
+                    return $order;
+                });
+
+                $data['orders'] = $orders->toArray();
+
+                return ApiResponse::success($data);
+            } else {
+                $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message'])
+                    ->with(['orderDetails' => function ($query) {
+                        return $query
+                            ->select(['id', 'order_id', 'product_detail_id', 'price', 'discounted', 'quantity'])
+                            ->with(['productDetail' => function ($query) {
+                                return $query
+                                    ->select(['id', 'product_id', 'name', 'product_image'])
+                                    ->with(['product' => function ($query) {
+                                        return $query->select(['id', 'name', 'slug']);
+                                    }]);
+                            }]);
+                    }, 'orderDetails.review', 'orderPayment'])
+                    ->where('user_id', auth()->user()->id)
+                    ->latest()
+                    ->get();
+            }
             $orders = Order::select(['id', 'status', 'payed', 'expired_at', 'cancel_message'])
                 ->with(['orderDetails' => function ($query) {
                     return $query
@@ -43,9 +88,8 @@ class OrderController extends Controller
                 ->get();
 
             $data['orders'] = $orders->toArray();
-
             return ApiResponse::success($data);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return ApiResponse::failed($e);
         }
     }
@@ -154,7 +198,7 @@ class OrderController extends Controller
                 $product_detail = ProductDetail::findOrFail($cart->product_detail_id);
                 $discount = null;
                 $discounted = 0;
-                if (! empty($product_detail->discount_id)) {
+                if (!empty($product_detail->discount_id)) {
                     $discount = Discount::findOrFail($product_detail->discount_id);
                     if ($discount->active === 1 || $discount->active === '1') {
                         if ($discount->discount_type === 'fixed') {

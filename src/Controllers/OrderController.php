@@ -43,29 +43,28 @@ class OrderController extends Controller
                 'relation' => 'nullable',
             ]);
             if (in_array(env('DB_CONNECTION'), ['pgsql'])) {
-
                 $order = Order::where('id', $request->id);
                 $order_data = $order->first();
-                $with = ["user"];
+                $with = ['user'];
 
                 $order_payment = OrderPayment::where('order_id', $order_data->id)->count();
                 if ($order_payment > 0) {
-                    $with[] = "orderPayment";
+                    $with[] = 'orderPayment';
                 }
 
                 $order_detail = OrderDetail::where('order_id', $order_data->id)->count();
                 if ($order_detail > 0) {
-                    $with[] = "orderDetails.productDetail.product";
+                    $with[] = 'orderDetails.productDetail.product';
                 }
 
                 $order = $order->with($with)->first();
-            } else{
+            } else {
                 $order = Order::with('user', 'orderDetails.productDetail.product', 'orderPayment')
                     ->where('id', $request->id)
                     ->first();
-
             }
             $data['order'] = $order->toArray();
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

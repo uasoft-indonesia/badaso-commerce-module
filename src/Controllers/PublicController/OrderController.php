@@ -35,13 +35,14 @@ class OrderController extends Controller
 
                 $orders = $orders->map(function ($order) {
                     if (isset($order->orderDetails)) {
-                        $order_details =  $order->orderDetails;
+                        $order_details = $order->orderDetails;
                         $order_details = $order_details->map(function ($order_detail) {
                             $product_detail = $order_detail->productDetail;
                             if (isset($product_detail)) {
                                 $product_detail->product = $product_detail->product;
                             }
                             $product_detail->review;
+
                             return $order_detail;
                         });
                         $order->order_details = $order_details;
@@ -88,6 +89,7 @@ class OrderController extends Controller
                 ->get();
 
             $data['orders'] = $orders->toArray();
+
             return ApiResponse::success($data);
         } catch (\Exception $e) {
             return ApiResponse::failed($e);
@@ -198,7 +200,7 @@ class OrderController extends Controller
                 $product_detail = ProductDetail::findOrFail($cart->product_detail_id);
                 $discount = null;
                 $discounted = 0;
-                if (!empty($product_detail->discount_id)) {
+                if (! empty($product_detail->discount_id)) {
                     $discount = Discount::findOrFail($product_detail->discount_id);
                     if ($discount->active === 1 || $discount->active === '1') {
                         if ($discount->discount_type === 'fixed') {

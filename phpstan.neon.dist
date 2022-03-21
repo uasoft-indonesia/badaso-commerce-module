@@ -3,7 +3,7 @@ includes:
 
 parameters:
     paths:
-        - src
-        - tests
+        - packages/badaso/commerce-module/src
+        - packages/badaso/commerce-module/tests
 
     level: 1

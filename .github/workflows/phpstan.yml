@@ -45,7 +45,7 @@ jobs:
         run: cd laravel &&
           composer show laravel/framework
 
-      # Laravel require badaso core
+      # Laravel require badaso commerce-module
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
@@ -58,8 +58,7 @@ jobs:
         run: cd laravel &&
           php artisan badaso:setup --force
 
-      # Badaso Core Test PHPStan
+      # Badaso CommerceModule Test PHPStan
       - name: Badaso core test PHPStan
         run: cd laravel &&
-             ls vendor/badaso/commerce-module &&
              ./vendor/bin/phpstan analyse -c vendor/badaso/commerce-module/phpstan.neon.dist

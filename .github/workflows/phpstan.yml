@@ -56,4 +56,4 @@ jobs:
       # Badaso Core Test PHPStan
       - name: Badaso core test PHPStan
         run: cd laravel &&
-             ./vendor/bin/phpstan analyse -c vendor/badaso/commerce-module/phpstan.neon.dist
+             ./vendor/bin/phpstan analyse -c vendor/packages/badaso/commerce-module/phpstan.neon.dist

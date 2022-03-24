@@ -12,6 +12,7 @@ parameters:
     - '#Method Uasoft\\Badaso\\Module\\Commerce\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
     - '#Method Uasoft\\Badaso\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing+.#'
     - '#Method Uasoft\\Badaso\\Module\\Commerce\\Controllers\\PublicController\\CheckoutController::[a-zA-Z0-9-()\_]+ should return array but return statement is missing+.#'
+    - '#Class Illuminate\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+ not found+.#'
 
 
 

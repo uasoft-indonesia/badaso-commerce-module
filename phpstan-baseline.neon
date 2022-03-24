@@ -1,6 +1,7 @@
 parameters:
     excludePaths:
     - src/Facades/*.php
+    - src/Migrations/*.php
 
     ignoreErrors:
     - '#Call to an undefined static method Uasoft\\Badaso\\Module\\Commerce\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'

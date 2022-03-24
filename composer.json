@@ -22,8 +22,7 @@
   },
   "type": "library",
   "require": {
-    "mbezhanov/faker-provider-collection": "^2.0.1",
-    "phpstan/phpstan": "^1.4"
+    "mbezhanov/faker-provider-collection": "^2.0.1"
   },
   "authors": [
     {
@@ -50,5 +49,8 @@
         "Uasoft\\Badaso\\Module\\Commerce\\Providers\\BadasoCommerceModuleServiceProvider"
       ]
     }
+  },
+  "require-dev": {
+      "phpstan/phpstan": "^1.4"
   }
 }

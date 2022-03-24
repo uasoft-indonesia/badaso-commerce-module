@@ -2,6 +2,7 @@ parameters:
     excludePaths:
     - src/Facades/*.php
     - src/Migrations/*.php
+    - Illuminate\Foundation\Events\Dispatchable
 
     ignoreErrors:
     - '#Call to an undefined static method Uasoft\\Badaso\\Module\\Commerce\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'

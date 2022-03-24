@@ -1,4 +1,8 @@
 parameters:
+    scanFiles:
+    - BadasoCommerceModule.php
+    scanDirectories:
+    - Facades
     ignoreErrors:
     - '#Call to an undefined static method Uasoft\\Badaso\\Module\\Commerce\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
     - '#Call to an undefined static method Uasoft\\Badaso\\Models\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
@@ -12,9 +16,6 @@ parameters:
     - '#Method Uasoft\\Badaso\\Module\\Commerce\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
     - '#Method Uasoft\\Badaso\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing+.#'
     - '#Method Uasoft\\Badaso\\Module\\Commerce\\Controllers\\PublicController\\CheckoutController::[a-zA-Z0-9-()\_]+ should return array but return statement is missing+.#'
-scanFiles:
-      - BadasoCommerceModule.php
-scanDirectories:
-      - Facades
+
 
 

@@ -18,5 +18,3 @@ parameters:
     - '#Method Uasoft\\Badaso\\Module\\Commerce\\Controllers\\PublicController\\CheckoutController::[a-zA-Z0-9-()\_]+ should return array but return statement is missing+.#'
 
 
-
-

@@ -1,20 +1,13 @@
 parameters:
     excludePaths:
-    - src/Facades/*.php
-    - src/Migrations/*.php
+    - src/Controllers/*.php
+    - src/Seeder/*.php
+    - src/Listeners/SendNotificationToUser.php
 
     ignoreErrors:
     - '#Call to an undefined static method Uasoft\\Badaso\\Module\\Commerce\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB+::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to static method [a-zA-Z0-9-()\_]+ on an unknown class DB.#'
     - '#Class Uasoft\\Badaso\\Module\\Commerce\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+ not found.#'
-    - '#Caught class Database\\Seeders\\Badaso\\Commerce\\Exception not found.#'
-    - '#Instantiated class Database\\Seeders\\Badaso\\Commerce\\Exception not found.#'
-    - '#Static method Uasoft\\Badaso\\Helpers\\CallHelperTest+::[a-zA-Z0-9-()\_]+ invoked with 1 parameter, 0 required.#'
-    - '#Variable \$product_trans in isset[()]+ is never defined.#'
     - '#Method Uasoft\\Badaso\\Module\\Commerce\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
     - '#Method Uasoft\\Badaso\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing+.#'
-    - '#Method Uasoft\\Badaso\\Module\\Commerce\\Controllers\\PublicController\\CheckoutController::[a-zA-Z0-9-()\_]+ should return array but return statement is missing+.#'
 
 

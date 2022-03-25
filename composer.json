@@ -22,7 +22,9 @@
   },
   "type": "library",
   "require": {
-    "mbezhanov/faker-provider-collection": "^2.0.1"
+    "mbezhanov/faker-provider-collection": "^2.0.1",
+    "badaso/core": "^2.4.10",
+    "orchestra/testbench": "*"
   },
   "authors": [
     {

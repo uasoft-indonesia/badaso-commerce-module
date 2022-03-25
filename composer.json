@@ -22,9 +22,8 @@
   },
   "type": "library",
   "require": {
-    "mbezhanov/faker-provider-collection": "^2.0.1",
-    "badaso/core": "^2.4.10",
-    "orchestra/testbench": "*"
+    "mbezhanov/faker-provider-collection": "^2.0.1"
+
   },
   "authors": [
     {
@@ -53,6 +52,8 @@
     }
   },
   "require-dev": {
-    "phpstan/phpstan": "^1.4"
+    "phpstan/phpstan": "^1.4",
+    "badaso/core": "^2.4.10",
+    "orchestra/testbench": "*"
   }
 }

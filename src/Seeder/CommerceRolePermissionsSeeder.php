@@ -2,7 +2,9 @@
 
 namespace Database\Seeders\Badaso\Commerce;
 
+use Exception;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Models\Permission;
 use Uasoft\Badaso\Models\Role;
 use Uasoft\Badaso\Models\RolePermission;
@@ -18,7 +20,7 @@ class CommerceRolePermissionsSeeder extends Seeder
      */
     public function run()
     {
-        \DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $administrator = Role::where('name', 'administrator')->firstOrFail();
@@ -39,10 +41,10 @@ class CommerceRolePermissionsSeeder extends Seeder
                 }
             }
 
-            \DB::commit();
+            DB::commit();
         } catch (Exception $e) {
             throw new Exception('Exception occur '.$e);
-            \DB::rollBack();
+            DB::rollBack();
         }
     }
 }

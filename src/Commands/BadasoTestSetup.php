@@ -104,9 +104,12 @@ class BadasoTestSetup extends Command
 
                     break;
             }
+
         }
 
         // save xml
         file_put_contents($phpunit_xml_path, $document->saveHTML());
+        return 1;
+
     }
 }

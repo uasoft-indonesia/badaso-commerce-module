@@ -1,13 +1,9 @@
 parameters:
-    excludePaths:
-    - src/Controllers/*.php
-    - src/Seeder/*.php
-    - src/Listeners/SendNotificationToUser.php
-
     ignoreErrors:
     - '#Call to an undefined static method Uasoft\\Badaso\\Module\\Commerce\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
-    - '#Class Uasoft\\Badaso\\Module\\Commerce\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+ not found.#'
-    - '#Method Uasoft\\Badaso\\Module\\Commerce\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
-    - '#Method Uasoft\\Badaso\\Commands\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+ should return int but return statement is missing+.#'
+    - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB::[a-zA-Z0-9-()\_]+.#'
+    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
+    - '#Class Uasoft\\Badaso\\Module\\Commerce\\Events\\GoogleAnalytics not found.#'
+    - '#Class Uasoft\\Badaso\\Module\\Commerce\\Listeners\\SendHit not found.#'
 
 

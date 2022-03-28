@@ -23,6 +23,7 @@ class CheckoutController extends Controller implements BadasoPayment
      */
     public function getPaymentSlug()
     {
+        return [];
     }
 
     /**
@@ -32,5 +33,6 @@ class CheckoutController extends Controller implements BadasoPayment
      */
     public function getProtectedPaymentSlug()
     {
+        return [];
     }
 }

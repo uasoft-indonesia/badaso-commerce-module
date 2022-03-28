@@ -57,6 +57,6 @@ class BadasoDeleteExpiredOrder extends Command
 
             event(new OrderStateWasChanged(auth()->user(), $order, 'cancel'));
         }
-        return 1;
+        return 0;
     }
 }

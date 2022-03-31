@@ -122,7 +122,7 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\BadasoCommerceModuleSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder"
 
       # Sqlite | Badaso commerce test
       - name: Sqlite | Badaso Commerce Module test
@@ -149,7 +149,7 @@ jobs:
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoCommerceModuleSeeder"
 
-      # Pgsql | Badaso core test
+      # Pgsql | Badaso module test
       - name: Pgsql | Badaso Commerce Module test
         run: cd laravel && php artisan test
 

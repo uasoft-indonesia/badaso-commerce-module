@@ -147,7 +147,7 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\BadasoCommerceModuleSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder"
 
       # Pgsql | Badaso module test
       - name: Pgsql | Badaso Commerce Module test

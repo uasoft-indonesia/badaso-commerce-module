@@ -15,4 +15,24 @@ class CheckoutController extends Controller implements BadasoPayment
     public function pay(Request $request)
     {
     }
+
+    /**
+     * Get all payment slugs.
+     *
+     * @return array List of all payment options
+     */
+    public function getPaymentSlug()
+    {
+        return [];
+    }
+
+    /**
+     * Get all protected payment slugs.
+     *
+     * @return array List of all protected payment options
+     */
+    public function getProtectedPaymentSlug()
+    {
+        return [];
+    }
 }

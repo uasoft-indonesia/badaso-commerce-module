@@ -1,0 +1,33 @@
+name: PHP Stan
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+    types:
+      - synchronize
+      - opened
+      - edited
+      - reopened
+
+jobs:
+  test:
+    # Setup ubuntu latest
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+    name: "PHPStan Badaso Commerce Module"
+
+    steps:
+      - uses: actions/checkout@master
+
+    # Run composer badaso commerce-module
+      - name: Composer update
+        run: composer update --no-interaction
+
+    # Badaso CommerceModule Test PHPStan
+      - name: Badaso CommerceModule test PHPStan
+        run: ./vendor/bin/phpstan analyse -c phpstan.neon.dist

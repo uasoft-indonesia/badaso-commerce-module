@@ -101,7 +101,7 @@ jobs:
           php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder" &&
           echo "5" &&
           sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},commerce-module/g' .env &&
-          echo -e "\nMIX_BADASO_MODULES=commerce-module" >> .env &&
+          echo -e "\nMIX_BADASO_PLUGINS=commerce-module" >> .env &&
           echo -e "\nMIX_COMMERCE_URL_PREFIX=/commerce" >> .env
 
       # Mysql | Badaso Post Module test

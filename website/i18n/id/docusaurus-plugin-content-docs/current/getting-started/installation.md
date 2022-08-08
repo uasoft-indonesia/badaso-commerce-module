@@ -19,10 +19,10 @@ composer dump-autoload
 php artisan db:seed --class=BadasoCommerceModuleSeeder
 ```
 
-3. Tambahkan plugin ke `MIX_BADASO_MODULES` Anda ke `.env`. Jika Anda memiliki plugin lain yang diinstal, sertakan mereka menggunakan koma pembatas (,).
+3. Tambahkan plugin ke `MIX_BADASO_PLUGINS` Anda ke `.env`. Jika Anda memiliki plugin lain yang diinstal, sertakan mereka menggunakan koma pembatas (,).
 
 ```
-MIX_BADASO_MODULES=commerce-module
+MIX_BADASO_PLUGINS=commerce-module
 ```
 
 4. Tambahkan menu plugin ke `MIX_BADASO_MENU` Anda ke `.env`. Jika Anda memiliki menu lain, sertakan menu tersebut menggunakan koma pembatas (,).

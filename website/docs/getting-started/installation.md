@@ -28,7 +28,7 @@ sidebar_position: 1
 1. Add the plugins menu to your `MIX_BADASO_MENU` to `.env`. If you have another menu, include them using delimiter comma (,).
 
     ```
-    MIX_BADASO_MENU=admin,commerce-module
+    MIX_BADASO_MENU=${MIX_DEFAULT_MENU},commerce-module
     ```
 
 1. Fill the other variables in .env file.

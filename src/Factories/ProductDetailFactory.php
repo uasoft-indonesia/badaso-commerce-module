@@ -27,7 +27,7 @@ class ProductDetailFactory extends Factory
         ProviderCollectionHelper::addAllProvidersTo($this->faker);
         $product_name = $this->faker->word();
         $slug = Str::slug($product_name);
-        $image = 'https://picsum.photos/seed/'.$slug.'/300/300';
+        $image = 'https://loremflickr.com/300/300';
 
         $image_content = file_get_contents($image);
         Storage::put('files/product-image/'.$slug.'.jpg', $image_content);

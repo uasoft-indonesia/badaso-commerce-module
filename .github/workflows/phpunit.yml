@@ -96,6 +96,7 @@ jobs:
           php artisan badaso-commerce-test:setup &&
           php artisan db:wipe &&
           php artisan migrate &&
+          php artisan jwt:secret -f &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
           php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder" &&
           sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},commerce-module/g' .env &&

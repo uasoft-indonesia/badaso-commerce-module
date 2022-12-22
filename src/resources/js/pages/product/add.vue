@@ -61,13 +61,13 @@
                 <span class="danger" v-if="$v.product.productImage.$anyError">{{ $t('vuelidate.error') }}</span>
               </template>
             </vs-col>
-            <badaso-textarea
+            <badaso-editor
               v-model="product.desc"
               size="6"
               :label="$t('product.add.field.desc.title')"
               :placeholder="$t('product.add.field.desc.placeholder')"
               :alert="errors.desc"
-            ></badaso-textarea>
+            ></badaso-editor>
           </vs-row>
         </vs-card>
       </vs-col>

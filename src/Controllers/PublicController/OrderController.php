@@ -131,7 +131,7 @@ class OrderController extends Controller
             ]);
 
             $user_address = UserAddress::select('recipient_name', 'address_line1', 'address_line2', 'city', 'postal_code', 'country', 'phone_number')->where('id', $request->user_address_id)->where('user_id', auth()->user()->id)->firstOrFail();
-            // dd($user_address);
+
             $total_discounted = 0;
             $total = 0;
             $status = 'waitingBuyerPayment';

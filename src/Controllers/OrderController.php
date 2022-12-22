@@ -7,11 +7,11 @@ use Exception;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\UserRole;
 use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
 use Uasoft\Badaso\Module\Commerce\Models\OrderDetail;
 use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
-use Uasoft\Badaso\Models\UserRole;
 
 class OrderController extends Controller
 {
@@ -25,25 +25,22 @@ class OrderController extends Controller
             ]);
 
             $userId = auth()->user()->id;
-            $userRole = UserRole::where('user_id',$userId)->get();
+            $userRole = UserRole::where('user_id', $userId)->get();
             foreach ($userRole as $key => $value) {
-               $roleId = $value->role_id;
+                $roleId = $value->role_id;
             }
-           if($roleId == 1)
-           {
+            if ($roleId == 1) {
                 $orders = Order::when($request->relation, function ($query) use ($request) {
                     return $query->with(explode(',', $request->relation));
                 })->orderBy('id', 'desc')->paginate($request->limit ?? 10);
-           }
-           else
-           {
+            } else {
                 $orders = Order::when($request->relation, function ($query) use ($request) {
                     return $query->with(explode(',', $request->relation))->where('user_id', auth()->user()->id);
                 })->orderBy('id', 'desc')->paginate($request->limit ?? 10);
-           }
-           
+            }
+
             $data['orders'] = $orders->toArray();
-         
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

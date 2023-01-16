@@ -100,7 +100,8 @@ jobs:
           php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder" &&
           sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},commerce-module/g' .env &&
           echo -e "\nMIX_BADASO_PLUGINS=commerce-module" >> .env &&
-          echo -e "\nMIX_COMMERCE_URL_PREFIX=/commerce" >> .env
+          echo -e "\nMIX_COMMERCE_URL_PREFIX=/commerce" >> .env &&
+          php artisan jwt:secret -f
 
       # Mysql | Badaso commerce-module test
       - name: Mysql | Badaso Commerce Module test
@@ -122,7 +123,9 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder" &&
+          php artisan jwt:secret -f
+
 
       # Sqlite | Badaso commerce test
       - name: Sqlite | Badaso Commerce Module test

@@ -27,7 +27,6 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
-
         DB::beginTransaction();
         try {
             $request->validate([

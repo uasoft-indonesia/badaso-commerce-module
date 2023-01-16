@@ -23,7 +23,6 @@ class OrderStateWasChanged
      */
     public function __construct(User $user, Order $order, string $status)
     {
-
         $this->user = $user;
         $this->order = $order;
         $this->status = $status;

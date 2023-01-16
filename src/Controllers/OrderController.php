@@ -26,6 +26,7 @@ class OrderController extends Controller
 
             $userId = auth()->user()->id;
             $userRole = UserRole::where('user_id',$userId)->get();
+            $roleId =null;
             foreach ($userRole as $key => $value) {
                $roleId = $value->role_id;
             }
@@ -41,9 +42,9 @@ class OrderController extends Controller
                     return $query->with(explode(',', $request->relation))->where('user_id', auth()->user()->id);
                 })->orderBy('id', 'desc')->paginate($request->limit ?? 10);
            }
-           
+
             $data['orders'] = $orders->toArray();
-         
+
             return ApiResponse::success($data);
         } catch (Exception $e) {
             return ApiResponse::failed($e);

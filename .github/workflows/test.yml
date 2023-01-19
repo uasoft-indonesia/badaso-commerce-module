@@ -74,7 +74,7 @@ jobs:
           composer show laravel/framework &&
           php artisan db:wipe
 
-      # Laravel require badaso core and badaso post module
+      # Laravel require badaso core and badaso commerce module
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
@@ -87,7 +87,7 @@ jobs:
         run: cd laravel &&
           echo "setup badaso" &&
           php artisan badaso:setup --force &&
-          echo "setup commerce" && 
+          echo "setup commerce" &&
           php artisan badaso-commerce:setup  &&
           echo "setup commerce test" &&
           php artisan badaso-commerce-test:setup  &&
@@ -103,10 +103,11 @@ jobs:
           sed -i 's/MIX_BADASO_MENU=${MIX_DEFAULT_MENU}/MIX_BADASO_MENU=${MIX_DEFAULT_MENU},commerce-module/g' .env &&
           php artisan jwt:secret -f &&
           echo -e "\nMIX_BADASO_PLUGINS=commerce-module" >> .env &&
-          echo -e "\nMIX_COMMERCE_URL_PREFIX=/commerce" >> .env
+          echo -e "\nMIX_COMMERCE_URL_PREFIX=/commerce" >> .env &&
+          php artisan jwt:secret -f
 
-      # Mysql | Badaso Post Module test
-      - name: Mysql | Badaso Post Module test
+      # Mysql | Badaso Commerce Module test
+      - name: Mysql | Badaso Commerce Module test
         run: cd laravel && php artisan test
 
       # Sqlite | Laravel configuration
@@ -126,7 +127,8 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder" &&
+          php artisan jwt:secret -f
 
       # Sqlite | Badaso Commerce Module test
       - name: Sqlite | Badaso Commerce Module test
@@ -151,7 +153,8 @@ jobs:
           php artisan db:wipe &&
           php artisan migrate &&
           php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder"
+          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder" &&
+          php artisan jwt:secret -f
 
       # Pgsql | Badaso Commerce Module test
       - name: Pgsql | Badaso Commerce Module test

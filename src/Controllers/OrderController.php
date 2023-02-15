@@ -34,6 +34,7 @@ class OrderController extends Controller
                 $roleId = $value->role_id;
             }
             $search = $request->search;
+            $roleId = null;
             if ($roleId == 1) {
                 $orders = Order::when($request->relation, function ($query) use ($request) {
                     return $query->with(explode(',', $request->relation));

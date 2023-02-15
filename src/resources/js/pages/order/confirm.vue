@@ -367,7 +367,7 @@ export default {
       this.$openLoader();
       this.trackingNumberDialog = false
       this.$api.badasoOrder
-        .ship({ 
+        .ship({
           id: this.$route.params.id,
           trackingNumber: this.trackingNumber
         })

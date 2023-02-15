@@ -34,6 +34,7 @@ class PaymentController extends Controller
     public function browse()
     {
         try {
+
             $payments = Payment::with(['options' => function ($query) {
                 return $query->where('is_active', 1);
             }])->where('is_active', 1)->get();

@@ -15,7 +15,6 @@ use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
 
 class OrderController extends Controller
 {
-
     public function browse(Request $request)
     {
         try {
@@ -40,10 +39,10 @@ class OrderController extends Controller
                     return $query->with(explode(',', $request->relation));
                 })
                     ->when($search, function ($query, $search) {
-                        return $query->where('status', 'LIKE', '%' . $search . '%')
-                            ->orWhere('id', 'LIKE', '%' . $search . '%')
+                        return $query->where('status', 'LIKE', '%'.$search.'%')
+                            ->orWhere('id', 'LIKE', '%'.$search.'%')
                             ->orWhereHas('user', function ($q) use ($search) {
-                                $q->where('username', 'LIKE', '%' . $search . '%');
+                                $q->where('username', 'LIKE', '%'.$search.'%');
                             });
                     })
                     ->orderBy($request->order_field ?? 'updated_at', $request->order_direction ?? 'desc')
@@ -53,10 +52,10 @@ class OrderController extends Controller
                     return $query->with(explode(',', $request->relation))->where('user_id', auth()->user()->id);
                 })
                     ->where(function ($query) use ($search) {
-                        $query->where('status', "like", "%" . $search . "%");
-                        $query->orWhere('id', "like", "%" . $search . "%");
+                        $query->where('status', 'like', '%'.$search.'%');
+                        $query->orWhere('id', 'like', '%'.$search.'%');
                         $query->orWhereHas('user', function ($q) use ($search) {
-                            $q->where('username', "like", "%" . $search . "%");
+                            $q->where('username', 'like', '%'.$search.'%');
                         });
                     })
                     ->orderBy($request->order_field ?? 'updated_at', $request->order_direction ?? 'desc')

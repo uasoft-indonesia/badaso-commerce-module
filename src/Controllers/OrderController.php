@@ -22,22 +22,44 @@ class OrderController extends Controller
                 'page' => 'sometimes|required|integer',
                 'limit' => 'sometimes|required|integer',
                 'relation' => 'nullable',
+                'search' => 'nullable|string',
+                'order_field' => 'nullable|string',
+                'order_direction' => 'nullable|string|in:desc,asc',
             ]);
 
             $userId = auth()->user()->id;
             $userRole = UserRole::where('user_id', $userId)->get();
-            $roleId = null;
             foreach ($userRole as $key => $value) {
                 $roleId = $value->role_id;
             }
+            $search = $request->search;
+            $roleId = null;
             if ($roleId == 1) {
                 $orders = Order::when($request->relation, function ($query) use ($request) {
                     return $query->with(explode(',', $request->relation));
-                })->orderBy('id', 'desc')->paginate($request->limit ?? 10);
+                })
+                    ->when($search, function ($query, $search) {
+                        return $query->where('status', 'LIKE', '%'.$search.'%')
+                            ->orWhere('id', 'LIKE', '%'.$search.'%')
+                            ->orWhereHas('user', function ($q) use ($search) {
+                                $q->where('username', 'LIKE', '%'.$search.'%');
+                            });
+                    })
+                    ->orderBy($request->order_field ?? 'updated_at', $request->order_direction ?? 'desc')
+                    ->paginate($request->limit ?? 10);
             } else {
                 $orders = Order::when($request->relation, function ($query) use ($request) {
                     return $query->with(explode(',', $request->relation))->where('user_id', auth()->user()->id);
-                })->orderBy('id', 'desc')->paginate($request->limit ?? 10);
+                })
+                    ->where(function ($query) use ($search) {
+                        $query->where('status', 'like', '%'.$search.'%');
+                        $query->orWhere('id', 'like', '%'.$search.'%');
+                        $query->orWhereHas('user', function ($q) use ($search) {
+                            $q->where('username', 'like', '%'.$search.'%');
+                        });
+                    })
+                    ->orderBy($request->order_field ?? 'updated_at', $request->order_direction ?? 'desc')
+                    ->paginate($request->limit ?? 10);
             }
 
             $data['orders'] = $orders->toArray();

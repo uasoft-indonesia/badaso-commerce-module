@@ -15,7 +15,9 @@
               :pagination-data="orders"
               :description-items="descriptionItems"
               :description-title="$t('orders.browse.footer.descriptionTitle')"
-              :description-connector="$t('orders.browse.footer.descriptionConnector')"
+              :description-connector="
+                $t('orders.browse.footer.descriptionConnector')
+              "
               :description-body="$t('orders.browse.footer.descriptionBody')"
               @search="handleSearch"
               @changePage="handleChangePage"
@@ -24,18 +26,36 @@
               @sort="handleSort"
             >
               <template slot="thead">
-                <badaso-th sort-key="id"> {{ $t("orders.browse.header.orderId") }} </badaso-th>
-                <badaso-th sort-key="user"> {{ $t("orders.browse.header.user") }} </badaso-th>
-                <badaso-th sort-key="total"> {{ $t("orders.browse.header.total") }} </badaso-th>
-                <badaso-th sort-key="discounted"> {{ $t("orders.browse.header.discounted") }} </badaso-th>
-                <badaso-th sort-key="payed"> {{ $t("orders.browse.header.payed") }} </badaso-th>
-                <badaso-th sort-key="status"> {{ $t("orders.browse.header.status") }} </badaso-th>
-                <badaso-th sort-key="orderedAt"> {{ $t("orders.browse.header.orderedAt") }} </badaso-th>
+                <badaso-th sort-key="id">
+                  {{ $t("orders.browse.header.orderId") }}
+                </badaso-th>
+                <badaso-th sort-key="user">
+                  {{ $t("orders.browse.header.user") }}
+                </badaso-th>
+                <badaso-th sort-key="total">
+                  {{ $t("orders.browse.header.total") }}
+                </badaso-th>
+                <badaso-th sort-key="discounted">
+                  {{ $t("orders.browse.header.discounted") }}
+                </badaso-th>
+                <badaso-th sort-key="payed">
+                  {{ $t("orders.browse.header.payed") }}
+                </badaso-th>
+                <badaso-th sort-key="status">
+                  {{ $t("orders.browse.header.status") }}
+                </badaso-th>
+                <badaso-th sort-key="orderedAt">
+                  {{ $t("orders.browse.header.orderedAt") }}
+                </badaso-th>
                 <vs-th> {{ $t("orders.browse.header.action") }} </vs-th>
               </template>
 
               <template slot="tbody">
-                <vs-tr :data="order" :key="index" v-for="(order, index) in orders.data">
+                <vs-tr
+                  :data="order"
+                  :key="index"
+                  v-for="(order, index) in orders.data"
+                >
                   <vs-td :data="order.id">
                     {{ order.id }}
                   </vs-td>
@@ -67,7 +87,10 @@
                       <vs-dropdown-menu>
                         <badaso-dropdown-item
                           icon="check"
-                          :to="{ name: 'OrderConfirm', params: { id: order.id } }"
+                          :to="{
+                            name: 'OrderConfirm',
+                            params: { id: order.id },
+                          }"
                           v-if="$helper.isAllowed('confirm_orders')"
                         >
                           Confirm
@@ -86,8 +109,8 @@
 </template>
 
 <script>
-import moment from 'moment'
-import currency from 'currency.js';
+import moment from "moment";
+import currency from "currency.js";
 export default {
   name: "OrderBrowse",
   components: {},
@@ -95,7 +118,7 @@ export default {
     return {
       selected: [],
       orders: {
-        data: []
+        data: [],
       },
       descriptionItems: [10, 50, 100],
       totalItem: 0,
@@ -104,11 +127,13 @@ export default {
       limit: 10,
       orderField: "updatedAt",
       orderDirection: "desc",
-      willDeleteId: null
-    }
+      search: "",
+      rowPerPage: null,
+      willDeleteId: null,
+    };
   },
   mounted() {
-    this.getOrderList()
+    this.getOrderList();
   },
   methods: {
     toCurrency(value) {
@@ -117,52 +142,55 @@ export default {
         decimal: this.$store.state.badaso.config.currencyDecimal,
         separator: this.$store.state.badaso.config.currencySeparator,
         symbol: this.$store.state.badaso.config.currencySymbol,
-      }).format()
+      }).format();
     },
     getDate(date) {
-      return moment(date).format('DD MMMM YYYY HH:mm:ss')
+      return moment(date).format("DD MMMM YYYY HH:mm:ss");
     },
     getOrderStatus(status) {
       switch (status) {
-        case 'waitingBuyerPayment':
-          return this.$t("orders.status.0")
-        case 'waitingSellerConfirmation':
-          return this.$t("orders.status.1")
-        case 'process':
-          return this.$t("orders.status.2")
-        case 'delivering':
-          return this.$t("orders.status.3")
-        case 'done':
-          return this.$t("orders.status.4")
+        case "waitingBuyerPayment":
+          return this.$t("orders.status.0");
+        case "waitingSellerConfirmation":
+          return this.$t("orders.status.1");
+        case "process":
+          return this.$t("orders.status.2");
+        case "delivering":
+          return this.$t("orders.status.3");
+        case "done":
+          return this.$t("orders.status.4");
         default:
-          return this.$t("orders.status.-1")
+          return this.$t("orders.status.-1");
       }
     },
     getOrderList() {
       this.$openLoader();
       this.$api.badasoOrder
-      .browse({
-        page: this.page,
-        limit: this.limit,
-        relation: [
-          'user',
-        ]
-      })
-      .then((response) => {
-        this.$closeLoader();
-        this.selected = [];
-        this.orders = response.data.orders;
-      })
-      .catch((error) => {
-        this.$closeLoader();
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: error.message,
-          color: "danger",
+        .browse({
+          page: this.page,
+          limit: this.limit,
+          relation: ["user"],
+          filterValue: this.filter,
+          orderField: this.$caseConvert.snake(this.orderField),
+          orderDirection: this.$caseConvert.snake(this.orderDirection),
+          search: this.search,
+        })
+        .then((response) => {
+          this.$closeLoader();
+          this.selected = [];
+          this.orders = response.data.orders;
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
         });
-      });
     },
     handleSearch(e) {
+      this.search = e.target.value;
       this.filter = e.target.value;
       this.page = 1;
       this.getOrderList();

@@ -5,6 +5,8 @@ namespace Uasoft\Badaso\Module\Commerce\Listeners;
 use Uasoft\Badaso\Models\Notification;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
+use Uasoft\Badaso\Module\Commerce\Mail\MailNotificationOrder;
+use Illuminate\Support\Facades\Mail;
 
 class SendNotificationToUser
 {
@@ -16,11 +18,12 @@ class SendNotificationToUser
      */
     public function handle(OrderStateWasChanged $event)
     {
-        $sender_user = User::when(env('NOTIFICATION_EMAIL'), function ($query, $email) {
+        $sender_user = User::when(env('NOTIFICATION_SENDER_EMAIL'), function ($query, $email) {
             return $query->where('email', $email);
         }, function ($query) {
             return $query;
         })->firstOrFail();
+
 
         $status = $event->status;
         $title = null;
@@ -56,6 +59,7 @@ class SendNotificationToUser
                 return;
         }
 
+        Mail::to($event->user->email)->send(new MailNotificationOrder($event->user,$title,$content));
         Notification::create([
             'receiver_user_id' => $event->user->id,
             'type' => 'orderNotification',

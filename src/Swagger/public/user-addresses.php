@@ -7,6 +7,7 @@
  *      tags={"user-address"},
  *      summary="Browse User Address (Public)",
  *      description="Returns list of user address for public use",
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -21,15 +22,18 @@
  *      tags={"user-address"},
  *      summary="Browse User Address (Public)",
  *      description="Read a user address for public use",
+ *
  *      @OA\Parameter(
  *          name="id",
  *          required=true,
  *          in="query",
  *          example="1",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -44,10 +48,14 @@
  *      tags={"user-address"},
  *      summary="Add User Address (Public)",
  *      description="Insert new user address for public use",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="recipient_name",
  *                     type="object",
@@ -91,6 +99,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -108,10 +117,14 @@
  *      tags={"user-address"},
  *      summary="Edit User Address (Public)",
  *      description="Edit an existing user address for public use",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -160,6 +173,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -177,10 +191,14 @@
  *      tags={"user-address"},
  *      summary="Delete User Address (Public)",
  *      description="Delete an existing user address for public use",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -189,6 +207,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),

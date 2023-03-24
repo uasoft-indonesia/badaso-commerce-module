@@ -7,6 +7,7 @@
  *      tags={"payment-provider"},
  *      summary="Browse Payment Provider",
  *      description="Returns list of Payment Provider",
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -24,14 +25,17 @@
  *      tags={"payment-provider"},
  *      summary="Read Payment Provider",
  *      description="Returns Payment Provider based on id",
+ *
  *      @OA\Parameter(
  *          name="id",
  *          required=true,
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -49,10 +53,14 @@
  *      tags={"payment-provider"},
  *      summary="Add Payment Provider",
  *      description="Insert new Payment Provider",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="name",
  *                     type="object",
@@ -61,6 +69,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -78,10 +87,14 @@
  *      tags={"payment-provider"},
  *      summary="Edit Payment Provider",
  *      description="Edit existing Payment Provider",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -95,6 +108,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -112,10 +126,14 @@
  *      tags={"payment-provider"},
  *      summary="Delete Payment Provider",
  *      description="Delete one record of Payment Provider",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -124,6 +142,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -141,10 +160,14 @@
  *      tags={"payment-provider"},
  *      summary="Delete Multiple Payment Provider",
  *      description="Delete multiple record of Payment Provider",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
@@ -153,6 +176,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),

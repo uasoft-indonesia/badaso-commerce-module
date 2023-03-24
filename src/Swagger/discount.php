@@ -7,22 +7,27 @@
  *      tags={"discount"},
  *      summary="Browse Discount",
  *      description="Returns list of Discount",
+ *
  *      @OA\Parameter(
  *          name="page",
  *          example="1",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="limit",
  *          example="10",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -40,22 +45,27 @@
  *      tags={"discount"},
  *      summary="Browse Discount Bin",
  *      description="Returns list of deleted Discount",
+ *
  *      @OA\Parameter(
  *          name="page",
  *          example="1",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="limit",
  *          example="10",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -73,14 +83,17 @@
  *      tags={"discount"},
  *      summary="Get Discount based on id",
  *      description="Returns Discount based on id",
+ *
  *      @OA\Parameter(
  *          name="id",
  *          required=true,
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -98,10 +111,14 @@
  *      tags={"discount"},
  *      summary="Restore Deleted Discount",
  *      description="Restore a deleted discount",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="integer",
@@ -110,6 +127,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -127,10 +145,14 @@
  *      tags={"discount"},
  *      summary="Restore Multiple Deleted Discount",
  *      description="Restore multiple deleted discount",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="ids",
  *                     type="string",
@@ -139,6 +161,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -156,10 +179,14 @@
  *      tags={"discount"},
  *      summary="Insert Discount",
  *      description="Insert new Discount into database",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="name",
  *                     type="string",
@@ -193,6 +220,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -210,10 +238,14 @@
  *      tags={"discount"},
  *      summary="Edit Discount",
  *      description="Edit an existing Discount",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="integer",
@@ -252,6 +284,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -269,10 +302,14 @@
  *      tags={"discount"},
  *      summary="Delete Discount",
  *      description="Delete one record of Discount",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -281,6 +318,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -298,10 +336,14 @@
  *      tags={"discount"},
  *      summary="Force Delete Discount",
  *      description="Force delete one record of Discount",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -310,6 +352,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -327,10 +370,14 @@
  *      tags={"discount"},
  *      summary="Delete Multiple Discount",
  *      description="Delete multiple record of Discount",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
@@ -339,6 +386,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -356,10 +404,14 @@
  *      tags={"discount"},
  *      summary="Force Delete Multiple Discount",
  *      description="Force delete multiple record of Discount",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
@@ -368,6 +420,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),

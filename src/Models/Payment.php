@@ -14,7 +14,7 @@ class Payment extends Model
     public function __construct(array $attributes = [])
     {
         $prefix = config('badaso.database.prefix');
-        $this->table = $prefix.'payments';
+        $this->table = $prefix.'payment_types';
         parent::__construct($attributes);
     }
 
@@ -31,6 +31,8 @@ class Payment extends Model
      */
     public function options()
     {
-        return $this->hasMany(PaymentOption::class);
+        return $this->hasMany(PaymentOption::class,'payment_type_id','id');
     }
+
+
 }

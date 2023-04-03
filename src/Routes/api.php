@@ -130,7 +130,7 @@ Route::group(['prefix' => $api_route_prefix, 'as' => 'badaso.', 'middleware' => 
         Route::group(['prefix' => 'order/public', 'middleware' => [BadasoAuthenticate::class]], function () {
             Route::get('/', HelperRoute::getController('PublicController\OrderController@browse'));
             Route::get('/read', HelperRoute::getController('PublicController\OrderController@read'));
-            Route::post('/pay', HelperRoute::getController('PublicController\OrderController@pay'));
+            Route::put('/pay', HelperRoute::getController('PublicController\OrderController@pay'));
             Route::post('/finish', HelperRoute::getController('PublicController\OrderController@finish'));
         });
 

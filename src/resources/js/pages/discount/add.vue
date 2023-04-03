@@ -38,6 +38,7 @@
               :label="$t('discounts.add.field.discountPercent.title')"
               :placeholder="$t('discounts.add.field.discountPercent.placeholder')"
               :alert="errors.discountPercent"
+               :tooltip="$t('discounts.help.discountPercent')"
             ></badaso-number>
             <badaso-text
             v-if="discount.discountType === 'fixed'"
@@ -46,6 +47,7 @@
               :label="$t('discounts.add.field.discountFixed.title')"
               :placeholder="$t('discounts.add.field.discountFixed.placeholder')"
               :alert="errors.discountFixed"
+              :tooltip="$t('discounts.help.discountFixed')"
             ></badaso-text>
             <badaso-textarea
               v-model="discount.desc"

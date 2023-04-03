@@ -56,7 +56,7 @@ class PaymentController extends Controller
                 'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Payment,id',
             ]);
 
-            $options = PaymentOption::where('payment_id', $request->id)
+            $options = PaymentOption::where('payment_type_id', $request->id)
                 ->latest()
                 ->get();
 
@@ -82,7 +82,7 @@ class PaymentController extends Controller
             ]);
 
             $option = PaymentOption::create([
-                'payment_id' => $request->id,
+                'payment_type_id' => $request->id,
                 'name' => $request->name,
                 'slug' => $request->slug,
                 'description' => $request->description,
@@ -200,7 +200,7 @@ class PaymentController extends Controller
                 'payment_options' => 'required|array',
             ]);
 
-            $option = PaymentOption::where('payment_id', $request->id)
+            $option = PaymentOption::where('payment_type_id', $request->id)
                 ->whereNotIn('slug', $this->slugs)
                 ->first();
 

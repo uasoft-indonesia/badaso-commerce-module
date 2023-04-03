@@ -108,7 +108,7 @@ class OrderController extends Controller
                 ->where('user_id', auth()->user()->id)
                 ->firstOrFail();
 
-            $payment_option = PaymentOption::where('slug', $order->orderPayment->payment_type)->first();
+            $payment_option = PaymentOption::where('slug', $order->orderPayment->payment_type_option_id)->first();
 
             $data['order'] = $order->toArray();
             $data['payment_option'] = $payment_option;
@@ -126,7 +126,7 @@ class OrderController extends Controller
             $request->validate([
                 'items' => 'required|array|exists:Uasoft\Badaso\Module\Commerce\Models\Cart,id',
                 'user_address_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\UserAddress,id',
-                'payment_type' => 'required|string|max:255|exists:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,slug',
+                'payment_type_option_id' => 'required|string|max:255|exists:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,id',
                 'message' => 'nullable|string',
             ]);
 
@@ -149,8 +149,6 @@ class OrderController extends Controller
                 if ($cart->quantity > $product_detail->quantity) {
                     throw new Exception('Out of stock');
                 }
-
-                // dd($cart->product_detail_id);
 
                 $discount = null;
                 $discounted = 0;
@@ -192,7 +190,7 @@ class OrderController extends Controller
 
             OrderPayment::create([
                 'order_id' => $order->id,
-                'payment_type' => $request->payment_type,
+                'payment_type_option_id' => $request->payment_type_option_id,
             ]);
 
             foreach ($request->items as $key => $item) {
@@ -200,7 +198,7 @@ class OrderController extends Controller
                 $product_detail = ProductDetail::findOrFail($cart->product_detail_id);
                 $discount = null;
                 $discounted = 0;
-                if (! empty($product_detail->discount_id)) {
+                if (!empty($product_detail->discount_id)) {
                     $discount = Discount::findOrFail($product_detail->discount_id);
                     if ($discount->active === 1 || $discount->active === '1') {
                         if ($discount->discount_type === 'fixed') {
@@ -243,34 +241,31 @@ class OrderController extends Controller
     {
         try {
             $request->validate([
-                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
-                'name' => 'required|string|max:255|min:3',
-                'proof_of_transaction' => 'required',
-                'source_bank' => 'required|string',
-                'destination_bank' => 'required|string',
-                'account_number' => 'required|alpha_num',
-                'total_transfered' => 'required|numeric',
+                'order_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
+                'source_bank' => 'nullable|string',
+                'account_number' => 'nullable|alpha_num',
+                'total_transfered' => 'nullable|numeric',
+                'proof_of_transaction' => 'nullable',
             ]);
 
             DB::beginTransaction();
-
             $order = Order::where('user_id', auth()->user()->id)
-                ->where('id', $request->id)
+                ->where('id', $request->order_id)
                 ->firstOrFail();
 
-            $url = null;
 
+            $url = null;
             if ($order->status == 'waitingBuyerPayment' && now()->lessThan(Carbon::create($order->expired_at))) {
                 $url = UploadImage::createImage($request->proof_of_transaction, 'proof/');
-                OrderPayment::create([
-                    'order_id' => $order->id,
-                    'proof_of_transaction' => $url,
-                    'source_bank' => $request->source_bank,
-                    'destination_bank' => $request->destination_bank,
-                    'account_number' => $request->account_number,
-                    'total_transfered' => $request->total_transfered,
-                    'payment_type' => 'manual-transfer',
-                ]);
+
+                OrderPayment::where('order_id', $order->id)
+                    ->update([
+                        'source_bank' => $request->source_bank,
+                        'destination_bank' => $request->destination_bank,
+                        'account_number' => $request->account_number,
+                        'total_transfered' => $request->total_transfered,
+                        'proof_of_transaction' => $url,
+                    ]);
 
                 $order->status = 'waitingSellerConfirmation';
                 $order->expired_at = null;
@@ -279,13 +274,12 @@ class OrderController extends Controller
                 event(new OrderStateWasChanged(auth()->user(), $order, 'waitingSellerConfirmation'));
 
                 DB::commit();
+                return ApiResponse::success();
             } else {
                 DB::rollback();
 
                 return ApiResponse::failed(__('badaso_commerce::validation.order_is_failed'));
             }
-
-            return ApiResponse::success();
         } catch (Exception $e) {
             DB::rollback();
 

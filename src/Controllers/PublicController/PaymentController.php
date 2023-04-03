@@ -50,10 +50,10 @@ class PaymentController extends Controller
     {
         try {
             $request->validate([
-                'slug' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,slug',
+                'id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,id',
             ]);
 
-            $data['payment_option'] = PaymentOption::where('slug', $request->slug)->first();
+            $data['payment_option'] = PaymentOption::where('id', $request->id)->first();
 
             return ApiResponse::success($data);
         } catch (Exception $e) {

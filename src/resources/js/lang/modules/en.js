@@ -2,7 +2,7 @@ export const label = "English";
 
 export default {
   vuelidate: {
-    error: "This field is invalid"
+    error: "This field is invalid",
   },
   action: {
     bin: "Recycle Bin",
@@ -12,8 +12,8 @@ export default {
       title: "Restore Item",
       text: "Are you sure want to restore this item?",
       accept: "Restore",
-      cancel: "Cancel"
-    }
+      cancel: "Cancel",
+    },
   },
   product: {
     browse: {
@@ -25,7 +25,7 @@ export default {
         productImage: "Product Image",
         createdAt: "Created At",
         updatedAt: "Updated At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -41,7 +41,7 @@ export default {
         productCategoryId: "Category",
         productImage: "Product Image",
         deletedAt: "Deleted At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -54,11 +54,11 @@ export default {
       field: {
         name: {
           title: "Product Name",
-          placeholder: "Product Name"
+          placeholder: "Product Name",
         },
         slug: {
           title: "Slug",
-          placeholder: "Slug"
+          placeholder: "Slug",
         },
         productCategoryId: {
           title: "Product Category",
@@ -80,7 +80,7 @@ export default {
         price: "Price",
         discount: "Discount",
         SKU: "SKU",
-        action: "Action"
+        action: "Action",
       },
       button: "Save",
       detail: {
@@ -115,8 +115,8 @@ export default {
           },
           button: {
             save: "Save",
-            cancel: "Cancel"
-          }
+            cancel: "Cancel",
+          },
         },
         edit: {
           title: "Edit Product Detail",
@@ -148,10 +148,10 @@ export default {
           },
           button: {
             save: "Save",
-            cancel: "Cancel"
-          }
-        }
-      }
+            cancel: "Cancel",
+          },
+        },
+      },
     },
     detail: {
       title: "Detail Product",
@@ -165,7 +165,7 @@ export default {
         updatedAt: "Updated At",
         deletedAt: "Deleted At",
       },
-    }
+    },
   },
   productCategories: {
     browse: {
@@ -178,7 +178,7 @@ export default {
         SKU: "SKU",
         createdAt: "Created At",
         updatedAt: "Updated At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -195,7 +195,7 @@ export default {
         desc: "Description",
         SKU: "SKU",
         deletedAt: "Deleted At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -208,15 +208,15 @@ export default {
       field: {
         name: {
           title: "Category Name",
-          placeholder: "Category Name"
+          placeholder: "Category Name",
         },
         slug: {
           title: "Slug",
-          placeholder: "Slug"
+          placeholder: "Slug",
         },
         desc: {
           title: "Description",
-          placeholder: "Description"
+          placeholder: "Description",
         },
         parent: {
           title: "Parent Category",
@@ -224,29 +224,29 @@ export default {
         },
         SKU: {
           title: "Category SKU",
-          placeholder: "Category SKU"
+          placeholder: "Category SKU",
         },
         image: {
           title: "Image",
-          placeholder: "Image"
+          placeholder: "Image",
         },
       },
-      button: "Save"
+      button: "Save",
     },
     edit: {
       title: "Edit Product Category",
       field: {
         name: {
           title: "Category Name",
-          placeholder: "Category Name"
+          placeholder: "Category Name",
         },
         slug: {
           title: "Slug",
-          placeholder: "Slug"
+          placeholder: "Slug",
         },
         desc: {
           title: "Description",
-          placeholder: "Description"
+          placeholder: "Description",
         },
         parent: {
           title: "Parent Category",
@@ -254,14 +254,14 @@ export default {
         },
         SKU: {
           title: "Category SKU",
-          placeholder: "Category SKU"
+          placeholder: "Category SKU",
         },
         image: {
           title: "Image",
-          placeholder: "Image"
+          placeholder: "Image",
         },
       },
-      button: "Save"
+      button: "Save",
     },
     detail: {
       title: "Detail Product Category",
@@ -274,15 +274,24 @@ export default {
         createdAt: "Created At",
         updatedAt: "Updated At",
         deletedAt: "Deleted At",
-        action: "Action"
+        action: "Action",
       },
-    }
+    },
   },
   discounts: {
     discountType: {
       fixed: "Fixed",
-      percent: "Percent"
+      percent: "Percent",
     },
+    help: {
+      discountFixed:
+        "Diskon Fixed is nominal of discount has setted. Type nominal discount without set delimiter",
+      discountPercent:
+        "Diskon Percent is nominal of discount setting by value among 1-100",
+      percentType:
+        "Diskon Fixed is nominal of discount has setted and type nominal discount without set delimiter. Diskon Percent is nominal of discount setting by value among 1-100",
+    },
+
     browse: {
       title: "Product Discount",
       header: {
@@ -294,7 +303,7 @@ export default {
         active: "Active",
         createdAt: "Created At",
         updatedAt: "Updated At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -312,7 +321,7 @@ export default {
         discountFixed: "Discount Fixed",
         active: "Active",
         deletedAt: "Deleted At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -325,60 +334,60 @@ export default {
       field: {
         name: {
           title: "Discount Name",
-          placeholder: "Discount Name"
+          placeholder: "Discount Name",
         },
         desc: {
           title: "Description",
-          placeholder: "Description"
+          placeholder: "Description",
         },
         discountType: {
           title: "Discount Type",
-          placeholder: "Discount Type"
+          placeholder: "Discount Type",
         },
         discountPercent: {
           title: "Percent",
-          placeholder: "Percent"
+          placeholder: "Percent",
         },
         discountFixed: {
           title: "Fixed",
-          placeholder: "Fixed"
+          placeholder: "Fixed",
         },
         active: {
           title: "Active",
-          placeholder: "Active"
+          placeholder: "Active",
         },
       },
-      button: "Save"
+      button: "Save",
     },
     edit: {
       title: "Edit Discount",
       field: {
         name: {
           title: "Discount Name",
-          placeholder: "Discount Name"
+          placeholder: "Discount Name",
         },
         desc: {
           title: "Description",
-          placeholder: "Description"
+          placeholder: "Description",
         },
         discountType: {
           title: "Discount Type",
-          placeholder: "Discount Type"
+          placeholder: "Discount Type",
         },
         discountPercent: {
           title: "Percent",
-          placeholder: "Percent"
+          placeholder: "Percent",
         },
         discountFixed: {
           title: "Fixed",
-          placeholder: "Fixed"
+          placeholder: "Fixed",
         },
         active: {
           title: "Active",
-          placeholder: "Active"
+          placeholder: "Active",
         },
       },
-      button: "Save"
+      button: "Save",
     },
     detail: {
       title: "Detail Discount",
@@ -392,18 +401,18 @@ export default {
         createdAt: "Created At",
         updatedAt: "Updated At",
         deletedAt: "Deleted At",
-        action: "Action"
+        action: "Action",
       },
-    }
+    },
   },
   orders: {
     status: {
       "-1": "Failed",
-      "0": "Waiting Payment",
-      "1": "Waiting Confirmation",
-      "2": "Processing",
-      "3": "Shipping",
-      "4": "Received",
+      0: "Waiting Payment",
+      1: "Waiting Confirmation",
+      2: "Processing",
+      3: "Shipping",
+      4: "Received",
     },
     browse: {
       title: "Orders",
@@ -415,7 +424,7 @@ export default {
         payed: "Payed",
         status: "Status",
         orderedAt: "Order At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -434,7 +443,7 @@ export default {
       header: {
         recipientName: "Recipient Name",
         user: {
-          email: "Email"
+          email: "Email",
         },
         addressLine1: "Address Line 1",
         addressLine2: "Address Line 2",
@@ -458,7 +467,7 @@ export default {
           accountNumber: "Account Number",
           totalTransfer: "Total Transfered",
           proofOfTransaction: "Proof of Transaction",
-        }
+        },
       },
       field: {
         trackingNumber: {
@@ -471,9 +480,9 @@ export default {
         },
       },
       button: {
-        save: "Save"
-      }
-    }
+        save: "Save",
+      },
+    },
   },
   cart: {
     browse: {
@@ -485,7 +494,7 @@ export default {
         quantity: "Quantity",
         createdAt: "Created At",
         updatedAt: "Updated At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -502,9 +511,9 @@ export default {
         quantity: "Quantity",
         createdAt: "Created At",
         updatedAt: "Updated At",
-        action: "Action"
-      }
-    }
+        action: "Action",
+      },
+    },
   },
   userAddress: {
     browse: {
@@ -516,7 +525,7 @@ export default {
         address2: "Address 2",
         createdAt: "Created At",
         updatedAt: "Updated At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -537,9 +546,9 @@ export default {
         phoneNumber: "Phone Number",
         createdAt: "Created At",
         updatedAt: "Updated At",
-        action: "Action"
-      }
-    }
+        action: "Action",
+      },
+    },
   },
   commerceSite: {
     action: "Action",
@@ -590,7 +599,7 @@ export default {
         rating: "Rating",
         createdAt: "Created At",
         updatedAt: "Updated At",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -609,9 +618,9 @@ export default {
         media: "Media",
         createdAt: "Created At",
         updatedAt: "Updated At",
-        action: "Action"
+        action: "Action",
       },
-    }
+    },
   },
   payments: {
     browse: {
@@ -620,7 +629,7 @@ export default {
         name: "Name",
         slug: "Slug",
         isActive: "Active",
-        action: "Action"
+        action: "Action",
       },
       footer: {
         descriptionTitle: "Registries",
@@ -633,36 +642,36 @@ export default {
       field: {
         name: {
           title: "Name",
-          placeholder: "Name"
+          placeholder: "Name",
         },
         slug: {
           title: "Slug",
-          placeholder: "Slug"
+          placeholder: "Slug",
         },
         isActive: {
           title: "Active",
-          placeholder: "Active"
+          placeholder: "Active",
         },
       },
-      button: "Save"
+      button: "Save",
     },
     edit: {
       title: "Edit Payment",
       field: {
         name: {
           title: "Name",
-          placeholder: "Name"
+          placeholder: "Name",
         },
         slug: {
           title: "Slug",
-          placeholder: "Slug"
+          placeholder: "Slug",
         },
         isActive: {
           title: "Active",
-          placeholder: "Active"
+          placeholder: "Active",
         },
       },
-      button: "Save"
+      button: "Save",
     },
     detail: {
       title: "Detail Discount",
@@ -676,7 +685,7 @@ export default {
         createdAt: "Created At",
         updatedAt: "Updated At",
         deletedAt: "Deleted At",
-        action: "Action"
+        action: "Action",
       },
     },
     option: {
@@ -694,8 +703,8 @@ export default {
           },
           button: {
             cancel: "Cancel",
-            add: "Add"
-          }
+            add: "Add",
+          },
         },
         edit: {
           title: "Edit Payment Option",
@@ -709,10 +718,10 @@ export default {
           },
           button: {
             cancel: "Cancel",
-            edit: "Edit"
-          }
-        }
-      }
-    }
+            edit: "Edit",
+          },
+        },
+      },
+    },
   },
 };

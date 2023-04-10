@@ -248,6 +248,7 @@ class OrderController extends Controller
             $request->validate([
                 'order_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
                 'source_bank' => 'nullable|string',
+                'destination_bank' => 'nullable|string',
                 'account_number' => 'nullable|alpha_num',
                 'total_transfered' => 'nullable|numeric',
                 'proof_of_transaction' => 'nullable',

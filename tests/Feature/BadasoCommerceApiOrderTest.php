@@ -9,6 +9,9 @@ use Tests\TestCase;
 use Uasoft\Badaso\Helpers\CallHelperTest;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
+use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
+use Uasoft\Badaso\Module\Commerce\Models\Payment;
+use Uasoft\Badaso\Module\Commerce\Models\PaymentOption;
 
 class BadasoCommerceApiOrderTest extends TestCase
 {
@@ -31,7 +34,7 @@ class BadasoCommerceApiOrderTest extends TestCase
             $user = User::create([
                 'name' => $name,
                 'username' => $name,
-                'email' => $name.'@mail.com',
+                'email' => $name . '@mail.com',
                 'password' => Hash::make('secret'),
                 'avatar' => 'photos/shares/default-user.png',
                 'additional_info' => null,
@@ -44,7 +47,7 @@ class BadasoCommerceApiOrderTest extends TestCase
                 'shipping_cost' => 0,
                 'payed' => 10,
                 'status' => 'process',
-                'message' => 'yes'.$index,
+                'message' => 'yes' . $index,
                 'expired_at' => Carbon::now(),
             ]);
             $ids[] = $order->id;
@@ -68,7 +71,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name.'@mail.com',
+            'email' => $name . '@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -98,7 +101,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name.'@mail.com',
+            'email' => $name . '@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -128,7 +131,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name.'@mail.com',
+            'email' => $name . '@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -162,7 +165,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name.'@mail.com',
+            'email' => $name . '@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -195,7 +198,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name.'@mail.com',
+            'email' => $name . '@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -214,9 +217,11 @@ class BadasoCommerceApiOrderTest extends TestCase
             'expired_at' => Carbon::tomorrow(),
         ]);
         $order_id = $order->id;
+
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/done', [
             'id' => $order_id,
         ]);
+
         $response->assertSuccessful();
         $order->forceDelete();
         $user->forceDelete();
@@ -238,8 +243,8 @@ class BadasoCommerceApiOrderTest extends TestCase
                 'payed' => 10,
                 'status' => 'delivering',
                 'tracking_number' => 'LOREM12312323',
-                'message' => 'yes'.$index,
-                'cancel_message' => 'test'.$index,
+                'message' => 'yes' . $index,
+                'cancel_message' => 'test' . $index,
                 'expired_at' => Carbon::tomorrow(),
             ]);
             $ids[] = $order->id;
@@ -283,14 +288,35 @@ class BadasoCommerceApiOrderTest extends TestCase
         ]);
         $order_id = $order->id;
         $request_order = [
-            'id' =>  $order_id,
-            'name' => 'order_payments',
-            'proof_of_transaction' => 'https://www.google.com/imgres?imgurl=https%3A%2F%2F1.bp.blogspot.com%2F-ODZquLEzq78%2FYHABUWWi8FI%2FAAAAAAAAVE0%2FE_kpYUmOUPUZ8g9a6Gg3j64TA4Ji1D4yQCLcBGAsYHQ%2Fs0%2FCara-Cetak-Rekening-Koran-Melalui-KlikBCA.jpg&imgrefurl=https%3A%2F%2Fbca.emingko.com%2F2021%2F04%2Fcara-cetak-rekening-koran-melalui-klikbca.html&tbnid=JbGqy6OH6ljHpM&vet=12ahUKEwjV8PvIkYP2AhU2_zgGHQ_RC3sQMygFegUIARC8AQ..i&docid=o3Q2nJTIlZqVuM&w=600&h=371&q=gambar%20bukti%20transaksi&ved=2ahUKEwjV8PvIkYP2AhU2_zgGHQ_RC3sQMygFegUIARC8AQ',
+            'order_id' =>  $order_id,
+        ];
+
+        $payment_type = Payment::create([
+            'name' => 'Bank Transfer',
+            'slug' => Str::uuid(),
+            'is_active' => 1,
+        ]);
+        $payment_type_id = $payment_type->id;
+
+        $payment_type_options = PaymentOption::create([
+            'payment_type_id' => $payment_type_id,
+            'name' => 'Transfer Bank (Manual)',
+            'slug' => Str::uuid(),
+            'is_active' => 1,
+            'order' => 1,
+        ]);
+        $payment_type_options_id = $payment_type_options->id;
+        $order_payments = OrderPayment::create([
+            'order_id' => $order_id,
+            'payment_type_option_id' => $payment_type_options_id,
             'source_bank' => 'BCA',
             'destination_bank' => 'BCA',
             'account_number' => '201B23456800',
-            'total_transfered' => 500000,
-        ];
+            'total_transfered' => 50000,
+            'proof_of_transaction' => 'https://www.google.com/imgres?imgurl=https%3A%2F%2F1.bp.blogspot.com%2F-ODZquLEzq78%2FYHABUWWi8FI%2FAAAAAAAAVE0%2FE_kpYUmOUPUZ8g9a6Gg3j64TA4Ji1D4yQCLcBGAsYHQ%2Fs0%2FCara-Cetak-Rekening-Koran-Melalui-KlikBCA.jpg&imgrefurl=https%3A%2F%2Fbca.emingko.com%2F2021%2F04%2Fcara-cetak-rekening-koran-melalui-klikbca.html&tbnid=JbGqy6OH6ljHpM&vet=12ahUKEwjV8PvIkYP2AhU2_zgGHQ_RC3sQMygFegUIARC8AQ..i&docid=o3Q2nJTIlZqVuM&w=600&h=371&q=gambar%20bukti%20transaksi&ved=2ahUKEwjV8PvIkYP2AhU2_zgGHQ_RC3sQMygFegUIARC8AQ',
+
+        ]);
+
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/public/pay', $request_order);
         $response->assertSuccessful();
     }

@@ -31,8 +31,6 @@ class Payment extends Model
      */
     public function options()
     {
-        return $this->hasMany(PaymentOption::class,'payment_type_id','id');
+        return $this->hasMany(PaymentOption::class, 'payment_type_id', 'id');
     }
-
-
 }

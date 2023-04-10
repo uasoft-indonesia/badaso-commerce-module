@@ -13,9 +13,9 @@ class CreateBadasoOrderPaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('badaso.database.prefix') . 'order_payments', function (Blueprint $table) {
+        Schema::create(config('badaso.database.prefix').'order_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignUuid('order_id')->constrained(config('badaso.database.prefix') . 'orders');
+            $table->foreignUuid('order_id')->constrained(config('badaso.database.prefix').'orders');
             $table->foreignId('payment_type_option_id')->nullable();
             $table->string('source_bank')->nullable();
             $table->string('destination_bank')->nullable();
@@ -26,10 +26,9 @@ class CreateBadasoOrderPaymentsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::table(config('badaso.database.prefix') . 'order_payments', function (Blueprint $table) {
-            $table->foreign('payment_type_option_id')->references('id')->on(config('badaso.database.prefix') . 'payment_type_options')->onDelete('cascade');
+        Schema::table(config('badaso.database.prefix').'order_payments', function (Blueprint $table) {
+            $table->foreign('payment_type_option_id')->references('id')->on(config('badaso.database.prefix').'payment_type_options')->onDelete('cascade');
         });
-
     }
 
     /**
@@ -39,6 +38,6 @@ class CreateBadasoOrderPaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('badaso.database.prefix') . 'order_payments');
+        Schema::dropIfExists(config('badaso.database.prefix').'order_payments');
     }
 }

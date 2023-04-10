@@ -2,11 +2,11 @@
 
 namespace Uasoft\Badaso\Module\Commerce\Listeners;
 
+use Illuminate\Support\Facades\Mail;
 use Uasoft\Badaso\Models\Notification;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
 use Uasoft\Badaso\Module\Commerce\Mail\MailNotificationOrder;
-use Illuminate\Support\Facades\Mail;
 
 class SendNotificationToUser
 {
@@ -23,7 +23,6 @@ class SendNotificationToUser
         }, function ($query) {
             return $query;
         })->firstOrFail();
-
 
         $status = $event->status;
         $title = null;
@@ -59,7 +58,7 @@ class SendNotificationToUser
                 return;
         }
 
-        Mail::to($event->user->email)->send(new MailNotificationOrder($event->user,$title,$content));
+        Mail::to($event->user->email)->send(new MailNotificationOrder($event->user, $title, $content));
         Notification::create([
             'receiver_user_id' => $event->user->id,
             'type' => 'orderNotification',

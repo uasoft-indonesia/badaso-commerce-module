@@ -29,6 +29,7 @@ class OrderPayment extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
     public function payment_type_options()
     {
         return $this->belongsTo(PaymentOption::class);

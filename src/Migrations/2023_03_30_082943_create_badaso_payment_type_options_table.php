@@ -13,9 +13,9 @@ class CreateBadasoPaymentTypeOptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create(config('badaso.database.prefix') . 'payment_type_options', function (Blueprint $table) {
+        Schema::create(config('badaso.database.prefix').'payment_type_options', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('payment_type_id')->constrained(config('badaso.database.prefix') . 'payment_types')->onDelete('cascade');
+            $table->foreignId('payment_type_id')->constrained(config('badaso.database.prefix').'payment_types')->onDelete('cascade');
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('description')->nullable();
@@ -33,6 +33,6 @@ class CreateBadasoPaymentTypeOptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(config('badaso.database.prefix') . 'payment_type_options');
+        Schema::dropIfExists(config('badaso.database.prefix').'payment_type_options');
     }
 }

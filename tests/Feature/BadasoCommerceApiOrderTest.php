@@ -34,7 +34,7 @@ class BadasoCommerceApiOrderTest extends TestCase
             $user = User::create([
                 'name' => $name,
                 'username' => $name,
-                'email' => $name . '@mail.com',
+                'email' => $name.'@mail.com',
                 'password' => Hash::make('secret'),
                 'avatar' => 'photos/shares/default-user.png',
                 'additional_info' => null,
@@ -47,7 +47,7 @@ class BadasoCommerceApiOrderTest extends TestCase
                 'shipping_cost' => 0,
                 'payed' => 10,
                 'status' => 'process',
-                'message' => 'yes' . $index,
+                'message' => 'yes'.$index,
                 'expired_at' => Carbon::now(),
             ]);
             $ids[] = $order->id;
@@ -71,7 +71,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . '@mail.com',
+            'email' => $name.'@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -101,7 +101,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . '@mail.com',
+            'email' => $name.'@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -131,7 +131,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . '@mail.com',
+            'email' => $name.'@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -165,7 +165,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . '@mail.com',
+            'email' => $name.'@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -198,7 +198,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $user = User::create([
             'name' => $name,
             'username' => $name,
-            'email' => $name . '@mail.com',
+            'email' => $name.'@mail.com',
             'password' => Hash::make('secret'),
             'avatar' => 'photos/shares/default-user.png',
             'additional_info' => null,
@@ -243,8 +243,8 @@ class BadasoCommerceApiOrderTest extends TestCase
                 'payed' => 10,
                 'status' => 'delivering',
                 'tracking_number' => 'LOREM12312323',
-                'message' => 'yes' . $index,
-                'cancel_message' => 'test' . $index,
+                'message' => 'yes'.$index,
+                'cancel_message' => 'test'.$index,
                 'expired_at' => Carbon::tomorrow(),
             ]);
             $ids[] = $order->id;

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Config;
-use Uasoft\Badaso\Helpers\HandleFile;
 use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
 use Uasoft\Badaso\Module\Commerce\Helper\UploadImage;
 use Uasoft\Badaso\Module\Commerce\Models\Cart;
@@ -22,7 +21,6 @@ use Uasoft\Badaso\Module\Commerce\Models\PaymentOption;
 use Uasoft\Badaso\Module\Commerce\Models\ProductDetail;
 use Uasoft\Badaso\Module\Commerce\Models\UserAddress;
 use Uasoft\Badaso\Traits\FileHandler;
-use Uasoft\Badaso\Controllers\BadasoFileController;
 
 class OrderController extends Controller
 {
@@ -203,7 +201,7 @@ class OrderController extends Controller
                 $product_detail = ProductDetail::findOrFail($cart->product_detail_id);
                 $discount = null;
                 $discounted = 0;
-                if (!empty($product_detail->discount_id)) {
+                if (! empty($product_detail->discount_id)) {
                     $discount = Discount::findOrFail($product_detail->discount_id);
                     if ($discount->active === 1 || $discount->active === '1') {
                         if ($discount->discount_type === 'fixed') {
@@ -258,7 +256,6 @@ class OrderController extends Controller
                 ->where('id', $request->order_id)
                 ->firstOrFail();
 
-
             if ($order->status == 'waitingBuyerPayment' && now()->lessThan(Carbon::create($order->expired_at))) {
                 // $url = UploadImage::createImage($request->proof_of_transaction, 'proof/');
                 $order_payments = OrderPayment::where('order_id', $order->id)->first();
@@ -268,7 +265,7 @@ class OrderController extends Controller
                 $order_payments->total_transfered = $request->total_transfered;
                 $order_payments->proof_of_transaction = $request->proof_of_transaction;
                 $order_payments->save();
-                $uploaded_path = $this->handleUploadFiles([$order_payments->proof_of_transaction],'upload_file');
+                $uploaded_path = $this->handleUploadFiles([$order_payments->proof_of_transaction], 'upload_file');
 
                 $order->status = 'waitingSellerConfirmation';
                 $order->expired_at = null;
@@ -277,6 +274,7 @@ class OrderController extends Controller
                 event(new OrderStateWasChanged(auth()->user(), $order, 'waitingSellerConfirmation'));
 
                 DB::commit();
+
                 return ApiResponse::success();
             } else {
                 DB::rollback();

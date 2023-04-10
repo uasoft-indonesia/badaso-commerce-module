@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
+use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Models\UserRole;
 use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
@@ -132,7 +133,7 @@ class OrderController extends Controller
                 $order->expired_at = null;
                 $order->save();
 
-                event(new OrderStateWasChanged(auth()->user(), $order, 'process'));
+                event(new OrderStateWasChanged(User::where('id', $order->user_id)->first(), $order, 'process'));
 
                 return ApiResponse::success();
             }
@@ -164,7 +165,7 @@ class OrderController extends Controller
                 $order->expired_at = null;
                 $order->save();
 
-                event(new OrderStateWasChanged(auth()->user(), $order, 'cancel'));
+                event(new OrderStateWasChanged(User::where('id', $order->user_id)->first(), $order, 'cancel'));
 
                 return ApiResponse::success();
             }
@@ -189,7 +190,7 @@ class OrderController extends Controller
                 $order->tracking_number = $request->tracking_number;
                 $order->save();
 
-                event(new OrderStateWasChanged(auth()->user(), $order, 'delivering'));
+                event(new OrderStateWasChanged(User::where('id', $order->user_id)->first(), $order, 'delivering'));
 
                 return ApiResponse::success();
             }
@@ -212,7 +213,7 @@ class OrderController extends Controller
                 $order->status = 'done';
                 $order->save();
 
-                event(new OrderStateWasChanged(auth()->user(), $order, 'done'));
+                event(new OrderStateWasChanged(User::where('id', $order->user_id)->first(), $order, 'done'));
 
                 return ApiResponse::success();
             }

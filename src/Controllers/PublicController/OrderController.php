@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Uasoft\Badaso\Controllers\Controller;
 use Uasoft\Badaso\Helpers\ApiResponse;
 use Uasoft\Badaso\Helpers\Config;
+use Uasoft\Badaso\Helpers\HandleFile;
 use Uasoft\Badaso\Module\Commerce\Events\OrderStateWasChanged;
 use Uasoft\Badaso\Module\Commerce\Helper\UploadImage;
 use Uasoft\Badaso\Module\Commerce\Models\Cart;
@@ -20,9 +21,13 @@ use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
 use Uasoft\Badaso\Module\Commerce\Models\PaymentOption;
 use Uasoft\Badaso\Module\Commerce\Models\ProductDetail;
 use Uasoft\Badaso\Module\Commerce\Models\UserAddress;
+use Uasoft\Badaso\Traits\FileHandler;
+use Uasoft\Badaso\Controllers\BadasoFileController;
 
 class OrderController extends Controller
 {
+    use FileHandler;
+
     public function browse()
     {
         try {
@@ -254,18 +259,16 @@ class OrderController extends Controller
                 ->firstOrFail();
 
 
-            $url = null;
             if ($order->status == 'waitingBuyerPayment' && now()->lessThan(Carbon::create($order->expired_at))) {
-                $url = UploadImage::createImage($request->proof_of_transaction, 'proof/');
-
-                OrderPayment::where('order_id', $order->id)
-                    ->update([
-                        'source_bank' => $request->source_bank,
-                        'destination_bank' => $request->destination_bank,
-                        'account_number' => $request->account_number,
-                        'total_transfered' => $request->total_transfered,
-                        'proof_of_transaction' => $url,
-                    ]);
+                // $url = UploadImage::createImage($request->proof_of_transaction, 'proof/');
+                $order_payments = OrderPayment::where('order_id', $order->id)->first();
+                $order_payments->source_bank = $request->source_bank;
+                $order_payments->destination_bank = $request->destination_bank;
+                $order_payments->account_number = $request->account_number;
+                $order_payments->total_transfered = $request->total_transfered;
+                $order_payments->proof_of_transaction = $request->proof_of_transaction;
+                $order_payments->save();
+                $uploaded_path = $this->handleUploadFiles([$order_payments->proof_of_transaction],'upload_file');
 
                 $order->status = 'waitingSellerConfirmation';
                 $order->expired_at = null;

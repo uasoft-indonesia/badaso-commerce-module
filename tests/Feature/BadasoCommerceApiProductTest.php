@@ -64,7 +64,6 @@ class BadasoCommerceApiProductTest extends TestCase
 
     public function testReadProductCategory()
     {
-
         //  from database
         $model = ProductCategory::create([
             'name' => 'coba 1',

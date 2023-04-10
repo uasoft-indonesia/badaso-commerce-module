@@ -10,7 +10,6 @@ class UploadImage
 {
     public static function createImage($base64, $path = '')
     {
-
         try {
             $file_parts = explode(';base64,', $base64);
             $file_type_aux = explode('/', $file_parts[0]);
@@ -24,7 +23,6 @@ class UploadImage
             return null;
         }
     }
-
 
     public static function deleteImage($file)
     {

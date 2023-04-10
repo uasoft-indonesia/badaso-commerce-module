@@ -31,8 +31,9 @@ class PaymentOption extends Model
      */
     public function payment()
     {
-        return $this->belongsTo(Payment::class,'payment_type_id','id');
+        return $this->belongsTo(Payment::class, 'payment_type_id', 'id');
     }
+
     public function order_payments()
     {
         return $this->hasMany(OrderPayment::class);

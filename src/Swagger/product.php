@@ -7,30 +7,37 @@
  *      tags={"product"},
  *      summary="Browse Product",
  *      description="Returns list of Product",
+ *
  *      @OA\Parameter(
  *          name="page",
  *          example="1",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="limit",
  *          example="10",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="relation",
  *          example="productDetails,productCategory",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -48,30 +55,37 @@
  *      tags={"product"},
  *      summary="Browse Product Bin",
  *      description="Returns list of deleted Product",
+ *
  *      @OA\Parameter(
  *          name="page",
  *          example="1",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="limit",
  *          example="10",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="relation",
  *          example="productDetails,productCategory",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -89,22 +103,27 @@
  *      tags={"product"},
  *      summary="Read Product",
  *      description="Returns Product based on id",
+ *
  *      @OA\Parameter(
  *          name="id",
  *          required=true,
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="integer"
  *          )
  *      ),
+ *
  *      @OA\Parameter(
  *          name="relation",
  *          example="productDetails,productCategory",
  *          in="query",
+ *
  *          @OA\Schema(
  *              type="string"
  *          )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -122,10 +141,14 @@
  *      tags={"product"},
  *      summary="Restore Deleted Product",
  *      description="Restore a deleted product",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="integer",
@@ -134,6 +157,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -151,10 +175,14 @@
  *      tags={"product"},
  *      summary="Restore Multiple Deleted Product",
  *      description="Restore multiple deleted product",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="ids",
  *                     type="string",
@@ -163,6 +191,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -180,10 +209,14 @@
  *      tags={"product"},
  *      summary="Insert Product",
  *      description="Insert new Product into database",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="product_category_id",
  *                     type="integer",
@@ -212,7 +245,9 @@
  *                 @OA\Property(
  *                     property="items",
  *                     type="array",
+ *
  *                     @OA\Items(
+ *
  *                         @OA\Property(
  *                             property="discount_id",
  *                             type="integer",
@@ -248,6 +283,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -265,10 +301,14 @@
  *      tags={"product"},
  *      summary="Edit Product",
  *      description="Edit an existing Product",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="integer",
@@ -297,6 +337,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -314,10 +355,14 @@
  *      tags={"product"},
  *      summary="Delete Product",
  *      description="Delete one record of Product",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -326,6 +371,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -343,10 +389,14 @@
  *      tags={"product"},
  *      summary="Force Delete Product",
  *      description="Force delete one record of Product",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -355,6 +405,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -372,10 +423,14 @@
  *      tags={"product"},
  *      summary="Delete Multiple Product",
  *      description="Delete multiple record of Product",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
@@ -384,6 +439,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -401,10 +457,14 @@
  *      tags={"product"},
  *      summary="Force Delete Multiple Product",
  *      description="Force delete multiple record of Product",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="ids",
  *                     type="object",
@@ -413,6 +473,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),

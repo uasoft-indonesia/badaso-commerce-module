@@ -7,6 +7,7 @@
  *      tags={"cart"},
  *      summary="Browse Cart (Public)",
  *      description="Returns list of cart for public use",
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -24,10 +25,14 @@
  *      tags={"cart"},
  *      summary="Insert Cart (Public)",
  *      description="Add new Cart based on user logged in for public use",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -41,6 +46,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -58,10 +64,14 @@
  *      tags={"cart"},
  *      summary="Edit Cart (Public)",
  *      description="Edit an existing Cart for public use",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -75,6 +85,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -92,10 +103,14 @@
  *      tags={"cart"},
  *      summary="Delete Cart (Public)",
  *      description="Delete one record of Cart for public use",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -104,6 +119,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),

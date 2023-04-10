@@ -7,6 +7,7 @@
  *      tags={"order"},
  *      summary="Browse Order (Public)",
  *      description="Returns list of order for public use",
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -24,10 +25,14 @@
  *      tags={"order"},
  *      summary="Pay Order (Public)",
  *      description="Insert a proof of transaction of the order",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="multipart/form-data",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -42,6 +47,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -59,14 +65,20 @@
  *      tags={"order"},
  *      summary="Finish Order (Public)",
  *      description="Finish a checkout for public use",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="items",
  *                     type="array",
+ *
  *                     @OA\Items(
+ *
  *                         @OA\Property(property="id", type="string"),
  *                     ),
  *                 ),
@@ -83,6 +95,7 @@
  *             )
  *         )
  *      ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),
@@ -100,10 +113,14 @@
  *      tags={"order"},
  *      summary="Edit Order Address (Public)",
  *      description="Edit an existing order address for public use",
+ *
  *      @OA\RequestBody(
+ *
  *         @OA\MediaType(
  *             mediaType="application/json",
+ *
  *             @OA\Schema(
+ *
  *                 @OA\Property(
  *                     property="id",
  *                     type="object",
@@ -152,6 +169,7 @@
  *             )
  *         )
  *     ),
+ *
  *      @OA\Response(response=200, description="Successful operation"),
  *      @OA\Response(response=400, description="Bad request"),
  *      @OA\Response(response=401, description="Unauthorized"),

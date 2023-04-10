@@ -75,6 +75,7 @@ class BadasoCommerceSetup extends Command
             'MIX_ANALYTICS_ACCOUNT_ID' => '',
             'MIX_ANALYTICS_WEBPROPERTY_ID' => '',
             'MIX_ANALYTICS_VIEW_ID' => '',
+            'NOTIFICATION_SENDER_EMAIL'=> '',
         ];
     }
 
@@ -131,7 +132,7 @@ class BadasoCommerceSetup extends Command
 
             $exported_config = VarExporter::export($config_hidden_tables);
             $exported_config = <<<PHP
-                <?php 
+                <?php
                 return {$exported_config} ;
                 PHP;
             file_put_contents($config_path, $exported_config);

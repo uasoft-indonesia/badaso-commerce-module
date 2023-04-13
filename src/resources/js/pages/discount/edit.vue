@@ -36,16 +36,20 @@
               v-model="discount.discountPercent"
               size="6"
               :label="$t('discounts.add.field.discountPercent.title')"
-              :placeholder="$t('discounts.add.field.discountPercent.placeholder')"
+              :placeholder="
+                $t('discounts.add.field.discountPercent.placeholder')
+              "
               :alert="errors.discountPercent"
+              :tooltip="$t('discounts.help.discountPercent')"
             ></badaso-number>
             <badaso-text
-            v-if="discount.discountType === 'fixed'"
+              v-if="discount.discountType === 'fixed'"
               v-model="discount.discountFixed"
               size="6"
               :label="$t('discounts.add.field.discountFixed.title')"
               :placeholder="$t('discounts.add.field.discountFixed.placeholder')"
               :alert="errors.discountFixed"
+              :tooltip="$t('discounts.help.discountFixed')"
             ></badaso-text>
             <badaso-textarea
               v-model="discount.desc"
@@ -62,7 +66,8 @@
           <vs-row>
             <vs-col vs-lg="12">
               <vs-button color="primary" type="relief" @click="submitForm">
-                <vs-icon icon="save"></vs-icon> {{ $t("discounts.edit.button") }}
+                <vs-icon icon="save"></vs-icon>
+                {{ $t("discounts.edit.button") }}
               </vs-button>
             </vs-col>
           </vs-row>
@@ -82,19 +87,19 @@ export default {
       discount: {
         name: null,
         desc: null,
-        discountType: 'fixed',
-        discountPercent: '',
-        discountFixed: '',
+        discountType: "fixed",
+        discountPercent: "",
+        discountFixed: "",
         active: false,
       },
       discountType: [
-        { label: this.$t('discounts.discountType.fixed'), value: 'fixed' },
-        { label: this.$t('discounts.discountType.percent'), value: 'percent' },
-      ]
-    }
+        { label: this.$t("discounts.discountType.fixed"), value: "fixed" },
+        { label: this.$t("discounts.discountType.percent"), value: "percent" },
+      ],
+    };
   },
   mounted() {
-    this.getDiscount()
+    this.getDiscount();
   },
   methods: {
     submitForm() {
@@ -102,22 +107,22 @@ export default {
       try {
         this.$openLoader();
         this.$api.badasoDiscount
-        .edit(this.discount)
-        .then((response) => {
-          this.$closeLoader();
-          this.$router.push({ name: "DiscountBrowse" });
-        })
-        .catch((error) => {
-          this.errors = error.errors;
-          this.$closeLoader();
-          this.$vs.notify({
-            title: this.$t("alert.danger"),
-            text: error.message,
-            color: "danger",
+          .edit(this.discount)
+          .then((response) => {
+            this.$closeLoader();
+            this.$router.push({ name: "DiscountBrowse" });
+          })
+          .catch((error) => {
+            this.errors = error.errors;
+            this.$closeLoader();
+            this.$vs.notify({
+              title: this.$t("alert.danger"),
+              text: error.message,
+              color: "danger",
+            });
           });
-        });
       } catch (error) {
-        this.errors = error.data
+        this.errors = error.data;
         this.$vs.notify({
           title: this.$t("alert.danger"),
           text: error.message,
@@ -128,32 +133,34 @@ export default {
     getDiscount() {
       this.$openLoader();
       this.$api.badasoDiscount
-      .read({ id: this.$route.params.id, })
-      .then((response) => {
-        this.$closeLoader();
-        this.discount = response.data.discount;
-        if (this.discount.discountPercent !== null) {
-          this.discount.discountPercent = this.discount.discountPercent.toString()
-        }
+        .read({ id: this.$route.params.id })
+        .then((response) => {
+          this.$closeLoader();
+          this.discount = response.data.discount;
+          if (this.discount.discountPercent !== null) {
+            this.discount.discountPercent =
+              this.discount.discountPercent.toString();
+          }
 
-        if (this.discount.discountFixed !== null) {
-          this.discount.discountFixed = this.discount.discountFixed.toString()
-        }
-        this.discount.active = this.discount.active === 1 ? true : false
-      })
-      .catch((error) => {
-        this.$closeLoader();
-        this.$vs.notify({
-          title: this.$t("alert.danger"),
-          text: error.message,
-          color: "danger",
+          if (this.discount.discountFixed !== null) {
+            this.discount.discountFixed =
+              this.discount.discountFixed.toString();
+          }
+          this.discount.active = this.discount.active === 1 ? true : false;
+        })
+        .catch((error) => {
+          this.$closeLoader();
+          this.$vs.notify({
+            title: this.$t("alert.danger"),
+            text: error.message,
+            color: "danger",
+          });
         });
-      });
     },
     clearDiscount() {
-      this.discount.discountFixed = ''
-      this.discount.discountPercent = ''
-    }
+      this.discount.discountFixed = "";
+      this.discount.discountPercent = "";
+    },
   },
 };
 </script>

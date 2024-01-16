@@ -206,7 +206,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
 
         $join_discount = join(',', $ids);
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/delete-multiple', [
-            'ids' =>  $join_discount,
+            'ids' => $join_discount,
         ]);
         $response->assertSuccessful();
         $discount->forceDelete();
@@ -234,7 +234,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
             $discount_key->delete();
         }
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/force-delete-multiple', [
-            'ids' =>  $join_discount,
+            'ids' => $join_discount,
         ]);
         $response->assertSuccessful();
         $history = [];
@@ -263,7 +263,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
         $discount_trashed = Discount::withTrashed()->find($discount_id);
         $discount_trashed_id = $discount_trashed->id;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/restore', [
-            'id' =>  $discount_trashed_id,
+            'id' => $discount_trashed_id,
         ]);
         $response->assertSuccessful();
         $discount_get = Discount::find($discount_id);
@@ -298,7 +298,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
         }
 
         $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/restore-multiple', [
-            'ids' =>  $discount_trashed_id,
+            'ids' => $discount_trashed_id,
         ]);
         $response->assertSuccessful();
         foreach ($join_discount as $key => $id) {

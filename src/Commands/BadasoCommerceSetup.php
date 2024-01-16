@@ -79,7 +79,7 @@ class BadasoCommerceSetup extends Command
             'MIX_ANALYTICS_ACCOUNT_ID' => '',
             'MIX_ANALYTICS_WEBPROPERTY_ID' => '',
             'MIX_ANALYTICS_VIEW_ID' => '',
-            'NOTIFICATION_SENDER_EMAIL'=> '',
+            'NOTIFICATION_SENDER_EMAIL' => '',
         ];
     }
 

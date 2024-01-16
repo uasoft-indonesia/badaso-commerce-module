@@ -31,7 +31,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product = Product::create([
@@ -53,9 +53,9 @@ class BadasoCommerceApiCartTest extends TestCase
         $discount_id = $discounts->id;
         $product_detail = ProductDetail::create([
             'product_id' => $product_id,
-            'discount_id'=> $discount_id,
+            'discount_id' => $discount_id,
             'name' => 'name test 2',
-            'quantity'  => 13,
+            'quantity' => 13,
             'price' => '1000001',
             'SKU' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -92,7 +92,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product = Product::create([
@@ -114,9 +114,9 @@ class BadasoCommerceApiCartTest extends TestCase
         $discount_id = $discounts->id;
         $product_detail = ProductDetail::create([
             'product_id' => $product_id,
-            'discount_id'=> $discount_id,
+            'discount_id' => $discount_id,
             'name' => 'name test 2',
-            'quantity'  => 13,
+            'quantity' => 13,
             'price' => '1000001',
             'SKU' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -157,7 +157,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product = Product::create([
@@ -179,9 +179,9 @@ class BadasoCommerceApiCartTest extends TestCase
         $discount_id = $discounts->id;
         $product_detail = ProductDetail::create([
             'product_id' => $product_id,
-            'discount_id'=> $discount_id,
+            'discount_id' => $discount_id,
             'name' => 'name test 2',
-            'quantity'  => 13,
+            'quantity' => 13,
             'price' => '1000001',
             'SKU' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -216,7 +216,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product = Product::create([
@@ -238,9 +238,9 @@ class BadasoCommerceApiCartTest extends TestCase
         $discount_id = $discounts->id;
         $product_detail = ProductDetail::create([
             'product_id' => $product_id,
-            'discount_id'=> $discount_id,
+            'discount_id' => $discount_id,
             'name' => 'name test 2',
-            'quantity'  => 13,
+            'quantity' => 13,
             'price' => '1000001',
             'SKU' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -267,7 +267,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product = Product::create([
@@ -289,9 +289,9 @@ class BadasoCommerceApiCartTest extends TestCase
         $discount_id = $discounts->id;
         $product_detail = ProductDetail::create([
             'product_id' => $product_id,
-            'discount_id'=> $discount_id,
+            'discount_id' => $discount_id,
             'name' => 'name test 2',
-            'quantity'  => 13,
+            'quantity' => 13,
             'price' => '1000001',
             'SKU' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -327,7 +327,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product = Product::create([
@@ -349,9 +349,9 @@ class BadasoCommerceApiCartTest extends TestCase
         $discount_id = $discounts->id;
         $product_detail = ProductDetail::create([
             'product_id' => $product_id,
-            'discount_id'=> $discount_id,
+            'discount_id' => $discount_id,
             'name' => 'name test 2',
-            'quantity'  => 13,
+            'quantity' => 13,
             'price' => '1000001',
             'SKU' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',

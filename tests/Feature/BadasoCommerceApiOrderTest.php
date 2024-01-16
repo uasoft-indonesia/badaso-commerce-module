@@ -288,7 +288,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         ]);
         $order_id = $order->id;
         $request_order = [
-            'order_id' =>  $order_id,
+            'order_id' => $order_id,
         ];
 
         $payment_type = Payment::create([

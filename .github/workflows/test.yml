@@ -78,9 +78,9 @@ jobs:
       - name: Laravel file configuration
         run: git branch &&
           cd laravel &&
-          composer require badaso/core:^2.0 &&
-          composer require badaso/commerce-module:dev-${GITHUB_HEAD_REF} &&
-          composer update --no-interaction
+          composer require badaso/core:^2.0 -W &&
+          composer require badaso/commerce-module:dev-${GITHUB_HEAD_REF} -W &&
+          composer update --no-interaction -W
 
       # Mysql | Laravel setup
       - name: Mysql | Laravel setup

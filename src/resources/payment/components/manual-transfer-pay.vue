@@ -14,7 +14,7 @@ export default {
       this.$emit("input", this.redirect);
     },
     redirect(res) {
-      this.$inertia.visit(this.route('badaso.commerce-theme.payment-info', this.order.id))
+      this.$inertia.visit(this.route('badaso.shopuu-theme.payment-info', this.order.id))
     },
   },
 }

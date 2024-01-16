@@ -29,12 +29,12 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
                 'name' => 'coba 1',
                 'slug' => Str::uuid(),
                 'desc' => 'decription 1',
-                'SKU'  => Str::uuid(),
+                'SKU' => Str::uuid(),
             ]);
             $product_category_id = $product_category->id;
 
             $product = Product::create([
-                'product_category_id' =>  $product_category_id,
+                'product_category_id' => $product_category_id,
                 'name' => 'product 1'.$index,
                 'slug' => Str::uuid(),
                 'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -70,12 +70,12 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
                 'name' => 'coba 1',
                 'slug' => Str::uuid(),
                 'desc' => 'decription 1',
-                'SKU'  => Str::uuid(),
+                'SKU' => Str::uuid(),
             ]);
             $product_category_id = $product_category->id;
 
             $product = Product::create([
-                'product_category_id' =>  $product_category_id,
+                'product_category_id' => $product_category_id,
                 'name' => 'product 1'.$index,
                 'slug' => Str::uuid(),
                 'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -103,12 +103,12 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
 
         $product = Product::create([
-            'product_category_id' =>  $product_category_id,
+            'product_category_id' => $product_category_id,
             'name' => 'product read',
             'slug' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -128,11 +128,11 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product = Product::create([
-            'product_category_id' =>  $product_category_id,
+            'product_category_id' => $product_category_id,
             'name' => 'product delete restore',
             'slug' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -158,7 +158,7 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
 
@@ -203,11 +203,11 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product = Product::create([
-            'product_category_id' =>  $product_category_id,
+            'product_category_id' => $product_category_id,
             'name' => 'Intel Core i7-4750',
             'slug' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -217,7 +217,7 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
         $product_id = $product->id;
         $request_data_product = [
             'id' => $product_id,
-            'product_category_id' =>  $product_category_id,
+            'product_category_id' => $product_category_id,
             'name' => 'Intel Core i7-4750 product edit',
             'slug' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -242,12 +242,12 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
 
         $product = Product::create([
-            'product_category_id' =>  $product_category_id,
+            'product_category_id' => $product_category_id,
             'name' => 'Intel Core i7-4750 delete product',
             'slug' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -269,12 +269,12 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
 
         $product = Product::create([
-            'product_category_id' =>  $product_category_id,
+            'product_category_id' => $product_category_id,
             'name' => 'Intel Core i7-4750 delete product',
             'slug' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -301,7 +301,7 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $ids = [];
@@ -311,11 +311,11 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
                 'name' => 'coba 1',
                 'slug' => Str::uuid(),
                 'desc' => 'decription 1',
-                'SKU'  => Str::uuid(),
+                'SKU' => Str::uuid(),
             ]);
             $product_category_id = $product_category->id;
             $product = Product::create([
-                'product_category_id' =>  $product_category_id,
+                'product_category_id' => $product_category_id,
                 'name' => 'Intel Core i7-4750 delete multiple product'.$index,
                 'slug' => Str::uuid(),
                 'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -327,7 +327,7 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
         }
         $join_product = join(',', $ids);
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product/delete-multiple', [
-            'ids' =>  $join_product,
+            'ids' => $join_product,
         ]);
         $response->assertSuccessful();
         $product->forceDelete();
@@ -342,11 +342,11 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
                 'name' => 'coba 1',
                 'slug' => Str::uuid(),
                 'desc' => 'decription 1',
-                'SKU'  => Str::uuid(),
+                'SKU' => Str::uuid(),
             ]);
             $product_category_id = $product_category->id;
             $product = Product::create([
-                'product_category_id' =>  $product_category_id,
+                'product_category_id' => $product_category_id,
                 'name' => 'Intel Core i7-4750 delete multiple product'.$index,
                 'slug' => Str::uuid(),
                 'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -363,7 +363,7 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
 
         $join_product = join(',', $ids);
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product/force-delete-multiple', [
-            'ids' =>  $join_product,
+            'ids' => $join_product,
         ]);
         $response->assertSuccessful();
 
@@ -387,11 +387,11 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
                 'name' => 'coba 1',
                 'slug' => Str::uuid(),
                 'desc' => 'decription 1',
-                'SKU'  => Str::uuid(),
+                'SKU' => Str::uuid(),
             ]);
             $product_category_id = $product_category->id;
             $product = Product::create([
-                'product_category_id' =>  $product_category_id,
+                'product_category_id' => $product_category_id,
                 'name' => 'Intel Core i7-4750 delete multiple product'.$index,
                 'slug' => Str::uuid(),
                 'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',
@@ -402,7 +402,7 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
             $products[] = $product;
         }
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product/public', [
-            'page' =>  1,
+            'page' => 1,
         ]);
         $response->assertSuccessful();
         foreach ($products as $key => $product) {
@@ -416,11 +416,11 @@ class BadasoCommerceApiProductCategoryTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product = Product::create([
-            'product_category_id' =>  $product_category_id,
+            'product_category_id' => $product_category_id,
             'name' => 'Intel Core i7-4750 delete multiple product',
             'slug' => Str::uuid(),
             'product_image' => 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fvideos%2Faesthetic%2520background%2F&psig=AOvVaw3LzeH9UjT1mVGsd0J9-XTu&ust=1644482935889000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCKC0grye8vUCFQAAAAAdAAAAABAP',

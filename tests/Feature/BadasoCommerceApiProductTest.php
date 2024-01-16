@@ -20,7 +20,7 @@ class BadasoCommerceApiProductTest extends TestCase
             'name' => 'test',
             'slug' => Str::uuid(),
             'desc' => 'decription',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $response->assertSuccessful();
         $get_response = $response->json('data.id');
@@ -35,7 +35,7 @@ class BadasoCommerceApiProductTest extends TestCase
             'name' => 'coba',
             'slug' => Str::uuid(),
             'desc' => 'decription',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $model->id;
 
@@ -43,7 +43,7 @@ class BadasoCommerceApiProductTest extends TestCase
             'id' => $product_category_id,
             'name' => 'coba edit afdhal',
             'desc' => 'decription edit',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ];
         $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/product-category/edit', $request_data);
         $response->assertSuccessful();
@@ -69,12 +69,12 @@ class BadasoCommerceApiProductTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
 
         $product_category_id = $model->id;
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product-category/read', [
-            'id' =>  $product_category_id,
+            'id' => $product_category_id,
         ]);
         $response->assertSuccessful();
 
@@ -90,14 +90,14 @@ class BadasoCommerceApiProductTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
 
         $product_category_2 = ProductCategory::create([
             'name' => 'coba 2',
             'slug' => Str::uuid(),
             'desc' => 'decription 2',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product-category');
         $response->assertSuccessful();
@@ -116,14 +116,14 @@ class BadasoCommerceApiProductTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
 
         //  get id from database
         $product_category_id = $product_category->id;
 
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/delete', [
-            'id' =>  $product_category_id,
+            'id' => $product_category_id,
         ]);
         $response->assertSuccessful();
         $product_category->delete();
@@ -137,7 +137,7 @@ class BadasoCommerceApiProductTest extends TestCase
                 'name' => 'coba '.$index,
                 'slug' => Str::uuid(),
                 'desc' => 'decription '.$index,
-                'SKU'  => Str::uuid(),
+                'SKU' => Str::uuid(),
             ]);
             $ids[] = $product_category->id;
         }
@@ -157,13 +157,13 @@ class BadasoCommerceApiProductTest extends TestCase
             'name' => 'coba 1',
             'slug' => Str::uuid(),
             'desc' => 'decription 1',
-            'SKU'  => Str::uuid(),
+            'SKU' => Str::uuid(),
         ]);
         $product_category_id = $product_category->id;
         $product_category->delete();
 
         $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/force-delete', [
-            'id' =>  $product_category_id,
+            'id' => $product_category_id,
         ]);
         $response->assertSuccessful();
 
@@ -180,14 +180,14 @@ class BadasoCommerceApiProductTest extends TestCase
                 'name' => 'coba '.$index,
                 'slug' => Str::uuid(),
                 'desc' => 'decription '.$index,
-                'SKU'  => Str::uuid(),
+                'SKU' => Str::uuid(),
             ]);
             $ids[] = $product_category->id;
         }
         $product_category_trans_count = ProductCategory::withTrashed()->count();
         $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product-category/bin', [
             'page' => 1,
-            'limit' =>  $product_category_trans_count,
+            'limit' => $product_category_trans_count,
         ]);
         $response->assertSuccessful();
         $product_category->delete();

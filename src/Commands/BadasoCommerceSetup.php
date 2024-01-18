@@ -52,7 +52,11 @@ class BadasoCommerceSetup extends Command
 
     protected function generateSwagger()
     {
-        $this->call('l5-swagger:generate');
+        try {
+            $this->call('l5-swagger:generate');
+        } catch (\Exception $e) {
+            //throw $th;
+        }
     }
 
     protected function publishBadasoProvider()
@@ -75,7 +79,7 @@ class BadasoCommerceSetup extends Command
             'MIX_ANALYTICS_ACCOUNT_ID' => '',
             'MIX_ANALYTICS_WEBPROPERTY_ID' => '',
             'MIX_ANALYTICS_VIEW_ID' => '',
-            'NOTIFICATION_SENDER_EMAIL'=> '',
+            'NOTIFICATION_SENDER_EMAIL' => '',
         ];
     }
 

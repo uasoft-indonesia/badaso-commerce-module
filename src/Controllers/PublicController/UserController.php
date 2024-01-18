@@ -18,7 +18,7 @@ class UserController extends Controller
 
         try {
             $request->validate([
-                'name'   => 'required',
+                'name' => 'required',
                 'avatar' => 'nullable',
             ]);
 

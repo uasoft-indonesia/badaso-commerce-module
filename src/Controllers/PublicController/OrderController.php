@@ -129,7 +129,7 @@ class OrderController extends Controller
             $request->validate([
                 'items' => 'required|array|exists:Uasoft\Badaso\Module\Commerce\Models\Cart,id',
                 'user_address_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\UserAddress,id',
-                'payment_type_option_id' => 'required|string|max:255|exists:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,id',
+                'payment_type_option_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\PaymentOption,id',
                 'message' => 'nullable|string',
             ]);
 

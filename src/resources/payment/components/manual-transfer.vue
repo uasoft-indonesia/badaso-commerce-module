@@ -16,7 +16,7 @@ export default {
       this.$emit("checkout", this.redirect);
     },
     redirect(res) {
-      this.$inertia.visit(this.route('badaso.commerce-theme.payment-info', res.data.order))
+      this.$inertia.visit(this.route('badaso.shopuu-theme.payment-info', res.data.order))
     },
   },
 };

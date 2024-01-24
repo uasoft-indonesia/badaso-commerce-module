@@ -10,12 +10,16 @@ class UploadImage
 {
     public static function createImage($base64, $path = '')
     {
+        // base 64 format file : data:image/jpeg;base64,/9j/4AA....
+
         try {
             $file_parts = explode(';base64,', $base64);
             $file_type_aux = explode('/', $file_parts[0]);
-            $file_type = $file_type_aux[0];
+            $file_type = $file_type_aux[1];
+
             $file_base64 = base64_decode($file_parts[0]);
             $file = config('lfm.folder_categories.image.folder_name').'/'.auth()->user()->id.'/'.$path.uniqid(Uuid::uuid(), true).'.'.$file_type;
+
             Storage::put($file, $file_base64);
 
             return $file;

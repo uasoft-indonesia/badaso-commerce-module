@@ -243,7 +243,6 @@ class OrderController extends Controller
     public function pay(Request $request)
     {
         try {
-
             $request->validate([
                 'order_id' => 'required|exists:Uasoft\Badaso\Module\Commerce\Models\Order,id',
                 'source_bank' => 'nullable|string',
@@ -259,19 +258,16 @@ class OrderController extends Controller
                 ->firstOrFail();
 
             if ($order->status == 'waitingBuyerPayment' && now()->lessThan(Carbon::create($order->expired_at))) {
-
-
-               // $this->handleUploadFiles([$request->proof_of_transaction], 'upload_file');
+                // $this->handleUploadFiles([$request->proof_of_transaction], 'upload_file');
 
                 $url = UploadImage::createImage($request->proof_of_transaction, 'proof/');
-
 
                 $order_payments = OrderPayment::where('order_id', $order->id)->first();
                 $order_payments->source_bank = $request->source_bank;
                 $order_payments->destination_bank = $request->destination_bank;
                 $order_payments->account_number = $request->account_number;
                 $order_payments->total_transfered = $request->total_transfered;
-                $order_payments->proof_of_transaction = $url ;
+                $order_payments->proof_of_transaction = $url;
                 $order_payments->save();
 
                 $order->status = 'waitingSellerConfirmation';

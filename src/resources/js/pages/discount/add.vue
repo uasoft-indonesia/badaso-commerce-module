@@ -36,12 +36,14 @@
               v-model="discount.discountPercent"
               size="6"
               :label="$t('discounts.add.field.discountPercent.title')"
-              :placeholder="$t('discounts.add.field.discountPercent.placeholder')"
+              :placeholder="
+                $t('discounts.add.field.discountPercent.placeholder')
+              "
               :alert="errors.discountPercent"
-               :tooltip="$t('discounts.help.discountPercent')"
+              :tooltip="$t('discounts.help.discountPercent')"
             ></badaso-number>
             <badaso-text
-            v-if="discount.discountType === 'fixed'"
+              v-if="discount.discountType === 'fixed'"
               v-model="discount.discountFixed"
               size="6"
               :label="$t('discounts.add.field.discountFixed.title')"
@@ -84,16 +86,16 @@ export default {
       discount: {
         name: null,
         desc: null,
-        discountType: 'fixed',
-        discountPercent: '',
-        discountFixed: '',
+        discountType: "fixed",
+        discountPercent: "",
+        discountFixed: "",
         active: false,
       },
       discountType: [
-        { label: this.$t('discounts.discountType.fixed'), value: 'fixed' },
-        { label: this.$t('discounts.discountType.percent'), value: 'percent' },
-      ]
-    }
+        { label: this.$t("discounts.discountType.fixed"), value: "fixed" },
+        { label: this.$t("discounts.discountType.percent"), value: "percent" },
+      ],
+    };
   },
   methods: {
     submitForm() {
@@ -116,7 +118,7 @@ export default {
             });
           });
       } catch (error) {
-        this.errors = error.data
+        this.errors = error.data;
         this.$vs.notify({
           title: this.$t("alert.danger"),
           text: error.message,
@@ -125,9 +127,9 @@ export default {
       }
     },
     clearDiscount() {
-      this.discount.discountFixed = ''
-      this.discount.discountPercent = ''
-    }
+      this.discount.discountFixed = "";
+      this.discount.discountPercent = "";
+    },
   },
 };
 </script>

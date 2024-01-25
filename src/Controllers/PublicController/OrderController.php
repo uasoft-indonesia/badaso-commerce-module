@@ -145,7 +145,7 @@ class OrderController extends Controller
             }
 
             foreach ($request->items as $key => $item) {
-                $cart = Cart::find($item['id']);
+                $cart = Cart::find($item);
 
                 $product_detail = ProductDetail::with('discount')->findOrFail($cart->product_detail_id);
 
@@ -249,7 +249,7 @@ class OrderController extends Controller
                 'destination_bank' => 'nullable|string',
                 'account_number' => 'nullable|alpha_num',
                 'total_transfered' => 'nullable|numeric',
-                'proof_of_transaction' => 'nullable',
+                'proof_of_transaction' => 'nullable|string',
             ]);
 
             DB::beginTransaction();
@@ -258,15 +258,17 @@ class OrderController extends Controller
                 ->firstOrFail();
 
             if ($order->status == 'waitingBuyerPayment' && now()->lessThan(Carbon::create($order->expired_at))) {
-                // $url = UploadImage::createImage($request->proof_of_transaction, 'proof/');
+                // $this->handleUploadFiles([$request->proof_of_transaction], 'upload_file');
+
+                $url = UploadImage::createImage($request->proof_of_transaction, 'proof/');
+
                 $order_payments = OrderPayment::where('order_id', $order->id)->first();
                 $order_payments->source_bank = $request->source_bank;
                 $order_payments->destination_bank = $request->destination_bank;
                 $order_payments->account_number = $request->account_number;
                 $order_payments->total_transfered = $request->total_transfered;
-                $order_payments->proof_of_transaction = $request->proof_of_transaction;
+                $order_payments->proof_of_transaction = $url;
                 $order_payments->save();
-                $uploaded_path = $this->handleUploadFiles([$order_payments->proof_of_transaction], 'upload_file');
 
                 $order->status = 'waitingSellerConfirmation';
                 $order->expired_at = null;

@@ -127,14 +127,38 @@ class BadasoCommerceSetup extends Command
             $config_path = config_path('badaso-hidden-tables.php');
             $config_hidden_tables = require $config_path;
             $tables = BadasoCommerceModule::getProtectedTables();
+            $except_tables = ['migrations', 'activity_log', 'failed_jobs', 'personal_access_tokens', 'users', 'password_resets'];
+
+            $filter_hidden_tables = array_diff($config_hidden_tables, $except_tables);
+            $filter_hidden_table = [];
+            foreach ($filter_hidden_tables as $value) {
+                $filter_hidden_table[] = str_replace(ENV('BADASO_TABLE_PREFIX'), "", $value);
+            }
 
             foreach ($tables as $key => $value) {
-                if (! in_array($value, $config_hidden_tables)) {
-                    array_push($config_hidden_tables, $value);
+
+                if (! in_array($value, $filter_hidden_table)) {
+                    array_push($filter_hidden_table, $value);
                 }
             }
 
-            $exported_config = VarExporter::export($config_hidden_tables);
+            // $exported_config = VarExporter::export($config_hidden_tables);
+
+            $prefixed_hidden_table = array_map(function ($item) use ($filter_hidden_table) {
+                return
+                    "env('BADASO_TABLE_PREFIX', 'badaso_').'{$item}'";
+            }, $filter_hidden_table);
+
+            $default_table = array_map(function ($item) use ($except_tables) {
+                return
+                    "'{$item}'";
+            }, $except_tables);
+
+            $exported_config = implode(",\n    ", $prefixed_hidden_table);
+            $except_table = implode(",\n    ", $default_table);
+
+            $exported_config = "[\n    // badaso default table\n    {$exported_config},\n\n// laravel default table\n    {$except_table},\n]";
+
             $exported_config = <<<PHP
                 <?php
                 return {$exported_config} ;

@@ -132,11 +132,10 @@ class BadasoCommerceSetup extends Command
             $filter_hidden_tables = array_diff($config_hidden_tables, $except_tables);
             $filter_hidden_table = [];
             foreach ($filter_hidden_tables as $value) {
-                $filter_hidden_table[] = str_replace(ENV('BADASO_TABLE_PREFIX'), "", $value);
+                $filter_hidden_table[] = str_replace(ENV('BADASO_TABLE_PREFIX'), '', $value);
             }
 
             foreach ($tables as $key => $value) {
-
                 if (! in_array($value, $filter_hidden_table)) {
                     array_push($filter_hidden_table, $value);
                 }
@@ -144,12 +143,12 @@ class BadasoCommerceSetup extends Command
 
             // $exported_config = VarExporter::export($config_hidden_tables);
 
-            $prefixed_hidden_table = array_map(function ($item) use ($filter_hidden_table) {
+            $prefixed_hidden_table = array_map(function ($item) {
                 return
                     "env('BADASO_TABLE_PREFIX', 'badaso_').'{$item}'";
             }, $filter_hidden_table);
 
-            $default_table = array_map(function ($item) use ($except_tables) {
+            $default_table = array_map(function ($item) {
                 return
                     "'{$item}'";
             }, $except_tables);

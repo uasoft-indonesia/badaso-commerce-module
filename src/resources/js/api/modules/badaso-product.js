@@ -12,7 +12,7 @@ export default {
     let url = ep + qs;
     return resource.get(url);
   },
-  
+
   add(data) {
     return resource.post(apiPrefix + "/v1/product/add", data);
   },

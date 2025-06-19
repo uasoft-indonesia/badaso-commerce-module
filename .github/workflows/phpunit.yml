@@ -136,7 +136,7 @@ jobs:
       - name: Pgsql | Laravel file configuration
         run: cd laravel &&
           sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=pgsql/g' .env &&
-          sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env
+          sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env &&
           sed -i 's/DB_DATABASE=database\/database.sqlite/DB_DATABASE=laravel/g' .env &&
           sed -i 's/DB_USERNAME=root/DB_USERNAME=postgres/g' .env &&
           sed -i 's/DB_PASSWORD=/DB_PASSWORD=postgres/g' .env  &&

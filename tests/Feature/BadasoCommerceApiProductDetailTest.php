@@ -4,7 +4,7 @@ namespace Uasoft\Badaso\Module\Commerce\Tests\Feature;
 
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Module\Commerce\Models\Discount;
 use Uasoft\Badaso\Module\Commerce\Models\Product;
 use Uasoft\Badaso\Module\Commerce\Models\ProductCategory;
@@ -19,7 +19,7 @@ class BadasoCommerceApiProductDetailTest extends TestCase
      */
     public function testInitStart()
     {
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
     }
 
     public function testInsertProductDetail()
@@ -49,7 +49,7 @@ class BadasoCommerceApiProductDetailTest extends TestCase
             'desc' => 'description tes product',
         ]);
         $product_id = $product->id;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/product-detail/add', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/product-detail/add', [
             'product_id' => $product_id,
             'discount_id' => $discount_id,
             'name' => 'name test',
@@ -117,7 +117,7 @@ class BadasoCommerceApiProductDetailTest extends TestCase
 
         ];
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/product-detail/edit', $request_product_detail);
+        $response = CallHelper::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/product-detail/edit', $request_product_detail);
         $response->assertSuccessful();
 
         $data = ProductDetail::find($product_detail_id);
@@ -174,7 +174,7 @@ class BadasoCommerceApiProductDetailTest extends TestCase
         ]);
         $product_detail_id = $product_detail->id;
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-detail/delete', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-detail/delete', [
             'id' => $product_detail_id,
         ]);
         $response->assertSuccessful();

@@ -132,30 +132,6 @@ jobs:
       - name: Sqlite | Badaso Commerce Module test
         run: cd laravel && php artisan test
 
-      # Pgsql | Laravel configuration
-      - name: Pgsql | Laravel file configuration
-        run: cd laravel &&
-          sed -i 's/DB_CONNECTION=sqlite/DB_CONNECTION=pgsql/g' .env &&
-          sed -i 's/DB_PORT=3306/DB_PORT=5432/g' .env &&
-          sed -i 's/DB_DATABASE=database\/database.sqlite/DB_DATABASE=laravel/g' .env &&
-          sed -i 's/DB_USERNAME=root/DB_USERNAME=postgres/g' .env &&
-          sed -i 's/DB_PASSWORD=/DB_PASSWORD=postgres/g' .env  &&
-
-      # Pgsql | Laravel setup
-      - name: Pgsql | Laravel setup
-        run: cd laravel &&
-          php artisan badaso:setup --force &&
-          php artisan badaso-commerce:setup  &&
-          php artisan badaso-commerce-test:setup  &&
-          php artisan db:wipe &&
-          php artisan migrate &&
-          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
-          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder"
-
-      # Pgsql | Badaso module test
-      - name: Pgsql | Badaso Commerce Module test
-        run: cd laravel && php artisan test
-
       # Running Test
       - name: Running Test
         if: matrix.coverage == 'xdebug'

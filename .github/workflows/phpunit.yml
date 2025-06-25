@@ -127,11 +127,42 @@ jobs:
           php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder" &&
           php artisan jwt:secret -f
 
-
       # Sqlite | Badaso commerce test
       - name: Sqlite | Badaso Commerce Module test
         run: cd laravel && php artisan test
 
+      # Pgsql | Laravel configuration
+      - name: Pgsql | Laravel file configuration
+        run: |
+          cd laravel
+          sed -i '/DB_CONNECTION=/d' .env
+          sed -i '/DB_HOST=/d' .env
+          sed -i '/DB_PORT=/d' .env
+          sed -i '/DB_DATABASE=/d' .env
+          sed -i '/DB_USERNAME=/d' .env
+          sed -i '/DB_PASSWORD=/d' .env
+          echo "DB_CONNECTION=pgsql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "DB_DATABASE=laravel" >> .env
+          echo "DB_USERNAME=postgres" >> .env
+          echo "DB_PASSWORD=postgres" >> .env
+
+      # Pgsql | Laravel setup
+      - name: Pgsql | Laravel setup
+        run: cd laravel &&
+          php artisan badaso:setup --force &&
+          php artisan badaso-commerce:setup  &&
+          php artisan badaso-commerce-test:setup  &&
+          php artisan db:wipe &&
+          php artisan migrate &&
+          php artisan db:seed --class="Database\Seeders\Badaso\BadasoSeeder" &&
+          php artisan db:seed --class="Database\Seeders\Badaso\Commerce\BadasoCommerceModuleSeeder"
+
+      # Pgsql | Badaso module test
+      - name: Pgsql | Badaso Commerce Module test
+        run: cd laravel && php artisan test
+        
       # Running Test
       - name: Running Test
         if: matrix.coverage == 'xdebug'

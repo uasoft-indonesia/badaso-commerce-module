@@ -3,7 +3,7 @@ image:
 
 tasks:
   - name: Starting Projects
-    init: composer create-project laravel/laravel:^8.0 laravel &&
+    init: composer create-project laravel/laravel:^11.0 laravel &&
       mkdir -p laravel/packages/badaso/commerce-module && 
       mv {,.}* laravel/packages/badaso/commerce-module 2>/dev/null; true &&
       cd laravel/packages/badaso &&

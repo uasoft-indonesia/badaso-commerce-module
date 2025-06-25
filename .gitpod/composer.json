@@ -34,7 +34,7 @@
         "webonyx/graphql-php": "^14.11",
         "symfony/var-exporter": "^6.0"
     },
-        "require-dev": {
+    "require-dev": {
         "fakerphp/faker": "^1.21",
         "phpunit/phpunit": "^11.0.1",
         "mockery/mockery": "^1.6",

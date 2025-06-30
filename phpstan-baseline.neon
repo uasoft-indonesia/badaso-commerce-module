@@ -1,8 +1,8 @@
 parameters:
     ignoreErrors:
-    - '#Call to an undefined static method Uasoft\\Badaso\\Module\\Commerce\\[a-zA-Z0-9-()\_]+\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB::[a-zA-Z0-9-()\_]+.#'
-    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\[a-zA-Z0-9-()\_]+::[a-zA-Z0-9-()\_]+.#'
+    - '#Call to an undefined static method Uasoft\\Badaso\\Module\\Commerce\\[a-zA-Z0-9\-_\\\(\)]+\\[a-zA-Z0-9\-_\\\(\)]+::[a-zA-Z0-9\-_\\\(\)]+.#'
+    - '#Call to an undefined static method Illuminate\\Support\\Facades\\DB::[a-zA-Z0-9_\(\)]+.#'
+    - '#Call to an undefined static method Uasoft\\Badaso\\Models\\[a-zA-Z0-9_\(\)]+::[a-zA-Z0-9_\(\)]+.#'
     - '#Class Uasoft\\Badaso\\Module\\Commerce\\Events\\GoogleAnalytics not found.#'
     - '#Class Uasoft\\Badaso\\Module\\Commerce\\Listeners\\SendHit not found.#'
 

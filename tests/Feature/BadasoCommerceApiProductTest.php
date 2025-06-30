@@ -4,19 +4,19 @@ namespace Uasoft\Badaso\Module\Commerce\Tests\Feature;
 
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Module\Commerce\Models\ProductCategory;
 
 class BadasoCommerceApiProductTest extends TestCase
 {
     public function testInitStart()
     {
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
     }
 
     public function testStoreProduct()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/product-category/add', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/product-category/add', [
             'name' => 'test',
             'slug' => Str::uuid(),
             'desc' => 'decription',
@@ -45,7 +45,7 @@ class BadasoCommerceApiProductTest extends TestCase
             'desc' => 'decription edit',
             'SKU' => Str::uuid(),
         ];
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/product-category/edit', $request_data);
+        $response = CallHelper::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/product-category/edit', $request_data);
         $response->assertSuccessful();
 
         $get_response = $response->json('data.id');
@@ -73,7 +73,7 @@ class BadasoCommerceApiProductTest extends TestCase
         ]);
 
         $product_category_id = $model->id;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product-category/read', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product-category/read', [
             'id' => $product_category_id,
         ]);
         $response->assertSuccessful();
@@ -99,7 +99,7 @@ class BadasoCommerceApiProductTest extends TestCase
             'desc' => 'decription 2',
             'SKU' => Str::uuid(),
         ]);
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product-category');
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product-category');
         $response->assertSuccessful();
         $data = $response->json('data.productCategories');
         foreach ($data as $value) {
@@ -122,7 +122,7 @@ class BadasoCommerceApiProductTest extends TestCase
         //  get id from database
         $product_category_id = $product_category->id;
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/delete', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/delete', [
             'id' => $product_category_id,
         ]);
         $response->assertSuccessful();
@@ -143,7 +143,7 @@ class BadasoCommerceApiProductTest extends TestCase
         }
         $join_ids_product_category = join(',', $ids);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/delete-multiple', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/delete-multiple', [
             'ids' => $join_ids_product_category,
         ]);
         $response->assertSuccessful();
@@ -162,7 +162,7 @@ class BadasoCommerceApiProductTest extends TestCase
         $product_category_id = $product_category->id;
         $product_category->delete();
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/force-delete', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/product-category/force-delete', [
             'id' => $product_category_id,
         ]);
         $response->assertSuccessful();
@@ -185,7 +185,7 @@ class BadasoCommerceApiProductTest extends TestCase
             $ids[] = $product_category->id;
         }
         $product_category_trans_count = ProductCategory::withTrashed()->count();
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product-category/bin', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/product-category/bin', [
             'page' => 1,
             'limit' => $product_category_trans_count,
         ]);

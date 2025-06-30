@@ -3,14 +3,14 @@
 namespace Uasoft\Badaso\Module\Commerce\Tests\Feature;
 
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Module\Commerce\Models\Discount;
 
 class BadasoCommerceApiDiscountTest extends TestCase
 {
     public function testInitStart()
     {
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
     }
 
     /**
@@ -37,7 +37,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
 
         $count_discount = Discount::all()->count();
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/discount', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/discount', [
             'page' => 1,
             'limit' => $count_discount,
         ]);
@@ -67,7 +67,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
             $discount_key->delete();
         }
         $discount_trans_count = Discount::withTrashed()->count();
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/discount/bin', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/discount/bin', [
             'page' => 1,
             'limit' => $discount_trans_count,
         ]);
@@ -89,7 +89,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
             'active' => 1,
         ]);
         $discount_id = $discount->id;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/discount/read', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/discount/read', [
             'id' => $discount_id,
         ]);
         $response->assertSuccessful();
@@ -98,7 +98,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
 
     public function testInsertDiscount()
     {
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/add', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/add', [
             'name' => 'Diskon Kemerdekaan insert diskon',
             'desc' => 'description diskon insert diskon',
             'discount_type' => 'percent',
@@ -134,7 +134,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
             'discount_fixed' => 10000,
             'active' => 1,
         ];
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/discount/edit', $request_discount);
+        $response = CallHelper::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/discount/edit', $request_discount);
         $response->assertSuccessful();
 
         $data_discount = Discount::find($discount_id);
@@ -159,7 +159,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
             'active' => 1,
         ]);
         $discount_id = $discount->id;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/delete', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/delete', [
             'id' => $discount_id,
         ]);
         $response->assertSuccessful();
@@ -178,7 +178,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
         ]);
         $discount_id = $discount->id;
         $discount->delete();
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/force-delete', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/force-delete', [
             'id' => $discount_id,
         ]);
         $response->assertSuccessful();
@@ -205,7 +205,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
         }
 
         $join_discount = join(',', $ids);
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/delete-multiple', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/delete-multiple', [
             'ids' => $join_discount,
         ]);
         $response->assertSuccessful();
@@ -233,7 +233,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
         foreach ($discounts as $key => $discount_key) {
             $discount_key->delete();
         }
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/force-delete-multiple', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/discount/force-delete-multiple', [
             'ids' => $join_discount,
         ]);
         $response->assertSuccessful();
@@ -262,7 +262,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
         $discount->delete();
         $discount_trashed = Discount::withTrashed()->find($discount_id);
         $discount_trashed_id = $discount_trashed->id;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/restore', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/restore', [
             'id' => $discount_trashed_id,
         ]);
         $response->assertSuccessful();
@@ -297,7 +297,7 @@ class BadasoCommerceApiDiscountTest extends TestCase
             $discount_trashed_id = $discount_trashed->id;
         }
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/restore-multiple', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/discount/restore-multiple', [
             'ids' => $discount_trashed_id,
         ]);
         $response->assertSuccessful();

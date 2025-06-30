@@ -5,7 +5,7 @@ namespace Uasoft\Badaso\Module\Commerce\Tests\Feature;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Commerce\Models\Cart;
 use Uasoft\Badaso\Module\Commerce\Models\Discount;
@@ -22,7 +22,7 @@ class BadasoCommerceApiCartTest extends TestCase
      */
     public function testInitStart()
     {
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
     }
 
     public function testBrowseCart()
@@ -78,7 +78,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'quantity' => 3,
         ]);
         $cart_count = Cart::all()->count();
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/cart', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/cart', [
             'page' => 1,
             'limit' => $cart_count,
         ]);
@@ -139,7 +139,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'quantity' => 3,
         ]);
         $cart_id = $cart->id;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/cart/read', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/cart/read', [
             'id' => $cart_id,
         ]);
         $response->assertSuccessful();
@@ -188,7 +188,7 @@ class BadasoCommerceApiCartTest extends TestCase
 
         ]);
         $product_detail_id = $product_detail->id;
-        $user = CallHelperTest::getUserAdminRole($this);
+        $user = CallHelper::getUserAdminRole($this);
         $user_id = $user->id;
         $cart = Cart::create([
             'user_id' => $user_id,
@@ -197,7 +197,7 @@ class BadasoCommerceApiCartTest extends TestCase
         ]);
         $cart_id = $cart->id;
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/cart/public');
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/cart/public');
         $response->assertSuccessful();
         $data_cart = Cart::find($cart_id);
         $this->assertNotEmpty($data_cart);
@@ -210,7 +210,7 @@ class BadasoCommerceApiCartTest extends TestCase
 
     public function testInsertCartPublic()
     {
-        $user = CallHelperTest::getUserAdminRole($this);
+        $user = CallHelper::getUserAdminRole($this);
         $user_id = $user->id;
         $product_category = ProductCategory::create([
             'name' => 'coba 1',
@@ -248,7 +248,7 @@ class BadasoCommerceApiCartTest extends TestCase
         ]);
         $product_detail_id = $product_detail->id;
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/cart/public/add', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/cart/public/add', [
             'id' => $product_detail_id,
             'quantity' => $product_detail->quantity,
         ]);
@@ -261,7 +261,7 @@ class BadasoCommerceApiCartTest extends TestCase
 
     public function testEditCartPublic()
     {
-        $user = CallHelperTest::getUserAdminRole($this);
+        $user = CallHelper::getUserAdminRole($this);
         $user_id = $user->id;
         $product_category = ProductCategory::create([
             'name' => 'coba 1',
@@ -307,7 +307,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'id' => $cart_id,
             'quantity' => 4,
         ];
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/cart/public/edit', $request_cart);
+        $response = CallHelper::withAuthorizeBearer($this)->json('PUT', '/badaso-api/module/commerce/v1/cart/public/edit', $request_cart);
         $response->assertSuccessful();
         $data_cart = Cart::find($cart_id);
         $this->assertNotEmpty($data_cart);
@@ -321,7 +321,7 @@ class BadasoCommerceApiCartTest extends TestCase
 
     public function testDeleteCartPublic()
     {
-        $user = CallHelperTest::getUserAdminRole($this);
+        $user = CallHelper::getUserAdminRole($this);
         $user_id = $user->id;
         $product_category = ProductCategory::create([
             'name' => 'coba 1',
@@ -363,7 +363,7 @@ class BadasoCommerceApiCartTest extends TestCase
             'quantity' => 3,
         ]);
         $cart_id = $cart->id;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/cart/public/delete', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('DELETE', '/badaso-api/module/commerce/v1/cart/public/delete', [
             'id' => $cart_id,
         ]);
         $response->assertSuccessful();

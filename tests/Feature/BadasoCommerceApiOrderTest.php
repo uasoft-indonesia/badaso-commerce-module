@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Uasoft\Badaso\Helpers\CallHelperTest;
+use Uasoft\Badaso\Helpers\CallHelper;
 use Uasoft\Badaso\Models\User;
 use Uasoft\Badaso\Module\Commerce\Models\Order;
 use Uasoft\Badaso\Module\Commerce\Models\OrderPayment;
@@ -22,7 +22,7 @@ class BadasoCommerceApiOrderTest extends TestCase
      */
     public function testInitStart()
     {
-        CallHelperTest::handleUserAdminAuthorize($this);
+        CallHelper::handleUserAdminAuthorize($this);
     }
 
     public function testBrowseOrder()
@@ -55,7 +55,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         }
 
         $count_order = Order::all()->count();
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order', [
             'page' => 1,
             'limit' => $count_order,
         ]);
@@ -88,7 +88,7 @@ class BadasoCommerceApiOrderTest extends TestCase
             'expired_at' => Carbon::now(),
         ]);
         $order_id = $order->id;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order/read', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order/read', [
             'id' => $order_id,
         ]);
         $response->assertSuccessful();
@@ -118,7 +118,7 @@ class BadasoCommerceApiOrderTest extends TestCase
             'expired_at' => Carbon::tomorrow(),
         ]);
         $order_id = $order->id;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/confirm', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/confirm', [
             'id' => $order_id,
         ]);
         $response->assertSuccessful();
@@ -151,7 +151,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $order_id = $order->id;
         $order_cancel_message = $order->cancel_message;
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/reject', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/reject', [
             'id' => $order_id,
             'cancel_message' => $order_cancel_message,
         ]);
@@ -185,7 +185,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         ]);
         $order_id = $order->id;
         $tracking_order = $order->tracking_number;
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/ship', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/ship', [
             'id' => $order_id,
             'tracking_number' => $tracking_order,
         ]);
@@ -218,7 +218,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         ]);
         $order_id = $order->id;
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/done', [
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/done', [
             'id' => $order_id,
         ]);
 
@@ -233,7 +233,7 @@ class BadasoCommerceApiOrderTest extends TestCase
         $orders = [];
         for ($index = 0; $index < 3; $index++) {
             $name = Str::uuid();
-            $user = CallHelperTest::getUserAdminRole($this);
+            $user = CallHelper::getUserAdminRole($this);
             $user_id = $user->id;
             $order = Order::create([
                 'user_id' => $user_id,
@@ -251,7 +251,7 @@ class BadasoCommerceApiOrderTest extends TestCase
             $orders[] = $order;
         }
         $join_id = join(',', $ids);
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order/public');
+        $response = CallHelper::withAuthorizeBearer($this)->json('GET', '/badaso-api/module/commerce/v1/order/public');
         $response->assertSuccessful();
 
         $response_get_order = $response->json('data.orders');
@@ -271,7 +271,7 @@ class BadasoCommerceApiOrderTest extends TestCase
 
     public function testPayOrderPublic()
     {
-        $user = CallHelperTest::getUserAdminRole($this);
+        $user = CallHelper::getUserAdminRole($this);
         $user_id = $user->id;
 
         $order = Order::create([
@@ -317,7 +317,7 @@ class BadasoCommerceApiOrderTest extends TestCase
 
         ]);
 
-        $response = CallHelperTest::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/public/pay', $request_order);
+        $response = CallHelper::withAuthorizeBearer($this)->json('POST', '/badaso-api/module/commerce/v1/order/public/pay', $request_order);
         $response->assertSuccessful();
     }
 
